@@ -1,0 +1,33 @@
+/target/
+.project
+.classpath
+.settings
+
+*.class 
+*.prefs
+*.component
+*.lst
+ 
+##filter databfile、sln file##
+*.mdb  
+*.ldb  
+*.sln    
+##class file##
+*.com  
+*.class  
+*.dll  
+*.exe  
+*.o  
+*.so  
+ 
+# compression file
+*.7z  
+*.dmg  
+*.gz  
+*.iso  
+*.jar  
+*.rar  
+*.tar  
+*.zip  
+*.via
+*.tmp
