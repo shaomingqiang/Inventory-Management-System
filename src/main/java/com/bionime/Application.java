@@ -1,4 +1,4 @@
-package com.bionime.controller;
+package com.bionime;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
