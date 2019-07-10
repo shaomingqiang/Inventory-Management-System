@@ -2,6 +2,7 @@ package com.bionime.controller;
 
 import java.util.List;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import com.bionime.service.UserService;
  * 
  */
 @RestController
+@MapperScan(basePackages="com.bionime.mapper")
 public class UserController {
 	@Autowired
 	private UserService userService;
