@@ -2,9 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bionime.mapper.UserMapper">
-	<select id="insert" resultType="com.bionime.pojo.User" parameterType="com.bionime.pojo.User">
-		insert into equipment (sn,type,status,in_time,explain,h_id,d_id,et_id,property_no,delete_tag) 
-		values(#{sn},#{type},#{status},#{in_time},#{explain},#{h_id},#{d_id},#{et_id},#{property_no},0)
-	</select>
+<mapper namespace="com.bionime.mapper.ReworkMapper">
+	<insert id="insert"  parameterType="com.bionime.pojo.Rework">
+		
+	</insert>
 </mapper>

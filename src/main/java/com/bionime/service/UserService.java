@@ -4,4 +4,5 @@ import com.bionime.pojo.User;
 
 public interface UserService {
 	void insert(User user);
+	User login(User user);
 }

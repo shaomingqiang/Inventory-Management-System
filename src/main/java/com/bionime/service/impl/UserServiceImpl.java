@@ -29,4 +29,10 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public User login(User user) {
+		User user1 = userMapper.login(user);
+		return user1;
+	}
+
 }

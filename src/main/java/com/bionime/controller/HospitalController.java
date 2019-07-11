@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionime.pojo.Hospital;
 import com.bionime.pojo.User;
+import com.bionime.service.HospitalService;
 import com.bionime.service.UserService;
 
 
@@ -24,15 +26,15 @@ import com.bionime.service.UserService;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/hospital")
 public class HospitalController {
 	
 	@Autowired
-	private UserService userService;
+	private HospitalService hospitalService;
 	
 	
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
-	public void insert(@RequestBody User user) {
-		userService.insert(user);
+	public void insert(@RequestBody Hospital hospital) {
+		hospitalService.insert(hospital);
 	}
 }

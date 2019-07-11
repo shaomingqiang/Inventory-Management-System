@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitterReturnValueHandler;
 
 import com.bionime.pojo.User;
 import com.bionime.service.UserService;
@@ -34,5 +35,15 @@ public class UserController {
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insert(@RequestBody User user) {
 		userService.insert(user);
+	}
+	
+	@RequestMapping(value="/login",method = RequestMethod.POST)
+	public boolean login(@RequestBody User user) {
+		User user1 = userService.login(user);
+		if(user1!=null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

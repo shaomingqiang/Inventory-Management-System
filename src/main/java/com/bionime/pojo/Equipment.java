@@ -13,7 +13,7 @@ public class Equipment implements Serializable {
 	private String sn;// 设备序列号
 	private String type;// 设备型号
 	private String status;// 设备状态 1:在院，2:在库，3:出库，4:借用，5:返修，6:审核
-	private Date in_Time;// 入库时间
+	private Date in_time;// 入库时间
 	private String explain;// 描述
 	private Long h_id;// 所在医院id，外键
 	private Long d_id;// 所在科室id，外键
@@ -53,12 +53,14 @@ public class Equipment implements Serializable {
 		this.status = status;
 	}
 
-	public Date getIn_Time() {
-		return in_Time;
+	
+
+	public Date getIn_time() {
+		return in_time;
 	}
 
-	public void setIn_Time(Date in_Time) {
-		this.in_Time = in_Time;
+	public void setIn_time(Date in_time) {
+		this.in_time = in_time;
 	}
 
 	public String getExplain() {
