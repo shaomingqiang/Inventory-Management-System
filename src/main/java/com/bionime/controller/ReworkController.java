@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionime.pojo.Rework;
 import com.bionime.pojo.User;
+import com.bionime.service.ReworkService;
 import com.bionime.service.UserService;
 
 
@@ -24,15 +26,15 @@ import com.bionime.service.UserService;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/rework")
+public class ReworkController {
 	
 	@Autowired
-	private UserService userService;
+	private ReworkService reworkService;
 	
 	
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
-	public void insert(@RequestBody User user) {
-		userService.insert(user);
+	public void insert(@RequestBody Rework rework) {
+		reworkService.insert(rework);
 	}
 }

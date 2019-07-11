@@ -16,16 +16,16 @@ import com.bionime.service.UserService;
 
 /**
  * 
- * <p>Title: UserController</p>
+ * <p>Title: HospitalController</p>
  * <p>Description: </p>
  * <p>Company: www.bionime.com</p> 
  * @author	Ethan.Shao
- * @date	2019年7月11日下午3:30:55
+ * @date	2019年7月11日下午3:30:44
  * @version 1.0
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class HospitalController {
 	
 	@Autowired
 	private UserService userService;

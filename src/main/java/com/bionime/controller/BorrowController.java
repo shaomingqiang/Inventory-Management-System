@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionime.pojo.Borrow;
 import com.bionime.pojo.User;
+import com.bionime.service.BorrowService;
 import com.bionime.service.UserService;
 
 
@@ -24,15 +26,15 @@ import com.bionime.service.UserService;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/borrow")
+public class BorrowController {
 	
 	@Autowired
-	private UserService userService;
+	private BorrowService borrowService;
 	
 	
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
-	public void insert(@RequestBody User user) {
-		userService.insert(user);
+	public void insert(@RequestBody Borrow borrow) {
+		borrowService.insert(borrow);
 	}
 }

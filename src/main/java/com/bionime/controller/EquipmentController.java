@@ -9,30 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionime.pojo.Equipment;
 import com.bionime.pojo.User;
-import com.bionime.service.UserService;
-
-
+import com.bionime.service.EquipmentService;
 
 /**
  * 
- * <p>Title: UserController</p>
- * <p>Description: </p>
+ * <p>Title: EquipmentController</p>
+ * <p>Description:</p>
  * <p>Company: www.bionime.com</p> 
  * @author	Ethan.Shao
- * @date	2019年7月11日下午3:30:55
+ * @date	2019年7月11日下午2:25:34
  * @version 1.0
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
-	
+@RequestMapping("/equipment")
+public class EquipmentController {
 	@Autowired
-	private UserService userService;
-	
-	
+	private EquipmentService equipmentService;
+
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
-	public void insert(@RequestBody User user) {
-		userService.insert(user);
+	public void insertEquipment(@RequestBody Equipment equipment) {
+		equipmentService.insert(equipment);
 	}
 }

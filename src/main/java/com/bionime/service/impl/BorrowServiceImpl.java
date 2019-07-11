@@ -3,9 +3,12 @@ package com.bionime.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bionime.mapper.BorrowMapper;
 import com.bionime.mapper.UserMapper;
+import com.bionime.pojo.Borrow;
 import com.bionime.pojo.Equipment;
 import com.bionime.pojo.User;
+import com.bionime.service.BorrowService;
 import com.bionime.service.UserService;
 
 /**
@@ -18,14 +21,14 @@ import com.bionime.service.UserService;
  * @version 1.0
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class BorrowServiceImpl implements BorrowService {
 
 	@Autowired
-	private UserMapper userMapper;
+	private BorrowMapper borrowMapper;
 	
 	@Override
-	public void insert(User user) {
-		userMapper.insert(user);
+	public void insert(Borrow borrow) {
+		borrowMapper.insert(borrow);
 
 	}
 

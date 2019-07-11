@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bionime.mapper.EquipmentTypeMapper">
+	<select id="insert" resultType="com.bionime.pojo.EquipmentType" parameterType="com.bionime.pojo.EquipmentType">
+		insert into equipment_type (name,count,explain,delete_tag) 
+		values(#{name},#{count},#{expain},0)
+	</select>
+</mapper>
