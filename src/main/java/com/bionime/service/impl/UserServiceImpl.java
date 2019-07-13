@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bionime.mapper.UserMapper;
-import com.bionime.pojo.Equipment;
 import com.bionime.pojo.User;
 import com.bionime.service.UserService;
 

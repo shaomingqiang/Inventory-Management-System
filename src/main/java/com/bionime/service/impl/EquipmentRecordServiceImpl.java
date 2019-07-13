@@ -3,9 +3,7 @@ package com.bionime.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bionime.mapper.EquipmentMapper;
 import com.bionime.mapper.EquipmentRecordMapper;
-import com.bionime.pojo.Equipment;
 import com.bionime.pojo.EquipmentRecord;
 import com.bionime.service.EquipmentRecordService;
 

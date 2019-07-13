@@ -4,5 +4,5 @@ import com.bionime.pojo.Rework;
 
 
 public interface ReworkMapper {
-	void insert(Rework Rework);
+	int insert(Rework Rework);
 }

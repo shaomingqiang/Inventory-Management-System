@@ -10,6 +10,7 @@ import com.bionime.pojo.Equipment;
 import com.bionime.pojo.User;
 import com.bionime.service.BorrowService;
 import com.bionime.service.UserService;
+import com.bionime.utils.SystemResult;
 
 /**
  * 
@@ -25,11 +26,14 @@ public class BorrowServiceImpl implements BorrowService {
 
 	@Autowired
 	private BorrowMapper borrowMapper;
+
 	
 	@Override
-	public void insert(Borrow borrow) {
+	public SystemResult insert(Borrow borrow) {
 		borrowMapper.insert(borrow);
-
+		return SystemResult.ok(); 
 	}
 
+	
+	
 }
