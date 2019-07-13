@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.User;
 import com.bionime.service.UserService;
+import com.bionime.utils.SystemResult;
 
 
 
@@ -34,12 +35,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public boolean login(@RequestBody User user) {
-		User user1 = userService.login(user);
-		if(user1!=null){
-			return true;
-		}else{
-			return false;
-		}
+	public SystemResult login(@RequestBody User user) {
+		SystemResult result = userService.login(user);
+		return result;
 	}
 }

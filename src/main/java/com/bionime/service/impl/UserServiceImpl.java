@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.bionime.mapper.UserMapper;
 import com.bionime.pojo.User;
 import com.bionime.service.UserService;
+import com.bionime.utils.SystemResult;
 
 /**
  * 
@@ -29,9 +30,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User login(User user) {
-		User user1 = userMapper.login(user);
-		return user1;
+	public SystemResult login(User user) {
+		User userLogin = userMapper.login(user);
+		String msg = null;
+		if(userLogin!=null){
+			msg = "登录成功！";
+		}else{
+			msg = "用户名不存在或密码错误！";
+		}
+		return SystemResult.ok(msg);
 	}
 
 }

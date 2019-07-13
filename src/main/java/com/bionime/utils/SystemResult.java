@@ -30,6 +30,11 @@ public class SystemResult {
         return new SystemResult(data);
     }
 
+    public static SystemResult ok(String msg) {
+    	return new SystemResult(200, msg, null);
+    }
+    
+    
     public static SystemResult ok() {
         return new SystemResult(null);
     }
