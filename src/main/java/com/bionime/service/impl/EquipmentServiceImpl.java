@@ -2,12 +2,14 @@ package com.bionime.service.impl;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bionime.mapper.EquipmentMapper;
 import com.bionime.pojo.Equipment;
+import com.bionime.pojo.EquipmentType;
 import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
 
@@ -38,6 +40,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 		equipment.setIn_time(new Date());
 		equipmentMapper.insert(equipment);
 		return SystemResult.ok();
+	}
+
+	@Override
+	public SystemResult selectByType(EquipmentType equipmentType) {
+		List<Equipment> equipmentList = equipmentMapper.selectByType(equipmentType);
+		return SystemResult.ok(equipmentList);
 	}
 
 }

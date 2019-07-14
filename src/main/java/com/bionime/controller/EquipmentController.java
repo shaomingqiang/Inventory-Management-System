@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Equipment;
+import com.bionime.pojo.EquipmentType;
 import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
 
@@ -28,6 +29,12 @@ public class EquipmentController {
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public SystemResult insertEquipment(@RequestBody Equipment equipment) {
 		SystemResult result = equipmentService.insert(equipment);
+		return result;
+	}
+	
+	@RequestMapping(value="/selectByType",method = RequestMethod.POST)
+	public SystemResult insertEquipment(@RequestBody EquipmentType equipmentType) {
+		SystemResult result = equipmentService.selectByType(equipmentType);
 		return result;
 	}
 }
