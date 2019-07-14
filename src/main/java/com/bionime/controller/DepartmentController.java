@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Department;
 import com.bionime.service.DepartmentService;
+import com.bionime.utils.SystemResult;
 
 
 
@@ -31,5 +32,17 @@ public class DepartmentController {
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insert(@RequestBody Department department) {
 		departmentService.insert(department);
+	}
+	
+	@RequestMapping(value="/deptAndHosp",method = RequestMethod.POST)
+	public SystemResult findDeptAndHosp() {
+		SystemResult result = departmentService.findDeptAndHosp();
+		return result;
+	}
+	
+	@RequestMapping(value="/deptAndHosp1",method = RequestMethod.POST)
+	public SystemResult findDeptAndHosp1() {
+		SystemResult result = departmentService.findDeptAndHosp1();
+		return result;
 	}
 }

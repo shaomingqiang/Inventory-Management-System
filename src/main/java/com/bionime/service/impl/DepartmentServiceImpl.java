@@ -1,11 +1,15 @@
 package com.bionime.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bionime.mapper.DepartmentMapper;
 import com.bionime.pojo.Department;
+import com.bionime.pojo.DepartmentExt;
 import com.bionime.service.DepartmentService;
+import com.bionime.utils.SystemResult;
 
 /**
  * 
@@ -26,6 +30,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public void insert(Department department) {
 		departmentMapper.insert(department);
 
+	}
+
+	@Override
+	public SystemResult findDeptAndHosp() {
+		List<DepartmentExt> list = departmentMapper.findDeptAndHosp();
+		return SystemResult.ok(list);
+	}
+
+	@Override
+	public SystemResult findDeptAndHosp1() {
+		List<DepartmentExt> list = departmentMapper.findDeptAndHosp1();
+		return SystemResult.ok(list);
 	}
 
 }

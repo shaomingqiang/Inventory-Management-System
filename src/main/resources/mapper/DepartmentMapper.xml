@@ -3,7 +3,47 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.DepartmentMapper">
+	<resultMap type="com.bionime.pojo.DepartmentExt" id="deptAndHospitalRsMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="h_id" property="h_id"/>
+		<result column="remark" property="remark"/>
+		<result column="delete_tag" property="delete_tag"/>
+		<association property="hospital" javaType="com.bionime.pojo.Hospital">
+			<id column="id" property="id"/>
+			<result column="province" property="province"/>
+			<result column="level" property="level"/>
+		</association>
+		
+	</resultMap>
+
 	<insert id="insert"  parameterType="com.bionime.pojo.Department">
 		
 	</insert>
+	
+	<select id="findDeptAndHosp" resultType="com.bionime.pojo.DepartmentExt">
+		select 
+		department.id,
+		department.name,
+		department.h_id,
+		department.remarks,
+		department.delete_tag,
+		hospital.province,
+		hospital.level
+		from department,hospital
+		where department.h_id=hospital.id
+	</select>
+	
+	<select id="findDeptAndHosp1" resultMap="deptAndHospitalRsMap">
+		select 
+		department.id,
+		department.name,
+		department.h_id,
+		department.remarks,
+		department.delete_tag,
+		hospital.province,
+		hospital.level
+		from department,hospital
+		where department.h_id=hospital.id
+	</select>
 </mapper>
