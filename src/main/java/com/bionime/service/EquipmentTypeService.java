@@ -1,7 +1,8 @@
 package com.bionime.service;
 
 import com.bionime.pojo.EquipmentType;
+import com.bionime.utils.SystemResult;
 
 public interface EquipmentTypeService {
-	void insert(EquipmentType equipmentType);
+	SystemResult insert(EquipmentType equipmentType);
 }

@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.EquipmentTypeMapper">
 	<insert id="insert"  parameterType="com.bionime.pojo.EquipmentType">
-		
+		insert into equipment_type(name,count,explian,delete_tag)
+		values(#{name},'0',#{explian},'0')
 	</insert>
 </mapper>

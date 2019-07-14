@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.bionime.mapper.EquipmentTypeMapper;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.service.EquipmentTypeService;
+import com.bionime.utils.SystemResult;
 
 /**
  * 
@@ -23,8 +24,9 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 	private EquipmentTypeMapper equipmentTypeMapper;
 	
 	@Override
-	public void insert(EquipmentType equipmentType) {
+	public SystemResult insert(EquipmentType equipmentType) {
 		equipmentTypeMapper.insert(equipmentType);
+		return SystemResult.ok();
 	}
 
 }
