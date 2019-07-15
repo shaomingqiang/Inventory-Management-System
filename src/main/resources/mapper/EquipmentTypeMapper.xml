@@ -11,4 +11,8 @@
 	<select id="selectDistinctEquipmentType" resultType="java.lang.String">
 		select distinct(name) from equipment_type		
 	</select>
+	
+	<select id="selectEquipmentTypeByName" parameterType="com.bionime.pojo.EquipmentType" resultType="java.lang.String">
+		select type from  equipment_type where name=#{name}
+	</select>
 </mapper>

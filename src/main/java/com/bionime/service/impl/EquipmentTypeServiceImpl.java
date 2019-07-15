@@ -22,6 +22,7 @@ import com.bionime.utils.SystemResult;
 @Service
 public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 	
+	
 	@Autowired
 	private EquipmentTypeMapper equipmentTypeMapper;
 	
@@ -31,10 +32,19 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 		return SystemResult.ok();
 	}
 
+
 	@Override
 	public SystemResult selectDistinctEquipmentType() {
 		List<String> distinctEquipmentTypeList = equipmentTypeMapper.selectDistinctEquipmentType();
 		return SystemResult.ok(distinctEquipmentTypeList);
+	}
+
+
+	@Override
+	public SystemResult selectEquipmentTypeByName(EquipmentType equipmentType) {
+		List<String> EquipmentTypeList = equipmentTypeMapper.selectEquipmentTypeByName(equipmentType);
+		SystemResult result = SystemResult.ok(EquipmentTypeList);
+		return result;
 	}
 
 }

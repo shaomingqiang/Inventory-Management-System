@@ -39,10 +39,30 @@ public class EquipmentTypeController {
 		return result;
 	}
 	
+	/**
+	 * 列举所有的设备类型
+	 * <p>Title: insertEquipment</p>
+	 * <p>Description: </p>
+	 * @return
+	 */
 	@RequestMapping(value = "/selectDistinctEquipmentType", method = RequestMethod.POST)
 	public SystemResult insertEquipment() {
 		SystemResult result = equipmentTypeService.selectDistinctEquipmentType();
 		return result;
 	}
+	
+	/**
+	 * 根据类型名查找型号
+	 * <p>Title: selectEquipmentTypeByName</p>
+	 * <p>Description: </p>
+	 * @param equipmentType
+	 * @return
+	 */
+	@RequestMapping(value = "/selectEquipmentTypeByName", method = RequestMethod.POST)
+	public SystemResult selectEquipmentTypeByName(@RequestBody EquipmentType equipmentType) {
+		SystemResult result = equipmentTypeService.selectEquipmentTypeByName(equipmentType);
+		return result;
+	}
+	
 	
 }
