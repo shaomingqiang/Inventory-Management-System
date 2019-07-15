@@ -42,7 +42,7 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 
 	@Override
 	public SystemResult selectEquipmentTypeByName(EquipmentType equipmentType) {
-		List<String> EquipmentTypeList = equipmentTypeMapper.selectEquipmentTypeByName(equipmentType);
+		List<EquipmentType> EquipmentTypeList = equipmentTypeMapper.selectEquipmentTypeByName(equipmentType);
 		SystemResult result = SystemResult.ok(EquipmentTypeList);
 		return result;
 	}
