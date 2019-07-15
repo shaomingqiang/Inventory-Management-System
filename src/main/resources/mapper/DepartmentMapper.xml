@@ -22,7 +22,7 @@
 	</insert>
 	
 	<select id="findDeptAndHosp" resultType="com.bionime.pojo.DepartmentExt">
-		select 
+		<!-- select 
 		department.id,
 		department.name,
 		department.h_id,
@@ -31,7 +31,17 @@
 		hospital.province,
 		hospital.level
 		from department,hospital
-		where department.h_id=hospital.id
+		where department.h_id=hospital.id -->
+		select 
+		department.id,
+		department.name,
+		department.h_id,
+		department.remarks,
+		department.delete_tag,
+		hospital.province,
+		hospital.level
+		from department left join hospital
+		on department.h_id=hospital.id
 	</select>
 	
 	<select id="findDeptAndHosp1" resultMap="deptAndHospitalRsMap">

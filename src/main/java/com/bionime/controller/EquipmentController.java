@@ -28,6 +28,7 @@ public class EquipmentController {
 
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public SystemResult insertEquipment(@RequestBody Equipment equipment) {
+		equipment.setEt_id(1L);
 		SystemResult result = equipmentService.insert(equipment);
 		return result;
 	}
