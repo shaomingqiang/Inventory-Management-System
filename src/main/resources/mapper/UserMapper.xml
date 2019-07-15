@@ -8,6 +8,6 @@
 	</insert>
 	
 	<select id="login" resultType="com.bionime.pojo.User" parameterType="com.bionime.utils.SystemResult">
-		select * from user where name=#{name} and password=#{password}
+		select * from user where name=#{username} and password=#{password}
 	</select>
 </mapper>

@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.EquipmentMapper">
 	<insert id="insert"  parameterType="com.bionime.pojo.Equipment">
-		insert into equipment (sn,type,status,in_time,h_id,d_id,et_id,property_no,delete_tag) 
-		values(#{sn},#{type},#{status},#{in_time},#{h_id},#{d_id},#{et_id},#{property_no},'0')
+		insert into equipment (sn,type,status,in_time,explain,h_id,d_id,et_id,property_no,delete_tag) 
+		values(#{sn},#{type},#{status},#{in_time},#{description},#{h_id},#{d_id},#{et_id},#{property_no},'0')
 	</insert>
 	
 	<select id="selectByType" parameterType="com.bionime.pojo.EquipmentType" resultType="com.bionime.pojo.Equipment">

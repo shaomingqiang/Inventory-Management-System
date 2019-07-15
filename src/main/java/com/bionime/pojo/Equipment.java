@@ -14,7 +14,7 @@ public class Equipment implements Serializable {
 	private String type;// 设备型号
 	private String status;// 设备状态 1:在院，2:在库，3:出库，4:借用，5:返修，6:审核
 	private Date in_time;// 入库时间
-	private String explain;// 描述
+	private String description;// 描述
 	private Long h_id;// 所在医院id，外键
 	private Long d_id;// 所在科室id，外键
 	private Long et_id;// 设备类型id，外键
@@ -62,13 +62,14 @@ public class Equipment implements Serializable {
 	public void setIn_time(Date in_time) {
 		this.in_time = in_time;
 	}
+	
 
-	public String getExplain() {
-		return explain;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Long getH_id() {
