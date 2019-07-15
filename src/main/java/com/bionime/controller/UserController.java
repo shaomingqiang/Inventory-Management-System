@@ -28,12 +28,24 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	
+	/**
+	 * 用户添加
+	 * <p>Title: insert</p>
+	 * <p>Description: </p>
+	 * @param user
+	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insert(@RequestBody User user) {
 		userService.insert(user);
 	}
 	
+	/**
+	 * 用户登录
+	 * <p>Title: login</p>
+	 * <p>Description: </p>
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public SystemResult login(@RequestBody User user) {
 		SystemResult result = userService.login(user);

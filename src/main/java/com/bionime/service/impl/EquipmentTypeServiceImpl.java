@@ -1,5 +1,7 @@
 package com.bionime.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,12 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 	public SystemResult insert(EquipmentType equipmentType) {
 		equipmentTypeMapper.insert(equipmentType);
 		return SystemResult.ok();
+	}
+
+	@Override
+	public SystemResult selectDistinctEquipmentType() {
+		List<String> distinctEquipmentTypeList = equipmentTypeMapper.selectDistinctEquipmentType();
+		return SystemResult.ok(distinctEquipmentTypeList);
 	}
 
 }

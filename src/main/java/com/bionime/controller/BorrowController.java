@@ -27,7 +27,12 @@ public class BorrowController {
 	@Autowired
 	private BorrowService borrowService;
 	
-	
+	/**
+	 * 借用添加
+	 * <p>Title: insert</p>
+	 * <p>Description: </p>
+	 * @param borrow
+	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insert(@RequestBody Borrow borrow) {
 		borrowService.insert(borrow);

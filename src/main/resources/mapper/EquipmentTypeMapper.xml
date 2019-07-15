@@ -7,4 +7,8 @@
 		insert into equipment_type(name,type,count,description,delete_tag)
 		values(#{name},#{type},'0',#{description},'0')
 	</insert>
+	
+	<select id="selectDistinctEquipmentType" resultType="java.lang.String">
+		select distinct(name) from equipment_type		
+	</select>
 </mapper>

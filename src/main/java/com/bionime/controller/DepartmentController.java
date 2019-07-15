@@ -28,7 +28,12 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentService;
 	
-	
+	/**
+	 * 科室添加
+	 * <p>Title: insert</p>
+	 * <p>Description: </p>
+	 * @param department
+	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insert(@RequestBody Department department) {
 		departmentService.insert(department);

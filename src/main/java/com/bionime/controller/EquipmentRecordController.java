@@ -24,6 +24,12 @@ public class EquipmentRecordController {
 	@Autowired
 	private EquipmentRecordService equipmentRecordService;
 
+	/**
+	 * 设备记录添加
+	 * <p>Title: insertEquipment</p>
+	 * <p>Description: </p>
+	 * @param equipmentRecord
+	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insertEquipment(@RequestBody EquipmentRecord equipmentRecord) {
 		equipmentRecordService.insert(equipmentRecord);

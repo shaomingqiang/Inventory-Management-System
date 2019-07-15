@@ -26,9 +26,23 @@ public class EquipmentTypeController {
 	@Autowired
 	private EquipmentTypeService equipmentTypeService;
 
+	/**
+	 * 设备类型添加
+	 * <p>Title: insertEquipment</p>
+	 * <p>Description: </p>
+	 * @param equipmentType
+	 * @return
+	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public SystemResult insertEquipment(@RequestBody EquipmentType equipmentType) {
 		SystemResult result = equipmentTypeService.insert(equipmentType);
 		return result;
 	}
+	
+	@RequestMapping(value = "/selectDistinctEquipmentType", method = RequestMethod.POST)
+	public SystemResult insertEquipment() {
+		SystemResult result = equipmentTypeService.selectDistinctEquipmentType();
+		return result;
+	}
+	
 }

@@ -26,7 +26,12 @@ public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 	
-	
+	/**
+	 * 医院添加
+	 * <p>Title: insert</p>
+	 * <p>Description: </p>
+	 * @param hospital
+	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
 	public void insert(@RequestBody Hospital hospital) {
 		hospitalService.insert(hospital);
