@@ -2,6 +2,7 @@ package com.bionime.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.HospitalMapper;
 import com.bionime.pojo.Hospital;
@@ -17,6 +18,7 @@ import com.bionime.service.HospitalService;
  * @date	2019年7月11日下午3:31:33
  * @version 1.0
  */
+@Transactional
 @Service
 public class HospitalServiceImpl implements HospitalService {
 

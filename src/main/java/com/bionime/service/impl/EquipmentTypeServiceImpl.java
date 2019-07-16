@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.EquipmentTypeMapper;
 import com.bionime.pojo.EquipmentType;
@@ -21,6 +22,7 @@ import com.bionime.utils.SystemResult;
  * @date	2019年7月11日下午2:30:19
  * @version 1.0
  */
+@Transactional
 @Service
 public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 	

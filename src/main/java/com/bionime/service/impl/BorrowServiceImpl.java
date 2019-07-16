@@ -2,6 +2,7 @@ package com.bionime.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.BorrowMapper;
 import com.bionime.mapper.UserMapper;
@@ -21,6 +22,7 @@ import com.bionime.utils.SystemResult;
  * @date	2019年7月11日下午2:57:14
  * @version 1.0
  */
+@Transactional
 @Service
 public class BorrowServiceImpl implements BorrowService {
 
