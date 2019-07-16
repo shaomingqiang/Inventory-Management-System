@@ -57,56 +57,20 @@
 							id="select_base_type" lay-verify="select_base_type"
 							class="layui-input">
 							<option value="">设备类型</option>
-							<!-- <option value="760">760</option>
-							<option value="761">761</option>
-							<option value="333D">333D</option> -->
+							<option value="1">血糖仪</option>
+							<option value="2">路由器</option>
+							<option value="3">电脑</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
-					<label for="L_email" class="layui-form-label"> <span
+					<label for="select_base_model" class="layui-form-label"> <span
 						class="x-red">*</span>设备型号
 					</label>
 					<div class="layui-input-inline">
-						<select name="type" id="select_base_modle"
-							lay-verify="select_base_modle" xm-select="select_base_modle"
-							xm-select-type="1" autocomplete="off" class="layui-input">
-							<option value="">设备型号</option>
-							<option value="760">760</option>
-							<option value="761">761</option>
-							<option value="333D">333D</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label for="sn" class="layui-form-label"> <span
-						class="x-red">*</span>序列号
-					</label>
-					<div class="layui-input-inline">
-						<input type="text" id="sn" name="sn" required="" lay-verify="sn"
+						<input type="text" id="select_base_model" name="select_base_model" lay-verify="select_base_model"
 							autocomplete="off" class="layui-input">
-					</div>
-					<!-- <div class="layui-form-mid layui-word-aux">
-                            <span class="x-red">*</span>将会成为您唯一的登入名</div> -->
-				</div>
-
-				<div class="layui-form-item">
-					<label for="property_no" class="layui-form-label"> <!--<span class="x-red">*</span>-->
-						财产编号
-					</label>
-					<div class="layui-input-inline">
-						<input type="text" id="property_no" name="property_no"
-							autocomplete="off" class="layui-input">
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label for="desc" class="layui-form-label">描述</label>
-					<div class="layui-input-inline">
-						<textarea placeholder="请输入内容" id="desc" name="description"
-							class="layui-textarea"></textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -128,17 +92,9 @@
 						return "设备类型不能为空";
 					}
 				},
-				select_base_modle : function(value) {
+				select_base_model : function(value) {
 					if (value == "") {
 						return "设备型号不能为空";
-					}
-				},
-				sn : function(value) {
-					if (value == "") {
-						return "序列号不能为空";
-					}
-					if (/\s+/.test(value)) {
-						return "序列号不能有空格";
 					}
 				}
 			});
@@ -188,15 +144,6 @@
 			});
 
 		});
-	</script>
-	<script>
-		var _hmt = _hmt || [];
-		(function() {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
 	</script>
 </body>
 

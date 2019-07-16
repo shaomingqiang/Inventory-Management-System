@@ -7,10 +7,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-<link rel="stylesheet" href="css/font.css">
-<link rel="stylesheet" href="css/xadmin.css">
-<script src="lib/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript" src="js/xadmin.js"></script>
+<link rel="stylesheet" href="../css/font.css">
+<link rel="stylesheet" href="../css/xadmin.css">
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/xadmin.js"></script>
 <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -38,9 +38,9 @@
 							<div class="layui-inline layui-show-xs-block">
 								<select name="select_base_type" id="select_base_type" lay-filter="select_base_type" xm-select="select_base_type" xm-select-type="1">
                                 <option value="" >设备类型</option>
-                                <option value="760">760</option>
-                                <option value="761">761</option>
-                                <option value="333D">333D</option>
+                                <option value="1">血糖仪</option>
+                                <option value="2">路由器</option>
+                                <option value="3">电脑</option>
                             </select>
 							</div>
 							<div class="layui-inline layui-show-xs-block">
@@ -94,10 +94,10 @@
 								<tr>
 									<!-- <td><input type="checkbox" name="id" value="1"
 										lay-skin="primary"></td> -->
-									<td>1</td>
-									<td>小明</td>
-									<td>男</td>
-									<td>北京市 海淀区</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td></td>
 									<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
@@ -105,106 +105,116 @@
 									<a title="入院"
 										class="layui-btn layui-btn-normal layui-btn-mini"
 										onclick="xadmin.open('入院','toPage?url=/static/retrieval-hospital',700,500)"
-										href="javascript:;"> <i class="layui-icon">&#xe642;</i>
+										href="javascript:;"><i class="layui-icon">入院操作</i> <!--<i class="layui-icon">&#xe642;</i>-->
 									</a> 
-									<a title="入库" onclick="warehousing(this,'要入院的id')"
+									<a title="入库" onclick="warehousing(this,'要入库的id')"
 										class="layui-btn layui-btn-normal layui-btn-mini"
-										href="javascript:;"> <i class="layui-icon">&#xe640;</i>
+										href="javascript:;"><i class="layui-icon">入库操作</i>  <!--<i class="layui-icon">&#xe640;</i>-->
 									</a></td>
 								</tr>
 								<tr>
 									<!-- <td><input type="checkbox" name="id" value="2"
 										lay-skin="primary"></td> -->
-									<td>1</td>
-									<td>小明</td>
-									<td>男</td>
-									<td>北京市 海淀区</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td></td>
 									<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
 									<td class="td-manage">
-									<a title="编辑"
-										onclick="xadmin.open('编辑','member-edit.html',600,400)"
-										href="javascript:;"> <i class="layui-icon">&#xe642;</i>
-									</a>  
-									<a title="删除" onclick="member_del(this,'要删除的id')"
-										href="javascript:;"> <i class="layui-icon">&#xe640;</i>
-									</a></td>
-								</tr>
-								<tr>
-									<!-- <td><input type="checkbox" name="id" value="2"
-										lay-skin="primary"></td> -->
-									<td>1</td>
-									<td>小明</td>
-									<td>男</td>
-									<td>北京市 海淀区</td>
-									<td></td>
-									<td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
-									<td class="td-manage">
-									<a title="编辑"
-										onclick="xadmin.open('编辑','member-edit.html',600,400)"
-										href="javascript:;"> <i class="layui-icon">&#xe642;</i>
+									<a title="入院"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										onclick="xadmin.open('入院','toPage?url=/static/retrieval-hospital',700,500)"
+										href="javascript:;"><i class="layui-icon">入院操作</i> <!--<i class="layui-icon">&#xe642;</i>-->
 									</a> 
-									<a title="删除" onclick="member_del(this,'要删除的id')"
-										href="javascript:;"> <i class="layui-icon">&#xe640;</i>
+									<a title="入库" onclick="warehousing(this,'要入库的id')"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										href="javascript:;"><i class="layui-icon">入库操作</i>  <!--<i class="layui-icon">&#xe640;</i>-->
 									</a></td>
 								</tr>
 								<tr>
 									<!-- <td><input type="checkbox" name="id" value="2"
 										lay-skin="primary"></td> -->
-									<td>1</td>
-									<td>小明</td>
-									<td>男</td>
-									<td>北京市 海淀区</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td></td>
 									<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
 									<td class="td-manage">
-									<a title="编辑"
-										onclick="xadmin.open('编辑','member-edit.html',600,400)"
-										href="javascript:;"> <i class="layui-icon">&#xe642;</i>
+									<a title="入院"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										onclick="xadmin.open('入院','toPage?url=/static/retrieval-hospital',700,500)"
+										href="javascript:;"><i class="layui-icon">入院操作</i> <!--<i class="layui-icon">&#xe642;</i>-->
 									</a> 
-									<a title="删除" onclick="member_del(this,'要删除的id')"
-										href="javascript:;"> <i class="layui-icon">&#xe640;</i>
+									<a title="入库" onclick="warehousing(this,'要入库的id')"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										href="javascript:;"><i class="layui-icon">入库操作</i>  <!--<i class="layui-icon">&#xe640;</i>-->
 									</a></td>
 								</tr>
 								<tr>
 									<!-- <td><input type="checkbox" name="id" value="2"
 										lay-skin="primary"></td> -->
-									<td>1</td>
-									<td>小明</td>
-									<td>男</td>
-									<td>北京市 海淀区</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td></td>
 									<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
 									<td class="td-manage">
-									<a title="编辑"
-										onclick="xadmin.open('编辑','member-edit.html',600,400)"
-										href="javascript:;"> <i class="layui-icon">&#xe642;</i>
+									<a title="入院"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										onclick="xadmin.open('入院','toPage?url=/static/retrieval-hospital',700,500)"
+										href="javascript:;"><i class="layui-icon">入院操作</i> <!--<i class="layui-icon">&#xe642;</i>-->
 									</a> 
-									<a title="删除" onclick="member_del(this,'要删除的id')"
-										href="javascript:;"> <i class="layui-icon">&#xe640;</i>
+									<a title="入库" onclick="warehousing(this,'要入库的id')"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										href="javascript:;"><i class="layui-icon">入库操作</i>  <!--<i class="layui-icon">&#xe640;</i>-->
 									</a></td>
 								</tr>
 								<tr>
 									<!-- <td><input type="checkbox" name="id" value="2"
 										lay-skin="primary"></td> -->
-									<td>1</td>
-									<td>小明</td>
-									<td>男</td>
-									<td>北京市 海淀区</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td></td>
 									<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
 									<td class="td-manage">
-									<a title="编辑"
-										onclick="xadmin.open('编辑','member-edit.html',600,400)"
-										href="javascript:;"> <i class="layui-icon">&#xe642;</i>
+									<a title="入院"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										onclick="xadmin.open('入院','toPage?url=/static/retrieval-hospital',700,500)"
+										href="javascript:;"><i class="layui-icon">入院操作</i> <!--<i class="layui-icon">&#xe642;</i>-->
 									</a> 
-									<a title="删除" onclick="member_del(this,'要删除的id')"
-										href="javascript:;"> <i class="layui-icon">&#xe640;</i>
+									<a title="入库" onclick="warehousing(this,'要入库的id')"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										href="javascript:;"><i class="layui-icon">入库操作</i>  <!--<i class="layui-icon">&#xe640;</i>-->
+									</a></td>
+								</tr>
+								<tr>
+									<!-- <td><input type="checkbox" name="id" value="2"
+										lay-skin="primary"></td> -->
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td class="td-status">
+                                      <span class="layui-btn layui-btn-normal layui-btn-mini">审核中</span></td>
+									<td class="td-manage">
+									<a title="入院"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										onclick="xadmin.open('入院','toPage?url=/static/retrieval-hospital',700,500)"
+										href="javascript:;"><i class="layui-icon">入院操作</i> <!--<i class="layui-icon">&#xe642;</i>-->
+									</a> 
+									<a title="入库" onclick="warehousing(this,'要入库的id')"
+										class="layui-btn layui-btn-normal layui-btn-mini"
+										href="javascript:;"><i class="layui-icon">入库操作</i>  <!--<i class="layui-icon">&#xe640;</i>-->
 									</a></td>
 								</tr>
 							</tbody>
@@ -289,7 +299,7 @@
 		layer.confirm('确认要入库吗？', function(index) {
 			//发异步删除数据
 			$(obj).parents("tr").remove();
-			layer.msg('已入库!', {
+			layer.msg('入库成功', {
 				icon : 1,
 				time : 1000
 			});

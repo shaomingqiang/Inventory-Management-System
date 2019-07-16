@@ -96,12 +96,9 @@
 							return "设备型号不能为空";
 						}
 					},
-					sn : function(value) {
+					select_base_sn : function(value) {
 						if(value == "") {
 							return "序列号不能为空";
-						}
-						if(/\s+/.test(value)){
-							return "序列号不能有空格";
 						}
 					}
 				});
@@ -110,8 +107,8 @@
 				form.on('submit(add)', function(data) {
 					console.log(data);
 					//发异步，把数据提交给php
-					layer.alert("增加成功", {
-						icon: 6
+					layer.alert("出库成功", {
+						icon: 1
 					}, function() {
 						//关闭当前frame
 						xadmin.close();

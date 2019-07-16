@@ -80,23 +80,15 @@
 						if(value == "") {
 							return "科室不能为空";
 						}
-					},
-					/* sn : function(value) {
-						if(value == "") {
-							return "序列号不能为空";
-						}
-						if(/\s+/.test(value)){
-							return "序列号不能有空格";
-						}
-					} */
+					}
 				});
 
 				//监听提交
 				form.on('submit(add)', function(data) {
 					console.log(data);
 					//发异步，把数据提交给php
-					layer.alert("增加成功", {
-						icon: 6
+					layer.alert("入院成功", {
+						icon: 1
 					}, function() {
 						//关闭当前frame
 						xadmin.close();
