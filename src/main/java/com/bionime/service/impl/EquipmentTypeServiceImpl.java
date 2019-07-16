@@ -1,6 +1,8 @@
 package com.bionime.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +45,11 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 	@Override
 	public SystemResult selectEquipmentTypeByName(EquipmentType equipmentType) {
 		List<EquipmentType> EquipmentTypeList = equipmentTypeMapper.selectEquipmentTypeByName(equipmentType);
-		SystemResult result = SystemResult.ok(EquipmentTypeList);
+		Map<String,Long> typeMap = new HashMap<String,Long>();
+		for (EquipmentType type : EquipmentTypeList) {
+			typeMap.put(type.getType(), type.getId());
+		}
+		SystemResult result = SystemResult.ok(typeMap);
 		return result;
 	}
 
