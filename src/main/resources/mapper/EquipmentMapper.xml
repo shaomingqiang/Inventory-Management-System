@@ -8,6 +8,7 @@
 		values(#{sn},#{status},#{in_time},#{description},#{h_id},#{d_id},#{et_id},#{property_no},'0')
 	</insert> -->
 	
+	<!-- 设备新增 -->
 	<insert id="insert"  parameterType="java.util.List">
 		insert into equipment (sn,status,in_time,description,et_id,property_no,delete_tag)
 		values
@@ -16,14 +17,21 @@
         </foreach>
 	</insert>
 	
+	<!-- 根据设备设备类型查找设备 -->
 	<select id="selectByType" parameterType="com.bionime.pojo.EquipmentType" resultType="com.bionime.pojo.Equipment">
 		select * from equipment where et_id=#{id}
 	</select>
 	
+	<!-- 根据序列号查找设备 -->
 	<select id="selectBySn" parameterType="java.lang.String" resultType="com.bionime.pojo.Equipment">
 		select * from equipment where sn in
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
 	</select>
+	
+	<!-- 更改设备状态 -->
+	<update id="equipmentStatusChange">
+		update equipment_type set status=#{status} where id=#{id}
+	</update>
 </mapper>

@@ -10,5 +10,5 @@ public interface EquipmentTypeMapper {
 	int insert(EquipmentType equipmentType);
 	List<String> selectDistinctEquipmentType();
 	List<EquipmentType> selectEquipmentTypeByName(EquipmentType equipmentType);
-	int countIncrease(@Param("id")Long id,@Param("size")int size);
+	int countIncrease(Long id,int size);
 }

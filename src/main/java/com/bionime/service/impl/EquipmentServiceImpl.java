@@ -87,4 +87,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return SystemResult.ok(equipmentList);
 	}
 
+	@Override
+	public SystemResult equipmentStateChange(Long id, int status) {
+		equipmentMapper.equipmentStateChange(id, status);
+		return SystemResult.ok();
+	}
+
 }
