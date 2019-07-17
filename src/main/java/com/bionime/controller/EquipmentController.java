@@ -1,5 +1,6 @@
 package com.bionime.controller;
 
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicInterface2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,20 @@ public class EquipmentController {
 	@RequestMapping(value="/selectByType",method = RequestMethod.POST)
 	public SystemResult insertEquipment(@RequestBody EquipmentType equipmentType) {
 		SystemResult result = equipmentService.selectByType(equipmentType);
+		return result;
+	}
+	
+	/**
+	 * 批量修改设备状态
+	 * <p>Title: equipmentStatusChange</p>
+	 * <p>Description: </p>
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="/equipmentStatusChange",method = RequestMethod.POST)
+	public SystemResult equipmentStatusChange(String id, Integer status){
+		SystemResult result = equipmentService.equipmentStatusChange(id, status);
 		return result;
 	}
 }

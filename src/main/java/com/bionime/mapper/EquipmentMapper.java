@@ -11,5 +11,5 @@ public interface EquipmentMapper {
 	int insert(List<Equipment> equipmentList);
 	List<Equipment> selectByType(EquipmentType equipmentType);
 	List<Equipment> selectBySn(List<String> sns);
-	int equipmentStateChange(@Param("id")Long id,@Param("status")int status);
+	int equipmentStatusChange(@Param("ids")List<String> ids,@Param("status")int status);
 }

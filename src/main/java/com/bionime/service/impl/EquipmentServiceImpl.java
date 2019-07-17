@@ -50,10 +50,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 		List<String> propertyNoList = null;
 		int snSize = snList.size();
 		boolean hasPropertyNo = false;
-		if(equipment.getProperty_no()!=null){
+		if(equipment.getProperty_no()!=null&&!"".equals(equipment.getProperty_no())){
+			if(equipment.getProperty_no().contains("，")){
+				return SystemResult.build(500, "序列号之间请使用英文逗号，请重新录入！");
+			}
 			propertyNoList = Arrays.asList(equipment.getProperty_no().split(","));
 			if(snSize!=propertyNoList.size()){
-				return SystemResult.build(500, "序列号数量与财产编号数量不一致！请重新录入！");
+				return SystemResult.build(500, "序列号数量与财产编号数量不一致，请重新录入！");
 			}
 			hasPropertyNo = true;
 		}
@@ -88,9 +91,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult equipmentStateChange(Long id, int status) {
-		equipmentMapper.equipmentStateChange(id, status);
+	public SystemResult equipmentStatusChange(String id, int status) {
+		List<String> ids = Arrays.asList(id.split(","));
+		equipmentMapper.equipmentStatusChange(ids, status);
 		return SystemResult.ok();
 	}
+
+	
 
 }

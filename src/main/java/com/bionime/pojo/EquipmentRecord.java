@@ -15,13 +15,12 @@ public class EquipmentRecord implements Serializable{
 	
 	private Long e_id;//设备id，外键
 	
-	private Date in_hospital;//入院时间
+	private String change_type;
 	
-	private Date be_time;//借用时间
+	private Date change_time;
 	
-	private Date me_time;//返修时间
+	private String operator;
 	
-	private Date fe_time;//场内归还设备时间
 
 	public Long getId() {
 		return id;
@@ -39,37 +38,31 @@ public class EquipmentRecord implements Serializable{
 		this.e_id = e_id;
 	}
 
-	public Date getIn_hospital() {
-		return in_hospital;
+	public String getChange_type() {
+		return change_type;
 	}
 
-	public void setIn_hospital(Date in_hospital) {
-		this.in_hospital = in_hospital;
+	public void setChange_type(String change_type) {
+		this.change_type = change_type;
 	}
 
-	public Date getBe_time() {
-		return be_time;
+	public Date getChange_time() {
+		return change_time;
 	}
 
-	public void setBe_time(Date be_time) {
-		this.be_time = be_time;
+	public void setChange_time(Date change_time) {
+		this.change_time = change_time;
 	}
 
-	public Date getMe_time() {
-		return me_time;
+	public String getOperator() {
+		return operator;
 	}
 
-	public void setMe_time(Date me_time) {
-		this.me_time = me_time;
+	public void setOperator(String operator) {
+		this.operator = operator;
 	}
 
-	public Date getFe_time() {
-		return fe_time;
-	}
-
-	public void setFe_time(Date fe_time) {
-		this.fe_time = fe_time;
-	}
+	
 	
 	
 }

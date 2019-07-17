@@ -45,7 +45,7 @@ public class EquipmentTypeController {
 	 * <p>Description: </p>
 	 * @return
 	 */
-	@RequestMapping(value = "/selectDistinctEquipmentType", method = RequestMethod.POST)
+	@RequestMapping(value = "/selectDistinctEquipmentType", method = RequestMethod.GET)
 	public SystemResult insertEquipment() {
 		SystemResult result = equipmentTypeService.selectDistinctEquipmentType();
 		return result;
