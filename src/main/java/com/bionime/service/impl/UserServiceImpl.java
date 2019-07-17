@@ -35,12 +35,11 @@ public class UserServiceImpl implements UserService {
 	public SystemResult login(User user) {
 		User userLogin = userMapper.login(user);
 		String msg = null;
-		if(userLogin!=null){
-			msg = "登录成功！";
-		}else{
-			msg = "用户名不存在或密码错误！";
-		}
-		return SystemResult.ok(msg);
+		if(userLogin==null){
+			msg="用户名或密码错误，请重新输入！";
+			return SystemResult.ok(msg);
+		}		
+		return SystemResult.ok(userLogin);
 	}
 
 }
