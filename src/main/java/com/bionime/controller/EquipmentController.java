@@ -51,4 +51,18 @@ public class EquipmentController {
 		SystemResult result = equipmentService.selectByType(equipmentType);
 		return result;
 	}
+	
+	/**
+	 * 批量修改设备状态
+	 * <p>Title: equipmentStatusChange</p>
+	 * <p>Description: </p>
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="/statusChange",method = RequestMethod.POST)
+	public SystemResult equipmentStatusChange(String id, Integer status){
+		SystemResult result = equipmentService.statusChange(id, status);
+		return result;
+	}
 }
