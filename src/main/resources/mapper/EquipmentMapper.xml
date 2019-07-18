@@ -3,10 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.EquipmentMapper">
-	<!-- <insert id="insert"  parameterType="com.bionime.pojo.Equipment">
-		insert into equipment (sn,status,in_time,description,h_id,d_id,et_id,property_no,delete_tag) 
-		values(#{sn},#{status},#{in_time},#{description},#{h_id},#{d_id},#{et_id},#{property_no},'0')
-	</insert> -->
+	<resultMap type="com.bionime.pojo.EquipmentExt" id="EquipmentAndTypeRsMap">
+		<id column="id" property="id"/>
+		<result column="sn" property="sn"/>
+		<result column="status" property="status"/>
+		<result column="property_no" property="property_no"/>
+		<association property="equipmentType" javaType="com.bionime.pojo.EquipmentType">
+			<id column="id" property="id"/>
+			<result column="name" property="name"/>
+			<result column="type" property="type"/>
+		</association>	
+	</resultMap>
 	
 	<!-- 设备新增 -->
 	<insert id="insert"  parameterType="java.util.List">
@@ -37,4 +44,20 @@
             #{item}
         </foreach>
 	</update>
+	
+	<!-- 所有设备的信息，外联EquipmentType -->
+	<!-- <select id="selectEquimentExt" resultMap="EquipmentAndTypeRsMap"> -->
+	<select id="selectEquimentExt" resultType="com.bionime.pojo.EquipmentExt">
+		select 
+			equipment.id,
+			equipment.sn,
+			equipment_type.name,
+			equipment_type.type,
+			equipment.in_time,
+			equipment.property_no,
+			equipment.status
+		from equipment left join equipment_type
+		on equipment.et_id=equipment_type.id
+		where equipment.delete_tag=0
+	</select>
 </mapper>

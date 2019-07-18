@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bionime.mapper.EquipmentMapper;
 import com.bionime.mapper.EquipmentTypeMapper;
 import com.bionime.pojo.Equipment;
+import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
@@ -95,6 +96,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 		List<String> ids = Arrays.asList(id.split(","));
 		equipmentMapper.statusChange(ids, status);
 		return SystemResult.ok();
+	}
+
+	@Override
+	public SystemResult selectEquimentExt() {
+		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt();
+		for (EquipmentExt equipmentExt : equipmentExtList) {
+			equipmentExt.setIn_time(equipmentExt.getIn_time().substring(0,10));
+		}
+		return SystemResult.ok(equipmentExtList);
 	}
 
 	

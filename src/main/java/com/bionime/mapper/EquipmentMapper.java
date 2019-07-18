@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.bionime.pojo.Equipment;
+import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentType;
 
 public interface EquipmentMapper {
@@ -12,4 +13,5 @@ public interface EquipmentMapper {
 	List<Equipment> selectByType(EquipmentType equipmentType);
 	List<Equipment> selectBySn(List<String> sns);
 	int statusChange(@Param("ids")List<String> ids,@Param("status")int status);
+	List<EquipmentExt> selectEquimentExt();
 }

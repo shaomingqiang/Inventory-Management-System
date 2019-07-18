@@ -1,5 +1,7 @@
 package com.bionime.controller;
 
+import java.util.List;
+
 import org.apache.taglibs.standard.lang.jstl.test.beans.PublicInterface2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Equipment;
+import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
@@ -64,6 +67,12 @@ public class EquipmentController {
 	@RequestMapping(value="/statusChange",method = RequestMethod.POST)
 	public SystemResult equipmentStatusChange(String id, Integer status){
 		SystemResult result = equipmentService.statusChange(id, status);
+		return result;
+	}
+	
+	@RequestMapping(value="/selectEquimentExt",method = RequestMethod.POST)
+	public SystemResult selectEquimentExt(){
+		SystemResult result = equipmentService.selectEquimentExt();
 		return result;
 	}
 }
