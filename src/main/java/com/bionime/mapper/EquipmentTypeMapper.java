@@ -9,6 +9,6 @@ import com.bionime.pojo.EquipmentType;
 public interface EquipmentTypeMapper {
 	int insert(EquipmentType equipmentType);
 	List<String> selectDistinctEquipmentType();
-	List<EquipmentType> selectEquipmentTypeByName(EquipmentType equipmentType);
+	List<EquipmentType> selectByName(EquipmentType equipmentType);
 	int countIncrease(Long id,int size);
 }

@@ -61,9 +61,9 @@ public class EquipmentController {
 	 * @param status
 	 * @return
 	 */
-	@RequestMapping(value="/equipmentStatusChange",method = RequestMethod.POST)
+	@RequestMapping(value="/statusChange",method = RequestMethod.POST)
 	public SystemResult equipmentStatusChange(String id, Integer status){
-		SystemResult result = equipmentService.equipmentStatusChange(id, status);
+		SystemResult result = equipmentService.statusChange(id, status);
 		return result;
 	}
 }

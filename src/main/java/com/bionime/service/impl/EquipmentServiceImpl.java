@@ -91,9 +91,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult equipmentStatusChange(String id, int status) {
+	public SystemResult statusChange(String id, int status) {
 		List<String> ids = Arrays.asList(id.split(","));
-		equipmentMapper.equipmentStatusChange(ids, status);
+		equipmentMapper.statusChange(ids, status);
 		return SystemResult.ok();
 	}
 

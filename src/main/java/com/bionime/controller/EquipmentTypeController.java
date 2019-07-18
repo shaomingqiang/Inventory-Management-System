@@ -58,9 +58,9 @@ public class EquipmentTypeController {
 	 * @param equipmentType
 	 * @return
 	 */
-	@RequestMapping(value = "/selectEquipmentTypeByName", method = RequestMethod.POST)
+	@RequestMapping(value = "/selectByName", method = RequestMethod.POST)
 	public SystemResult selectEquipmentTypeByName(@RequestBody EquipmentType equipmentType) {
-		SystemResult result = equipmentTypeService.selectEquipmentTypeByName(equipmentType);
+		SystemResult result = equipmentTypeService.selectByName(equipmentType);
 		return result;
 	}
 	

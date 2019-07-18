@@ -15,7 +15,7 @@
 	</select>
 	
 	<!-- 根据设备名称查找设备 -->
-	<select id="selectEquipmentTypeByName" parameterType="com.bionime.pojo.EquipmentType" resultType="com.bionime.pojo.EquipmentType">
+	<select id="selectByName" parameterType="com.bionime.pojo.EquipmentType" resultType="com.bionime.pojo.EquipmentType">
 		select * from  equipment_type where name=#{name}
 	</select>
 	

@@ -45,8 +45,8 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 
 
 	@Override
-	public SystemResult selectEquipmentTypeByName(EquipmentType equipmentType) {
-		List<EquipmentType> EquipmentTypeList = equipmentTypeMapper.selectEquipmentTypeByName(equipmentType);
+	public SystemResult selectByName(EquipmentType equipmentType) {
+		List<EquipmentType> EquipmentTypeList = equipmentTypeMapper.selectByName(equipmentType);
 		Map<String,Long> typeMap = new HashMap<String,Long>();
 		for (EquipmentType type : EquipmentTypeList) {
 			typeMap.put(type.getType(), type.getId());
