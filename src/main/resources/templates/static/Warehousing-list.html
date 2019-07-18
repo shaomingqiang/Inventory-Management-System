@@ -38,34 +38,40 @@
 								<input type="text" name="sn" placeholder="序列号"
 									autocomplete="off" class="layui-input">
 							</div>
-							<div class="layui-inline layui-show-xs-block">
-								<select name="select_base_type" id="select_base_type"
-									lay-filter="select_base_type" xm-select="select_base_type"
-									xm-select-type="1">
+							<div class="layui-input-inline">
+								<select name="" id="select_base_type" lay-filter="Type_filter"
+									lay-search lay-verify="select_base_type" class="layui-input">
 									<option value="">设备类型</option>
-									<option value="1">血糖仪</option>
-									<option value="2">路由器</option>
-									<option value="3">电脑</option>
 								</select>
 							</div>
-							<div class="layui-inline layui-show-xs-block">
-								<select name="select_base_modle" id="select_base_modle"
-									lay-filter="select_base_modle" xm-select="select_base_modle"
-									xm-select-type="1">
+							<div class="layui-input-inline">
+								<select name="et_id" id="select_base_modle" lay-search
+									lay-filter="Model_filter" lay-verify="select_base_modle"
+									class="layui-input">
 									<option value="">设备型号</option>
-									<option value="760">760</option>
-									<option value="761">761</option>
-									<option value="333D">333D</option>
 								</select>
 							</div>
-							<div class="layui-inline layui-show-xs-block">
+							<div class="layui-input-inline">
+								<select name="status" id="select_base_status" lay-search
+									lay-filter="Status_filter" lay-verify="select_base_status"
+									class="layui-input">
+									<option value="">状态</option>
+									<option value="10">在库</option>
+									<option value="20">在院</option>
+									<option value="30">出库</option>
+									<option value="40">借用</option>
+									<option value="50">返修</option>
+									<option value="60">审核</option>
+								</select>
+							</div>
+							<!-- <div class="layui-inline layui-show-xs-block">
 								<input class="layui-input" autocomplete="off" placeholder="开始日期"
 									name="start" id="start">
 							</div>
 							<div class="layui-inline layui-show-xs-block">
 								<input class="layui-input" autocomplete="off" placeholder="截止日期"
 									name="end" id="end">
-							</div>
+							</div> -->
 							<div class="layui-inline layui-show-xs-block">
 								<button class="layui-btn" lay-submit="" lay-filter="sreach">
 									<i class="layui-icon">&#xe615;</i>
@@ -79,18 +85,21 @@
 							lay-filter="test">
 							<thead>
 								<tr>
+									<th lay-data="{type:'checkbox'}">ID</th>
 									<th
-										lay-data="{field:'sn',width:207, minWidth: 200, sort: true}">序列号</th>
+										lay-data="{field:'sn',width:200, minWidth: 200, sort: true}">序列号</th>
 									<th
-										lay-data="{field:'et_id',width:207, minWidth: 200, sort: true}">设备类型</th>
+										lay-data="{field:'et_id',width:150, minWidth: 200, sort: true}">设备类型</th>
 									<th
-										lay-data="{field:'type',width:207, minWidth: 200, sort: true}">设备型号</th>
+										lay-data="{field:'type',width:150, minWidth: 200, sort: true}">设备型号</th>
 									<th
-										lay-data="{field:'inTime',width:207, minWidth: 200, sort: true}">入库时间</th>
+										lay-data="{field:'inTime',width:150, minWidth: 200, sort: true}">入库时间</th>
 									<th
-										lay-data="{field:'propertyNo',width:207, minWidth: 200, sort: true}">财产编号</th>
+										lay-data="{field:'propertyNo',width:150, minWidth: 200, sort: true}">财产编号</th>
 									<th
-										lay-data="{fixed: '', width:207,minWidth: 200, align:'center',toolbar:'#barDemo'}">操作</th>
+										lay-data="{field:'status',width:100, minWidth: 100, sort: true}">状态</th>
+									<th
+										lay-data="{fixed: '', width:250,minWidth: 200,toolbar:'#barDemo'}">操作</th>
 									<!--
 										<th lay-data="{type:'checkbox'}">ID</th>
 										<th lay-data="{field:'id', width:80, sort: true}">ID</th>
@@ -111,12 +120,10 @@
 	</div>
 </body>
 <script type="text/html" id="toolbarDemo">
-		<!--<div class = "layui-btn-container" > 
+		<div class = "layui-btn-container" > 
             <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 获取选中行数据 </button>
             <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button > 
             <button class = "layui-btn layui-btn-sm" lay-event = "isAll" > 验证是否全选</button>
-        </div >-->
-		<div class="layui-btn-container">
 			<button class="layui-btn" onclick="xadmin.open('添加设备','toPage?url=/static/Warehousing-add',700,500)">
 							<i class="layui-icon"></i>添加
 						</button>
@@ -138,6 +145,49 @@
 		</div>	
 </script>
 <script>
+layui.use(['form','jquery'], function() {
+	$ = layui.jquery;
+	var form = layui.form;
+	$(document).ready(function() {　　
+		$.ajax({
+			contentType: "application/json;charset=utf-8",
+			type: "get",
+			url: "equipmentType/selectDistinctEquipmentType",
+			dataType: "json",
+			data:"",
+			success: function(data) {
+				$.each(data.data, function(i, item) {
+					$('#select_base_type').append(new Option(item, item));
+				});
+				form.render("select");
+			},
+			error:function(){
+				
+			}
+		});
+	});
+	form.on('select(Type_filter)', function(data) {
+		var data1 = {"name":data.value};
+		 $.ajax({
+			contentType: "application/json;charset=utf-8",
+			type: "post",
+			url: "equipmentType/selectEquipmentTypeByName",
+			dataType: "json",
+			data: JSON.stringify(data1),
+			success: function(data2) {
+				var obj = data2.data;
+				$('#select_base_modle').empty();
+				$('#select_base_modle').append(new Option("设备型号",""));
+				$.each(obj, function(i) {
+					$('#select_base_modle').append(new Option(i,obj[i]));
+				}); 
+				form.render("select");
+			},error:function(){
+				
+			}
+		});
+	});
+});
 	layui.use('laydate', function() {
 		var laydate = layui.laydate;
 

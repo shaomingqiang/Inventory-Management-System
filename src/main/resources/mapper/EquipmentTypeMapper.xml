@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bionime.mapper.EquipmentTypeMapper">
+	<insert id="insert"  parameterType="com.bionime.pojo.EquipmentType">
+		insert into equipment_type(name,type,count,description,delete_tag)
+		values(#{name},#{type},'0',#{description},'0')
+	</insert>
+	
+	<select id="selectDistinctEquipmentType" resultType="java.lang.String">
+		select distinct(name) from equipment_type		
+	</select>
+	
+	<select id="selectEquipmentTypeByName" parameterType="com.bionime.pojo.EquipmentType" resultType="com.bionime.pojo.EquipmentType">
+		select * from  equipment_type where name=#{name}
+	</select>
+	
+	<update id="countIncrease">
+		update equipment_type set count=count+#{size} where id=#{id}
+	</update>
+</mapper>
