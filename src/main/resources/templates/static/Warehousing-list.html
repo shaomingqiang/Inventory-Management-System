@@ -80,39 +80,8 @@
 						</form>
 					</div>
 					<div class="layui-card-body ">
-						<table class="layui-table"
-							lay-data="{url:'',page:true,toolbar:'#toolbarDemo',id:'test'}"
-							lay-filter="test">
-							<thead>
-								<tr>
-									<th lay-data="{type:'checkbox'}">ID</th>
-									<th
-										lay-data="{field:'sn',width:200, minWidth: 200, sort: true}">序列号</th>
-									<th
-										lay-data="{field:'et_id',width:150, minWidth: 200, sort: true}">设备类型</th>
-									<th
-										lay-data="{field:'type',width:150, minWidth: 200, sort: true}">设备型号</th>
-									<th
-										lay-data="{field:'inTime',width:150, minWidth: 200, sort: true}">入库时间</th>
-									<th
-										lay-data="{field:'propertyNo',width:150, minWidth: 200, sort: true}">财产编号</th>
-									<th
-										lay-data="{field:'status',width:100, minWidth: 100, sort: true,toolbar:'<div>xxx</div>' }">状态</th>
-									<th
-										lay-data="{fixed: '', width:250,minWidth: 200,toolbar:'#barDemo'}">操作</th>
-									<!--
-										<th lay-data="{type:'checkbox'}">ID</th>
-										<th lay-data="{field:'id', width:80, sort: true}">ID</th>
-										<th lay-data="{field:'username', width:120, sort: true, edit: 'text'}">用户名</th>
-										<th lay-data="{field:'email', edit: 'text', minWidth: 150}">邮箱</th>
-										<th lay-data="{field:'sex', width:80,templet: '#switchTpl'}">性别</th>
-										<th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
-										<th lay-data="{field:'experience', sort: true, edit: 'text'}">积分</th>
-										<th lay-data="{field:'dw_xinzhi',templet: function(d){ return d.dw_xinzhi.titel;}}">学校</th>
-										-->
-								</tr>
-							</thead>
-						</table>
+						<table class="layui-table" id="LAY_table_equipment"
+							lay-filter="test"></table>
 					</div>
 				</div>
 			</div>
@@ -145,8 +114,34 @@
 		</div>	
 </script>
 <script>
-layui.use(['form','jquery'], function() {
+layui.use(['form','table','jquery'], function() {
 	$ = layui.jquery;
+	var table = layui.table;
+	//方法级渲染
+    table.render({
+        elem: '#LAY_table_equipment'
+        ,url: 'equipment/selectEquimentExtByPage'
+        ,cols: [[
+            {checkbox: true, fixed: true}
+            ,{field:'id', title: 'ID', width:80, sort: true, fixed: true}
+            ,{field:'sn', title: '序列号', width:150, sort: true}
+            ,{field:'name', title: '设备类型', width:150, sort: true,edit:true}
+            ,{field:'type', title: '设备型号', width:150}
+            ,{field:'in_time', title: '入库时间', sort: true, width:120}
+            ,{field:'property_no', title: '财产编号', width:150}
+            ,{field:'status', width:80, title: '状态',align:'center',style:'background-color: #009688; color: #fff;'}
+            ,{field:'', title: '操作',align:'center', width:250,toolbar:'#barDemo'}
+        ]]
+  		,page: true //是否显示分页
+  		,limits:[5,10,15,20]
+   		,limit: 10 //每页默认显示的数量
+        ,id: 'testReload'
+        ,response: {
+        	statusCode: 200 //规定成功的状态码，默认：0
+        }
+        ,toolbar:'#toolbarDemo'
+        ,height: 516
+    });
 	var form = layui.form;
 	$(document).ready(function() {　　
 		$.ajax({
