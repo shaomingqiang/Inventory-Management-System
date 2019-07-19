@@ -71,8 +71,11 @@ public class EquipmentController {
 	}
 	
 	@RequestMapping(value="/selectEquimentExt",method = RequestMethod.POST)
-	public SystemResult selectEquimentExt(){
-		SystemResult result = equipmentService.selectEquimentExt();
+	public SystemResult selectEquimentExt(@RequestBody EquipmentExt equipmentExt){
+		if(equipmentExt.getSn()!=null){
+			equipmentExt.setSn("%"+equipmentExt.getSn()+"%");
+		}
+		SystemResult result = equipmentService.selectEquimentExt(equipmentExt);
 		return result;
 	}
 }

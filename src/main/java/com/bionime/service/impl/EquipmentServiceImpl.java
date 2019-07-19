@@ -4,7 +4,9 @@ package com.bionime.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,12 +101,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult selectEquimentExt() {
-		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt();
-		for (EquipmentExt equipmentExt : equipmentExtList) {
-			equipmentExt.setIn_time(equipmentExt.getIn_time().substring(0,10));
+	public SystemResult selectEquimentExt(EquipmentExt equipmentExt) {
+		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt(equipmentExt);
+		Map<String,String> statusMap = new HashMap<String,String>();
+		statusMap.put("10", "在库");
+		statusMap.put("20", "在院");
+		statusMap.put("30", "出库");
+		statusMap.put("40", "借用");
+		statusMap.put("50", "返修");
+		statusMap.put("60", "审核中");
+		for (EquipmentExt equipmentExtItem : equipmentExtList) {
+			equipmentExtItem.setIn_time(equipmentExtItem.getIn_time().substring(0,10));
+			equipmentExtItem.setStatus(statusMap.get(equipmentExtItem.getStatus()));
 		}
-		return SystemResult.ok(equipmentExtList);
+		return SystemResult.ok(equipmentExtList.size()+"",equipmentExtList);
 	}
 
 	

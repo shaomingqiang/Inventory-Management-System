@@ -11,5 +11,5 @@ public interface EquipmentService {
 	SystemResult insert(Equipment equipment);
 	SystemResult selectByType(EquipmentType equipmentType);
 	SystemResult statusChange(String ids,int status);
-	SystemResult selectEquimentExt();
+	SystemResult selectEquimentExt(EquipmentExt equipmentExt);
 }

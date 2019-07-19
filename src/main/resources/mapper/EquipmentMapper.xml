@@ -45,9 +45,9 @@
         </foreach>
 	</update>
 	
-	<!-- 所有设备的信息，外联EquipmentType -->
+	<!-- 查询设备的信息，外联EquipmentType，动态查询sn,设备类型，设备型号，设备状态-->
 	<!-- <select id="selectEquimentExt" resultMap="EquipmentAndTypeRsMap"> -->
-	<select id="selectEquimentExt" resultType="com.bionime.pojo.EquipmentExt">
+	<select id="selectEquimentExt" parameterType="com.bionime.pojo.EquipmentExt" resultType="com.bionime.pojo.EquipmentExt">
 		select 
 			equipment.id,
 			equipment.sn,
@@ -58,6 +58,19 @@
 			equipment.status
 		from equipment left join equipment_type
 		on equipment.et_id=equipment_type.id
-		where equipment.delete_tag=0
+		where 
+		   equipment.delete_tag=0
+		   <if test="sn!=null">
+          	 and sn like #{sn}
+		   </if>
+		   <if test="name!=null">
+          	 and name=#{name}
+		   </if>
+		   <if test="type!=null">
+          	 and type=#{type}
+		   </if>
+		   <if test="status!=null">
+          	 and status=#{status}
+		   </if>	   
 	</select>
 </mapper>

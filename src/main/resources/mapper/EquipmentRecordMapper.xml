@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.EquipmentRecordMapper">
+	<!-- 新增操作记录 -->
 	<insert id="insert" parameterType="com.bionime.pojo.EquipmentRecord">
-		
+		insert into 
 	</insert>
 </mapper>
