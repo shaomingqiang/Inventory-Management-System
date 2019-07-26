@@ -1,7 +1,7 @@
 package com.bionime.service;
 
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.bionime.pojo.Equipment;
@@ -13,6 +13,6 @@ public interface EquipmentService {
 	SystemResult insert(Equipment equipment);
 	SystemResult selectByType(EquipmentType equipmentType);
 	SystemResult statusChange(String ids,int status);
-	SystemResult selectEquimentExt();
-	Map<String, Object> selectEquimentExtByPage(int page,int pageSize);
+	SystemResult selectEquimentExt(EquipmentExt equipmentExt);
+	Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> map,EquipmentExt equipmentExt);
 }

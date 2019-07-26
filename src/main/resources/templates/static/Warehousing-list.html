@@ -35,24 +35,24 @@
 					<div class="layui-card-body ">
 						<form class="layui-form layui-col-space5">
 							<div class="layui-inline layui-show-xs-block">
-								<input type="text" name="sn" placeholder="序列号"
+								<input id="sn" type="text" name="sn" placeholder="序列号"
 									autocomplete="off" class="layui-input">
 							</div>
 							<div class="layui-input-inline">
-								<select name="" id="select_base_type" lay-filter="Type_filter"
+								<select name="name" id="name" lay-filter="Type_filter"
 									lay-search lay-verify="select_base_type" class="layui-input">
 									<option value="">设备类型</option>
 								</select>
 							</div>
 							<div class="layui-input-inline">
-								<select name="et_id" id="select_base_modle" lay-search
+								<select name="type" id="type" lay-search
 									lay-filter="Model_filter" lay-verify="select_base_modle"
 									class="layui-input">
 									<option value="">设备型号</option>
 								</select>
 							</div>
 							<div class="layui-input-inline">
-								<select name="status" id="select_base_status" lay-search
+								<select name="status" id="status" lay-search
 									lay-filter="Status_filter" lay-verify="select_base_status"
 									class="layui-input">
 									<option value="">状态</option>
@@ -64,18 +64,11 @@
 									<option value="60">审核</option>
 								</select>
 							</div>
-							<!-- <div class="layui-inline layui-show-xs-block">
-								<input class="layui-input" autocomplete="off" placeholder="开始日期"
-									name="start" id="start">
-							</div>
 							<div class="layui-inline layui-show-xs-block">
-								<input class="layui-input" autocomplete="off" placeholder="截止日期"
-									name="end" id="end">
-							</div> -->
-							<div class="layui-inline layui-show-xs-block">
-								<button class="layui-btn" lay-submit="" lay-filter="sreach">
+								<div class="layui-btn" data-type="reload" lay-submit=""
+									lay-filter="sreach">
 									<i class="layui-icon">&#xe615;</i>
-								</button>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -123,17 +116,17 @@ layui.use(['form','table','jquery'], function() {
         ,url: 'equipment/selectEquimentExtByPage'
         ,cols: [[
             {checkbox: true, fixed: true}
-            ,{field:'id', title: 'ID', width:80, sort: true, fixed: true}
+            ,{field:'id', title: 'ID', width:80, sort: true}
             ,{field:'sn', title: '序列号', width:150, sort: true}
-            ,{field:'name', title: '设备类型', width:150, sort: true,edit:true}
-            ,{field:'type', title: '设备型号', width:150}
+            ,{field:'name', title: '设备类型', width:150, sort: true}
+            ,{field:'type', title: '设备型号', width:150, sort: true}
             ,{field:'in_time', title: '入库时间', sort: true, width:120}
             ,{field:'property_no', title: '财产编号', width:150}
-            ,{field:'status', width:80, title: '状态',align:'center',style:'background-color: #009688; color: #fff;'}
+            ,{field:'status', width:80, title: '状态',align:'center'}
             ,{field:'', title: '操作',align:'center', width:250,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
-  		,limits:[5,10,15,20]
+  		,limits:[5,10,15,20,50,100]
    		,limit: 10 //每页默认显示的数量
         ,id: 'testReload'
         ,response: {
@@ -142,6 +135,32 @@ layui.use(['form','table','jquery'], function() {
         ,toolbar:'#toolbarDemo'
         ,height: 516
     });
+    active = {
+ 	    reload: function(){
+ 	      var sn = $('#sn');
+ 	      var name = $('#name');
+ 	      var type = $('#type');
+ 	      var status = $('#status');
+ 	      //执行重载
+ 	      table.reload('testReload', {
+ 	    	url: 'equipment/selectEquimentExtByPage'
+ 	        ,method:'get'
+ 	        ,page: {
+ 	          curr: 1 //重新从第 1 页开始
+ 	        }
+ 	        ,where: {
+ 	        	 sn: sn.val(),
+ 	          	 name: name.val(),
+ 	          	 type: type.val(),
+ 	          	 status: status.val()
+ 	        }
+ 	      });
+ 	    }
+ 	  };
+ 	 $('.layui-card-body .layui-btn').on('click', function(){
+ 	    var type = $(this).data('type');
+ 	    active[type] ? active[type].call(this) : '';
+ 	  });
 	var form = layui.form;
 	$(document).ready(function() {　　
 		$.ajax({
@@ -152,7 +171,7 @@ layui.use(['form','table','jquery'], function() {
 			data:"",
 			success: function(data) {
 				$.each(data.data, function(i, item) {
-					$('#select_base_type').append(new Option(item, item));
+					$('#name').append(new Option(item, item));
 				});
 				form.render("select");
 			},
@@ -171,10 +190,10 @@ layui.use(['form','table','jquery'], function() {
 			data: JSON.stringify(data1),
 			success: function(data2) {
 				var obj = data2.data;
-				$('#select_base_modle').empty();
-				$('#select_base_modle').append(new Option("设备型号",""));
+				$('#type').empty();
+				$('#type').append(new Option("设备型号",""));
 				$.each(obj, function(i) {
-					$('#select_base_modle').append(new Option(i,obj[i]));
+					$('#type').append(new Option(i,i));
 				}); 
 				form.render("select");
 			},error:function(){

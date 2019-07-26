@@ -100,27 +100,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult selectEquimentExt() {
-		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt();
-		Map<String, String> STATUS_CODES = new HashMap<String, String>();
-		STATUS_CODES.put("10", "在库");
-		STATUS_CODES.put("20", "在院");
-		STATUS_CODES.put("30", "出库");
-		STATUS_CODES.put("40", "借用");
-		STATUS_CODES.put("50", "返修");
-		STATUS_CODES.put("60", "审核");
-		for (EquipmentExt equipmentExt : equipmentExtList) {
-			equipmentExt.setIn_time(equipmentExt.getIn_time().substring(0, 10));
-			equipmentExt.setStatus(STATUS_CODES.get(equipmentExt.getStatus()));
+	public SystemResult selectEquimentExt(EquipmentExt equipmentExt) {
+		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt(equipmentExt);
+		Map<String,String> statusMap = new HashMap<String,String>();
+		statusMap.put("10", "在库");
+		statusMap.put("20", "在院");
+		statusMap.put("30", "出库");
+		statusMap.put("40", "借用");
+		statusMap.put("50", "返修");
+		statusMap.put("60", "审核中");
+		for (EquipmentExt equipmentExtItem : equipmentExtList) {
+			equipmentExtItem.setIn_time(equipmentExtItem.getIn_time().substring(0,10));
+			equipmentExtItem.setStatus(statusMap.get(equipmentExtItem.getStatus()));
 		}
-		int count = equipmentExtList.size();
-		String countString = count + "";
-		return new SystemResult(200, countString, equipmentExtList);
+		return SystemResult.ok(equipmentExtList.size()+"",equipmentExtList);
 	}
 
 	@Override
-	public Map<String, Object> selectEquimentExtByPage(int page, int pageSize) {
-		List<EquipmentExt> equimentExtListByPage = equipmentMapper.selectEquimentExtByPage(page, pageSize);
+	public Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> paramMap,EquipmentExt equipmentExt) {
+		List<EquipmentExt> equimentExtListByPage = equipmentMapper.selectEquimentExtByPage(paramMap);
 		Map<String, String> STATUS_CODES = new HashMap<String, String>();
 		STATUS_CODES.put("10", "在库");
 		STATUS_CODES.put("20", "在院");
@@ -128,11 +126,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 		STATUS_CODES.put("40", "借用");
 		STATUS_CODES.put("50", "返修");
 		STATUS_CODES.put("60", "审核");
-		for (EquipmentExt equipmentExt : equimentExtListByPage) {
-			equipmentExt.setIn_time(equipmentExt.getIn_time().substring(0, 10));
-			equipmentExt.setStatus(STATUS_CODES.get(equipmentExt.getStatus()));
+		for (EquipmentExt ext : equimentExtListByPage) {
+			ext.setIn_time(ext.getIn_time().substring(0, 10));
+			ext.setStatus(STATUS_CODES.get(ext.getStatus()));
 		}
-		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt();
+		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquimentExt(equipmentExt);
 		int count = equipmentExtList.size();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("code", 200);

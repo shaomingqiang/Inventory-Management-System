@@ -1,5 +1,6 @@
 package com.bionime.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,6 @@ public interface EquipmentMapper {
 	List<Equipment> selectByType(EquipmentType equipmentType);
 	List<Equipment> selectBySn(List<String> sns);
 	int statusChange(@Param("ids")List<String> ids,@Param("status")int status);
-	List<EquipmentExt> selectEquimentExt();
-	List<EquipmentExt> selectEquimentExtByPage(@Param("page")int page,@Param("pageSize")int pageSize);
+	List<EquipmentExt> selectEquimentExt(EquipmentExt equipmentExt);
+	List<EquipmentExt> selectEquimentExtByPage(HashMap<String, Object> map);
 }

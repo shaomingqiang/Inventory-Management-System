@@ -1,17 +1,14 @@
 package com.bionime.controller;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicInterface2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Equipment;
@@ -97,19 +94,43 @@ public class EquipmentController {
 		SystemResult result = equipmentService.statusChange(id, status);
 		return result;
 	}
-
+	
+	@RequestMapping(value="/selectEquimentExt",method = RequestMethod.POST)
+	public SystemResult selectEquimentExt(@RequestBody EquipmentExt equipmentExt){
+		if(equipmentExt.getSn()!=null){
+			equipmentExt.setSn("%"+equipmentExt.getSn()+"%");
+		}
+		SystemResult result = equipmentService.selectEquimentExt(equipmentExt);
+		return result;
+	}
+	
 	@RequestMapping(value = "/selectEquimentExtByPage", method = RequestMethod.GET)
 	public Object selectEquimentExtByPage(HttpServletRequest request) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		int page = Integer.parseInt(request.getParameter("page"));
 		int limit = Integer.parseInt(request.getParameter("limit"));
-		int count = Integer.parseInt(equipmentService.selectEquimentExt().getMsg());  // 查找数据条数
+		String sn = request.getParameter("sn");
+		String name = request.getParameter("name");
+		String type = request.getParameter("type");
+		String status = request.getParameter("status");
 		int temp = limit;
 		if(page != 1) {
 			page = (page - 1) * temp;
 		}else {
 			page = 0;
 		}
-		HashMap<String, Object> result = (HashMap<String, Object>) equipmentService.selectEquimentExtByPage(page, limit);
+		EquipmentExt equipmentExt = new EquipmentExt();
+		equipmentExt.setName(name);
+		equipmentExt.setSn(sn);
+		equipmentExt.setType(type);
+		equipmentExt.setStatus(status);
+		paramMap.put("page", page);
+		paramMap.put("limit", limit);
+		paramMap.put("sn", sn);
+		paramMap.put("name", name);
+		paramMap.put("type", type);
+		paramMap.put("status", status);
+		HashMap<String, Object> result = (HashMap<String, Object>) equipmentService.selectEquimentExtByPage(paramMap,equipmentExt);
 		result.put("msg","");
 		return result;
 	}
