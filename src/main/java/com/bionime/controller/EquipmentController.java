@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Equipment;
@@ -36,7 +35,7 @@ import com.bionime.utils.SystemResult;
 @RestController
 @RequestMapping("/equipment")
 public class EquipmentController {
-	
+
 	@Autowired
 	private EquipmentService equipmentService;
 
@@ -95,15 +94,27 @@ public class EquipmentController {
 		return result;
 	}
 	
-	@RequestMapping(value="/selectEquimentExt",method = RequestMethod.POST)
-	public SystemResult selectEquimentExt(@RequestBody EquipmentExt equipmentExt){
-		if(equipmentExt.getSn()!=null){
-			equipmentExt.setSn("%"+equipmentExt.getSn()+"%");
+	@RequestMapping(value = "/selectCountByStatus", method = RequestMethod.POST)
+	public Object selectCountByStatus() {
+		HashMap<String, Object> result = (HashMap<String, Object>) equipmentService.selectCountByStatus();
+		return result;
+	}
+	
+	@RequestMapping(value = "/updateEquimentById", method = RequestMethod.POST)
+	public SystemResult updateEquimentById(@RequestBody Equipment equipment) {
+		SystemResult result = equipmentService.updateEquimentExtById(equipment);
+		return result;
+	}
+	
+	@RequestMapping(value = "/selectEquimentExt", method = RequestMethod.POST)
+	public SystemResult selectEquimentExt(@RequestBody EquipmentExt equipmentExt) {
+		if (equipmentExt.getSn() != null) {
+			equipmentExt.setSn("%" + equipmentExt.getSn() + "%");
 		}
 		SystemResult result = equipmentService.selectEquimentExt(equipmentExt);
 		return result;
 	}
-	
+	//分页查询加模糊查询
 	@RequestMapping(value = "/selectEquimentExtByPage", method = RequestMethod.GET)
 	public Object selectEquimentExtByPage(HttpServletRequest request) {
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
@@ -114,9 +125,9 @@ public class EquipmentController {
 		String type = request.getParameter("type");
 		String status = request.getParameter("status");
 		int temp = limit;
-		if(page != 1) {
+		if (page != 1) {
 			page = (page - 1) * temp;
-		}else {
+		} else {
 			page = 0;
 		}
 		EquipmentExt equipmentExt = new EquipmentExt();
@@ -130,8 +141,10 @@ public class EquipmentController {
 		paramMap.put("name", name);
 		paramMap.put("type", type);
 		paramMap.put("status", status);
-		HashMap<String, Object> result = (HashMap<String, Object>) equipmentService.selectEquimentExtByPage(paramMap,equipmentExt);
-		result.put("msg","");
+		HashMap<String, Object> result = (HashMap<String, Object>) equipmentService.selectEquimentExtByPage(paramMap,
+				equipmentExt);
+		result.put("msg", "");
 		return result;
 	}
+
 }

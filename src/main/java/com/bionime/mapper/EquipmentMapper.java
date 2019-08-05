@@ -14,6 +14,8 @@ public interface EquipmentMapper {
 	List<Equipment> selectByType(EquipmentType equipmentType);
 	List<Equipment> selectBySn(List<String> sns);
 	int statusChange(@Param("ids")List<String> ids,@Param("status")int status);
+	int updateEquimentExtById(Equipment equipment);
+	int selectCountByStatus(@Param("type")String type,@Param("status")int status,@Param("name")String name);
 	List<EquipmentExt> selectEquimentExt(EquipmentExt equipmentExt);
 	List<EquipmentExt> selectEquimentExtByPage(HashMap<String, Object> map);
 }

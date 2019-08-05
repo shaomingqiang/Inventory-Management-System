@@ -83,14 +83,12 @@
 </body>
 <script type="text/html" id="toolbarDemo">
 		<div class = "layui-btn-container" > 
-            <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 获取选中行数据 </button>
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button > 
-            <button class = "layui-btn layui-btn-sm" lay-event = "isAll" > 验证是否全选</button>
+            <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 批量修改状态 </button>
 			<button class="layui-btn" onclick="xadmin.open('添加设备','toPage?url=/static/Warehousing-add',700,500)">
-							<i class="layui-icon"></i>添加
+							<i class="layui-icon"></i>添加设备
 						</button>
 			<button class="layui-btn" onclick="xadmin.open('批量添加设备','toPage?url=/static/Warehousing-adds',700,500)">
-							<i class="layui-icon"></i>批量添加
+							<i class="layui-icon"></i>批量添加设备
 						</button>
 			<button class="layui-btn" onclick="xadmin.open('添加设备类型','toPage?url=/static/equipmentType-add',700,500)">
 							<i class="layui-icon"></i>添加设备类型
@@ -102,7 +100,7 @@
 	</script>
 <script type="text/html" id="barDemo">
 		<div class="layui-btn-container">
-		<a title="编辑" class="layui-btn layui-btn-mini" onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">编辑</a>
+		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
 		<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
 		</div>	
 </script>
@@ -114,16 +112,17 @@ layui.use(['form','table','jquery'], function() {
     table.render({
         elem: '#LAY_table_equipment'
         ,url: 'equipment/selectEquimentExtByPage'
+        ,cellMinWidth: 100
         ,cols: [[
             {checkbox: true, fixed: true}
-            ,{field:'id', title: 'ID', width:80, sort: true}
-            ,{field:'sn', title: '序列号', width:150, sort: true}
-            ,{field:'name', title: '设备类型', width:150, sort: true}
-            ,{field:'type', title: '设备型号', width:150, sort: true}
-            ,{field:'in_time', title: '入库时间', sort: true, width:120}
-            ,{field:'property_no', title: '财产编号', width:150}
+            ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
+            ,{field:'sn', title: '序列号', width:150, sort: true,align:'center'}
+            ,{field:'name', title: '设备类型', width:150, sort: true,align:'center'}
+            ,{field:'type', title: '设备型号', width:150, sort: true,align:'center'}
+            ,{field:'in_time', title: '入库时间', sort: true, width:140,align:'center'}
+            ,{field:'property_no', title: '财产编号', width:150,align:'center'}
             ,{field:'status', width:80, title: '状态',align:'center'}
-            ,{field:'', title: '操作',align:'center', width:250,toolbar:'#barDemo'}
+            ,{fixed: 'right', title: '操作',align:'center', width:249,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -232,13 +231,27 @@ layui.use(['form','table','jquery'], function() {
 	layui.use('table', function() {
 		var table = layui.table;
 
-		//监听单元格编辑
-		table.on('edit(test)', function(obj) {
-			var value = obj.value //得到修改后的值
-			, data = obj.data //得到所在行所有键值
-			, field = obj.field; //得到字段
-			layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
-		});
+		//监听工具条
+		  table.on('tool(test)', function(obj){
+		    var data = obj.data;
+		   if(obj.event === 'edit'){
+			   console.log(JSON.stringify(data));
+			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */
+			  layer.open({
+	                title: '编辑',
+	                type: 2,
+	                area: [ '800px', '600px'], //宽高
+	                maxmin: true, //开启最大化最小化按钮
+	                content: "toPage?url=/static/Warehousing-edit",
+	                success: function (layero, index) {
+	                    // 获取子页面的iframe
+	                    var iframe = window['layui-layer-iframe' + index];
+	                    // 向子页面的全局函数child传参
+	                    iframe.child(JSON.stringify(data)); 
+	                }
+              })
+		    }
+		  });
 
 		//头工具栏事件
 		table.on('toolbar(test)', function(obj) {
@@ -246,14 +259,36 @@ layui.use(['form','table','jquery'], function() {
 			switch (obj.event) {
 			case 'getCheckData':
 				var data = checkStatus.data;
-				layer.alert(JSON.stringify(data));
-				break;
-			case 'getCheckLength':
-				var data = checkStatus.data;
-				layer.msg('选中了：' + data.length + ' 个');
-				break;
-			case 'isAll':
-				layer.msg(checkStatus.isAll ? '全选' : '未全选');
+				if(data.length <= 0){
+					layer.alert("请先选择数据!");
+				}else{
+					for(var i=0;i < data.length;i++){
+						if(i == data.length-1){
+							if(data[i].status != data[0].status){
+								layer.alert("选择的数据状态不一致!");
+								return;
+							}
+						}else{
+							if(data[i].status != data[i+1].status){
+								layer.alert("选择的数据状态不一致!");
+								return;
+							}
+						}
+					}
+					layer.open({
+		                title: '批量修改状态',
+		                type: 2,
+		                area: [ '500px', '400px'], //宽高
+		                maxmin: true, //开启最大化最小化按钮
+		                content: "toPage?url=/static/update-status",
+		                success: function (layero, index) {
+		                    // 获取子页面的iframe
+		                    var iframe = window['layui-layer-iframe' + index];
+		                    // 向子页面的全局函数child传参
+		                    iframe.child(JSON.stringify(data)); 
+		                }
+		            })
+				}
 				break;
 			}
 			;

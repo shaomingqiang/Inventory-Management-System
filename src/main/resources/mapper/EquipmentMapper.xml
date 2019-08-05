@@ -52,7 +52,34 @@
 			#{item}
 		</foreach>
 	</update>
-
+	<!-- 根据id修改设备信息 -->
+	<update id="updateEquimentExtById">
+		update equipment e
+		<set>
+			<if test="status != null">
+				e.status=#{status}
+			</if>
+			<if test="status != null">
+				,e.property_no=#{property_no}
+			</if>
+		</set>
+		where
+		e.id=#{id}
+	</update>
+	<!-- 根据设备型号和状态统计数量 -->
+	<select id="selectCountByStatus" resultType="int">
+	SELECT count(*) from equipment e,equipment_type et 
+		where e.et_id=et.id 
+		<if test="type!=null and type!=''">
+			and	et.type=#{type}
+		</if>
+		<if test="status!=null and status!=''">
+			and e.status=#{status}
+		</if>
+		<if test="name!=null and name!=''">
+			and et.name=#{name}
+		</if>
+	</select>
 	<!-- 所有设备的信息，外联EquipmentType -->
 	<!-- <select id="selectEquimentExt" resultMap="EquipmentAndTypeRsMap"> -->
 	<select id="selectEquimentExt"
@@ -118,6 +145,6 @@
             <![CDATA[
                 LIMIT #{page},#{limit}
             ]]>
-        </if>
+		</if>
 	</select>
 </mapper>

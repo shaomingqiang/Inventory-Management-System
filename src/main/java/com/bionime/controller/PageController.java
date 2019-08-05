@@ -1,5 +1,6 @@
 package com.bionime.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class PageController {
+	
 	// 页面跳转
 	@RequestMapping(value = "/toPage", method = RequestMethod.GET)
-	public String login(HttpServletRequest request) {
+	public String toPage(HttpServletRequest request) {
 		String url = request.getParameter("url");
 		return url;
 	}
