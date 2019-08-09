@@ -35,8 +35,10 @@ public class DepartmentController {
 	 * @param department
 	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
-	public void insert(@RequestBody Department department) {
-		departmentService.insert(department);
+	public SystemResult insert(@RequestBody Department department) {
+		SystemResult result = departmentService.insert(department);
+		return result;
+		
 	}
 	
 	@RequestMapping(value="/deptAndHosp",method = RequestMethod.POST)

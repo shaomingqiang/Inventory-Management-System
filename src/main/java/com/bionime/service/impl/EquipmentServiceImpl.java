@@ -44,7 +44,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private EquipmentMapper equipmentMapper;
 	
 	@Autowired
-	private EquipmentTypeMapper EquipmentTypeMapper;
+	private EquipmentTypeMapper equipmentTypeMapper;
 
 	@Override
 	public SystemResult insert(Equipment equipment) {
@@ -83,7 +83,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			equipmentsList.add(equipmentForInsert);
 		}
 		equipmentMapper.insert(equipmentsList);
-		EquipmentTypeMapper.countIncrease(equipment.getEt_id(), snSize);		
+		equipmentTypeMapper.countIncrease(equipment.getEt_id(), snSize);		
 		return SystemResult.ok();
 	}
 

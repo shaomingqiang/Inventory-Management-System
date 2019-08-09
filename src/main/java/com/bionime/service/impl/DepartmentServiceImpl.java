@@ -29,9 +29,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private DepartmentMapper departmentMapper;
 	
 	@Override
-	public void insert(Department department) {
+	public SystemResult insert(Department department) {
 		departmentMapper.insert(department);
-
+		return SystemResult.ok();
 	}
 
 	@Override

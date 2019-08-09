@@ -3,7 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.HospitalMapper">
+	
+	<!-- 医院新增 -->
 	<insert id="insert"  parameterType="com.bionime.pojo.Hospital">
-		
+		insert into hospital (name,province,level,remarks,delete_tag)
+           values(#{name},#{province},#{level},#{remarks},'0')
 	</insert>
+	
+	<!-- 根据省份查找医院 -->
+	<select id="selectByProvince" parameterType="com.bionime.pojo.Hospital" resultType="com.bionime.pojo.Hospital">
+		select * from hospital where province=#{province}
+	</select>
 </mapper>

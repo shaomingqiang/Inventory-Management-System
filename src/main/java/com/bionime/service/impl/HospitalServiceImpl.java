@@ -1,5 +1,7 @@
 package com.bionime.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bionime.mapper.HospitalMapper;
 import com.bionime.pojo.Hospital;
 import com.bionime.service.HospitalService;
+import com.bionime.utils.SystemResult;
 
 
 /**
@@ -26,9 +29,16 @@ public class HospitalServiceImpl implements HospitalService {
 	private HospitalMapper hospitalMapper;
 	
 	@Override
-	public void insert(Hospital hospital) {
+	public SystemResult insert(Hospital hospital) {
 		hospitalMapper.insert(hospital);
+		return SystemResult.ok();
 
+	}
+
+	@Override
+	public SystemResult selectByProvince(Hospital hospital) {
+		List<Hospital> result = hospitalMapper.selectByProvince(hospital);
+		return SystemResult.ok(result);
 	}
 
 }

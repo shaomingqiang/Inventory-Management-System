@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Hospital;
 import com.bionime.service.HospitalService;
+import com.bionime.utils.SystemResult;
 
 
 /**
@@ -33,7 +34,21 @@ public class HospitalController {
 	 * @param hospital
 	 */
 	@RequestMapping(value="/insert",method = RequestMethod.POST)
-	public void insert(@RequestBody Hospital hospital) {
-		hospitalService.insert(hospital);
+	public SystemResult insert(@RequestBody Hospital hospital) {
+		SystemResult result = hospitalService.insert(hospital);
+		return result;
+	}
+	
+	/**
+	 * 根据省份查询医院
+	 * <p>Title: insert</p>
+	 * <p>Description: </p>
+	 * @param hospital
+	 * @return
+	 */
+	@RequestMapping(value="/selectByProvince",method = RequestMethod.POST)
+	public SystemResult selectByProvince(@RequestBody Hospital hospital) {
+		SystemResult result = hospitalService.selectByProvince(hospital);
+		return result;
 	}
 }

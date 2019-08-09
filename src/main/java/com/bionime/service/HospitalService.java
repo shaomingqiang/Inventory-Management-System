@@ -1,7 +1,11 @@
 package com.bionime.service;
 
+import java.util.List;
+
 import com.bionime.pojo.Hospital;
+import com.bionime.utils.SystemResult;
 
 public interface HospitalService {
-	void insert(Hospital hospital);
+	SystemResult insert(Hospital hospital);
+	SystemResult selectByProvince(Hospital hospital);
 }

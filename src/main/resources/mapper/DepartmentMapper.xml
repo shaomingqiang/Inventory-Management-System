@@ -16,10 +16,6 @@
 		</association>
 		
 	</resultMap>
-
-	<insert id="insert"  parameterType="com.bionime.pojo.Department">
-		
-	</insert>
 	
 	<select id="findDeptAndHosp" resultType="com.bionime.pojo.DepartmentExt">
 		<!-- select 
@@ -56,4 +52,10 @@
 		from department,hospital
 		where department.h_id=hospital.id
 	</select>
+	
+	<!-- 科室新增 -->
+	<insert id="insert"  parameterType="com.bionime.pojo.Department">
+		insert into department (name,h_id,remarks,delete_tag)
+           values(#{name},#{h_id},#{remarks},'0')
+	</insert>
 </mapper>
