@@ -34,34 +34,50 @@
 				<div class="layui-card">
 					<div class="layui-card-body ">
 						<form class="layui-form layui-col-space5">
-							<div class="layui-inline layui-show-xs-block">
-								<input id="sn" type="text" name="sn" placeholder="序列号"
-									autocomplete="off" class="layui-input">
+							<div class="layui-input-inline">
+								<select name="" id="select_province" lay-filter="province_filter" lay-verify="select_province" class="layui-input">
+								<option value="">省份选择</option>
+								<option value="江苏省">江苏省</option>
+								<option value="北京市">北京市</option>
+								<option value="天津市">天津市</option>
+								<option value="上海市">上海市</option>
+								<option value="重庆市">重庆市</option>
+								<option value="河南省">河南省</option>
+								<option value="河北省">河北省</option>
+								<option value="黑龙江省">黑龙江省</option>
+								<option value="辽宁省">辽宁省</option>
+								<option value="吉林省">吉林省</option>
+								<option value="湖南省">湖南省</option>
+								<option value="湖北省">湖北省</option>
+								<option value="安徽省">安徽省</option>
+								<option value="山东省">山东省</option>
+								<option value="浙江省">浙江省</option>
+								<option value="江西省">江西省</option>
+								<option value="甘肃省">甘肃省</option>
+								<option value="云南省">云南省</option>
+								<option value="山西省">山西省</option>
+								<option value="陕西省">陕西省</option>
+								<option value="福建省">福建省</option>
+								<option value="贵州省">贵州省</option>
+								<option value="广东省">广东省</option>
+								<option value="青海省">青海省</option>
+								<option value="四川省">四川省</option>
+								<option value="海南省">海南省</option>
+								<option value="台湾省">台湾省</option>
+								<option value="广西壮族自治区">广西壮族自治区</option>
+								<option value="内蒙古自治区">内蒙古自治区</option>
+								<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+								<option value="西藏自治区">西藏自治区</option>
+								<option value="宁夏回族自治区">宁夏回族自治区</option>
+								<option value="宁夏回族自治区">香港特别行政区</option>
+								<option value="宁夏回族自治区">澳门特别行政区</option>
+							</select>
 							</div>
 							<div class="layui-input-inline">
-								<select name="name" id="name" lay-filter="Type_filter"
-									lay-search lay-verify="select_base_type" class="layui-input">
-									<option value="">设备类型</option>
-								</select>
-							</div>
-							<div class="layui-input-inline">
-								<select name="type" id="type" lay-search
-									lay-filter="Model_filter" lay-verify="select_base_modle"
+								<select name="hospital" id="hospital"
+									lay-filter="hospital_filter" lay-verify="select_hospital"
 									class="layui-input">
-									<option value="">设备型号</option>
-								</select>
-							</div>
-							<div class="layui-input-inline">
-								<select name="status" id="status" lay-search
-									lay-filter="Status_filter" lay-verify="select_base_status"
-									class="layui-input">
-									<option value="">状态</option>
-									<option value="10">在库</option>
-									<option value="20">在院</option>
-									<option value="30">出库</option>
-									<option value="40">借用</option>
-									<option value="50">返修</option>
-									<option value="60">审核</option>
+									<option value="">医院选择</option>
 								</select>
 							</div>
 							<div class="layui-inline layui-show-xs-block">
@@ -83,20 +99,17 @@
 </body>
 <script type="text/html" id="toolbarDemo">
 		<div class = "layui-btn-container" > 
-            <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 批量修改状态 </button>
-			<button class="layui-btn" onclick="xadmin.open('添加设备','toPage?url=/static/Warehousing-add',800,600)">
-							<i class="layui-icon"></i>添加设备
+			<button class="layui-btn" onclick="xadmin.open('添加医院','toPage?url=/static/hospital-add',800,600)">
+							<i class="layui-icon"></i>添加医院
 						</button>
-			<button class="layui-btn" onclick="xadmin.open('批量添加设备','toPage?url=/static/Warehousing-adds',800,600)">
-							<i class="layui-icon"></i>批量添加设备
-						</button>
-			<button class="layui-btn" onclick="xadmin.open('添加设备类型和型号','toPage?url=/static/equipmentModel-add',800,600)">
-							<i class="layui-icon"></i>添加设备类型和型号
+			<button class="layui-btn" onclick="xadmin.open('添加科室','toPage?url=/static/department-add',800,600)">
+							<i class="layui-icon"></i>添加科室
 						</button>
 		</div>
 	</script>
 <script type="text/html" id="barDemo">
 		<div class="layui-btn-container">
+		<a title="详情" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="details" onclick="" href="javascript:;">详情</a>
 		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
 		<a title="删除" lay-event="del" href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
 		</div>	
@@ -113,13 +126,12 @@ layui.use(['form','table','jquery'], function() {
         ,cols: [[
             {checkbox: true, fixed: true}
             ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
-            ,{field:'sn', title: '序列号', width:150, sort: true,align:'center'}
-            ,{field:'name', title: '设备类型', width:150, sort: true,align:'center'}
-            ,{field:'type', title: '设备型号', width:150, sort: true,align:'center'}
-            ,{field:'in_time', title: '入库时间', sort: true, width:140,align:'center'}
-            ,{field:'property_no', title: '财产编号', width:150,align:'center'}
-            ,{field:'status', width:80, title: '状态',align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:249,toolbar:'#barDemo'}
+            ,{field:'province', title: '省份', width:250,align:'center'}
+            ,{field:'hospital', title: '医院', width:250,align:'center'}
+            ,{field:'d_number', title: '科室数量',sort: true, width:100,align:'center'}
+            ,{field:'m_use', title: 'Meter在用数量',sort: true, width:122,align:'center'}
+            ,{field:'m_all', title: 'Meter全部数量',sort: true, width:122,align:'center'}
+            ,{fixed: 'right', title: '操作',align:'center', width:225,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -246,6 +258,22 @@ layui.use(['form','table','jquery'], function() {
 		//监听工具条
 		  table.on('tool(test)', function(obj){
 		    var data = obj.data;
+		    if(obj.event === 'details'){
+		    	console.log(JSON.stringify(data));
+		    	layer.open({
+	                title: '详情',
+	                type: 2,
+	                area: [ '800px', '627px'], //宽高
+	                maxmin: true, //开启最大化最小化按钮
+	                content: "toPage?url=/static/department-detail",
+	                success: function (layero, index) {
+	                    // 获取子页面的iframe
+	                    var iframe = window['layui-layer-iframe' + index];
+	                    // 向子页面的全局函数child传参
+	                    iframe.child(JSON.stringify(data)); 
+	                }
+              })
+		    }
 		   if(obj.event === 'edit'){
 			   console.log(JSON.stringify(data));
 			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */
@@ -254,7 +282,7 @@ layui.use(['form','table','jquery'], function() {
 	                type: 2,
 	                area: [ '800px', '600px'], //宽高
 	                maxmin: true, //开启最大化最小化按钮
-	                content: "toPage?url=/static/Warehousing-edit",
+	                content: "toPage?url=/static/hospital-edit",
 	                success: function (layero, index) {
 	                    // 获取子页面的iframe
 	                    var iframe = window['layui-layer-iframe' + index];

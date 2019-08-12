@@ -101,8 +101,8 @@ public class EquipmentController {
 	}
 	
 	@RequestMapping(value = "/updateEquimentById", method = RequestMethod.POST)
-	public SystemResult updateEquimentById(@RequestBody Equipment equipment) {
-		SystemResult result = equipmentService.updateEquimentExtById(equipment);
+	public SystemResult updateEquimentById(Integer id) {
+		SystemResult result = equipmentService.updateEquimentExtById(id);
 		return result;
 	}
 	

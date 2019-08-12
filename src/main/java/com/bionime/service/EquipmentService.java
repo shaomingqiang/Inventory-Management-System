@@ -14,7 +14,7 @@ public interface EquipmentService {
 	SystemResult insert(Equipment equipment);
 	SystemResult selectByType(EquipmentType equipmentType);
 	SystemResult statusChange(String ids,int status);
-	SystemResult updateEquimentExtById(Equipment equipment);
+	SystemResult updateEquimentExtById(int id);
 	Map<String, Object> selectCountByStatus();
 	SystemResult selectEquimentExt(EquipmentExt equipmentExt);
 	Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> map,EquipmentExt equipmentExt);

@@ -34,7 +34,7 @@
 						class="x-red">*</span>设备类型
 					</label>
 					<div class="layui-input-inline">
-						<input type="text" id="select_base_type" name="select_base_type" required="" lay-verify="select_base_type"
+						<input type="text" id="select_base_type" name="name" required="" lay-verify="select_base_type"
 							autocomplete="off" class="layui-input">
 					</div>
 				</div>
@@ -61,19 +61,16 @@
 
 			//监听提交
 			form.on('submit(add)', function(data) {
-				console.log(data);
-				var data = JSON.stringify(data.field);
-				alert(data);
+				var equipmentName = $("#select_base_type").val();
+				alert(equipmentName);
 				$.ajax({
 					//请求方式
 					type : "post",
 					//url 
-					url : "http://localhost/equipment/insert",
+					url : "equipmentType/insertName",
 					//把Js的对象或数组序列化一个son字符串
-					data : data,
-					//contentType 
-					contentType : "application/json; charset=utf-8",
-					//datarype 
+					data : "equipmentName="+ equipmentName,
+					//dataType 
 					dataType : "json",
 					//result 为请求的返回结果对象
 					success : function(result) {

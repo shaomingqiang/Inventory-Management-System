@@ -53,14 +53,8 @@
 						class="x-red">*</span>设备类型
 					</label>
 					<div class="layui-input-inline">
-						<select lay-filter="Type_filter" name="et_id"
-							id="select_base_type" lay-verify="select_base_type"
-							class="layui-input">
-							<option value="">设备类型</option>
-							<option value="1">血糖仪</option>
-							<option value="2">路由器</option>
-							<option value="3">电脑</option>
-						</select>
+						<input type="text" id="select_base_type" name="name" lay-verify="select_base_type"
+							autocomplete="off" class="layui-input">
 					</div>
 				</div>
 
@@ -69,7 +63,7 @@
 						class="x-red">*</span>设备型号
 					</label>
 					<div class="layui-input-inline">
-						<input type="text" id="select_base_model" name="select_base_model" lay-verify="select_base_model"
+						<input type="text" id="select_base_model" name="type" lay-verify="select_base_model"
 							autocomplete="off" class="layui-input">
 					</div>
 				</div>
@@ -84,7 +78,24 @@
 		layui.use([ 'form', 'layer', 'jquery' ], function() {
 			$ = layui.jquery;
 			var form = layui.form, layer = layui.layer;
-
+			$(document).ready(function() {　　
+				$.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "get",
+					url: "equipmentType/selectDistinctEquipmentType",
+					dataType: "json",
+					data:"",
+					success: function(data) {
+						$.each(data.data, function(i, item) {
+							$('#name').append(new Option(item, item));
+						});
+						form.render("select");
+					},
+					error:function(){
+						
+					}
+				});
+			});
 			//自定义验证规则
 			form.verify({
 				select_base_type : function(value) {
@@ -108,7 +119,7 @@
 					//请求方式
 					type : "post",
 					//url 
-					url : "http://localhost/equipment/insert",
+					url : "equipmentType/insert",
 					//把Js的对象或数组序列化一个son字符串
 					data : data,
 					//contentType 

@@ -52,16 +52,11 @@
 			#{item}
 		</foreach>
 	</update>
-	<!-- 根据id修改设备信息 -->
+	<!-- 根据id修改设备delete_tag,伪删除 -->
 	<update id="updateEquimentExtById">
 		update equipment e
 		<set>
-			<if test="status != null">
-				e.status=#{status}
-			</if>
-			<if test="status != null">
-				,e.property_no=#{property_no}
-			</if>
+			e.delete_tag=1
 		</set>
 		where
 		e.id=#{id}

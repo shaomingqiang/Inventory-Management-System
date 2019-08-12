@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="../css/xadmin.css">
 <script type="text/javascript" src="../lib/layui/layui.js"
 	charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/xadmin.js"></script>
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 <!--[if lt IE 9]>
@@ -42,10 +43,78 @@
 						</select>
 					</div>
 				</div>
+
+				<div id="show_div" style="display: none;">
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label"><span
+						class="x-red">*</span>省份</label>
+						<div class="layui-input-inline">
+							<select name="" id="select_province" lay-filter="province_filter"
+								lay-search="" lay-verify="select_province" class="layui-input">
+								<option value="">省份选择</option>
+								<option value="江苏省">江苏省</option>
+								<option value="北京市">北京市</option>
+								<option value="天津市">天津市</option>
+								<option value="上海市">上海市</option>
+								<option value="重庆市">重庆市</option>
+								<option value="河南省">河南省</option>
+								<option value="河北省">河北省</option>
+								<option value="黑龙江省">黑龙江省</option>
+								<option value="辽宁省">辽宁省</option>
+								<option value="吉林省">吉林省</option>
+								<option value="湖南省">湖南省</option>
+								<option value="湖北省">湖北省</option>
+								<option value="安徽省">安徽省</option>
+								<option value="山东省">山东省</option>
+								<option value="浙江省">浙江省</option>
+								<option value="江西省">江西省</option>
+								<option value="甘肃省">甘肃省</option>
+								<option value="云南省">云南省</option>
+								<option value="山西省">山西省</option>
+								<option value="陕西省">陕西省</option>
+								<option value="福建省">福建省</option>
+								<option value="贵州省">贵州省</option>
+								<option value="广东省">广东省</option>
+								<option value="青海省">青海省</option>
+								<option value="四川省">四川省</option>
+								<option value="海南省">海南省</option>
+								<option value="台湾省">台湾省</option>
+								<option value="广西壮族自治区">广西壮族自治区</option>
+								<option value="内蒙古自治区">内蒙古自治区</option>
+								<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+								<option value="西藏自治区">西藏自治区</option>
+								<option value="宁夏回族自治区">宁夏回族自治区</option>
+								<option value="宁夏回族自治区">香港特别行政区</option>
+								<option value="宁夏回族自治区">澳门特别行政区</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label"><span
+						class="x-red">*</span>医院</label>
+						<div class="layui-input-inline">
+							<select name="" id="select_hospital" lay-filter="hospital_filter"
+								lay-verify="select_hospital" class="layui-input">
+								<option value="">医院选择</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label">科室</label>
+						<div class="layui-input-inline">
+							<select name="" id="select_department"
+								lay-filter="department_filter" lay-verify="select_department"
+								class="layui-input">
+								<option value="">科室选择</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
 				<!-- 存放id的span -->
 				<div class="layui-form-item">
 					<div class="layui-input-inline">
-						<input name="ids" id="ids" style="display:none"></input>
+						<input name="ids" id="ids" style="display: none"></input>
 					</div>
 				</div>
 
@@ -68,7 +137,8 @@
 					type : "post",
 					//url 
 					url : "equipment/statusChange",
-					data: "id=" + data.field.ids + "&status=" + data.field.status,
+					data : "id=" + data.field.ids + "&status="
+							+ data.field.status,
 					//datarype 
 					dataType : "json",
 					//result 为请求的返回结果对象
@@ -103,14 +173,17 @@
 	<script>
 		function child(d) {
 			var obj = JSON.parse(d);
+			if(obj[0].status=="在院"){
+				$('#show_div').css('display', 'block');
+			}
 			if (obj.length == 1) {
 				$("#status option").each(function() {
-					if ($(this).text() == obj.status) {
+					if ($(this).text() == obj[0].status) {
 						$(this).attr("selected", true);
 					}
 				});
 				$(".layui-form-select dl dd").each(function() {
-					if ($(this).text() == obj.status) {
+					if ($(this).text() == obj[0].status) {
 						$(this).addClass("layui-this");
 					}
 				});
@@ -141,15 +214,33 @@
 			}
 			$("#ids").val(ids);
 		}
-	</script>
-	<script>
-		var _hmt = _hmt || [];
-		(function() {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
+		layui.use([ 'form', 'layer', 'jquery' ], function() {
+			$ = layui.jquery;
+			var form = layui.form, layer = layui.layer;
+
+			form.on('select(Status_filter)', function(data) {
+				if (data.value == "20") {
+					$('#show_div').css('display', 'block');
+					//自定义验证规则
+					form.verify({
+						select_province : function(value) {
+							if (value == "") {
+								return "所选省份不能为空";
+							}
+						},
+						select_hospital : function(value) {
+							if (value == "") {
+								return "所选医院不能为空";
+							}
+						}
+					});
+				} else {
+					$("#select_province").attr("lay-verify","");
+					$("#select_hospital").attr("lay-verify","");
+					$('#show_div').css('display', 'none');
+				}
+			});
+		});
 	</script>
 </body>
 

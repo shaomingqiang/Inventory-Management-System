@@ -19,60 +19,12 @@
 </head>
 
 <body>
-	<div class="x-nav">
-		<span class="layui-breadcrumb"> <a href="">首页</a> <a href="">演示</a>
-			<a> <cite>导航元素</cite></a>
-		</span> <a class="layui-btn layui-btn-small"
-			style="line-height: 1.6em; margin-top: 3px; float: right"
-			onclick="location.reload()" title="刷新"> <i
-			class="layui-icon layui-icon-refresh" style="line-height: 30px"></i>
-		</a>
-	</div>
 	<div class="layui-fluid">
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md12">
 				<div class="layui-card">
-					<div class="layui-card-body ">
-						<form class="layui-form layui-col-space5">
-							<div class="layui-inline layui-show-xs-block">
-								<input id="sn" type="text" name="sn" placeholder="序列号"
-									autocomplete="off" class="layui-input">
-							</div>
-							<div class="layui-input-inline">
-								<select name="name" id="name" lay-filter="Type_filter"
-									lay-search lay-verify="select_base_type" class="layui-input">
-									<option value="">设备类型</option>
-								</select>
-							</div>
-							<div class="layui-input-inline">
-								<select name="type" id="type" lay-search
-									lay-filter="Model_filter" lay-verify="select_base_modle"
-									class="layui-input">
-									<option value="">设备型号</option>
-								</select>
-							</div>
-							<div class="layui-input-inline">
-								<select name="status" id="status" lay-search
-									lay-filter="Status_filter" lay-verify="select_base_status"
-									class="layui-input">
-									<option value="">状态</option>
-									<option value="10">在库</option>
-									<option value="20">在院</option>
-									<option value="30">出库</option>
-									<option value="40">借用</option>
-									<option value="50">返修</option>
-									<option value="60">审核</option>
-								</select>
-							</div>
-							<div class="layui-inline layui-show-xs-block">
-								<div class="layui-btn" data-type="reload" lay-submit=""
-									lay-filter="sreach">
-									<i class="layui-icon">&#xe615;</i>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="layui-card-body ">
+					<div class="layui-card-header">标题</div>
+					<div class="layui-card-body">
 						<table class="layui-table" id="LAY_table_equipment"
 							lay-filter="test"></table>
 					</div>
@@ -81,26 +33,7 @@
 		</div>
 	</div>
 </body>
-<script type="text/html" id="toolbarDemo">
-		<div class = "layui-btn-container" > 
-            <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 批量修改状态 </button>
-			<button class="layui-btn" onclick="xadmin.open('添加设备','toPage?url=/static/Warehousing-add',800,600)">
-							<i class="layui-icon"></i>添加设备
-						</button>
-			<button class="layui-btn" onclick="xadmin.open('批量添加设备','toPage?url=/static/Warehousing-adds',800,600)">
-							<i class="layui-icon"></i>批量添加设备
-						</button>
-			<button class="layui-btn" onclick="xadmin.open('添加设备类型和型号','toPage?url=/static/equipmentModel-add',800,600)">
-							<i class="layui-icon"></i>添加设备类型和型号
-						</button>
-		</div>
-	</script>
-<script type="text/html" id="barDemo">
-		<div class="layui-btn-container">
-		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
-		<a title="删除" lay-event="del" href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
-		</div>	
-</script>
+
 <script>
 layui.use(['form','table','jquery'], function() {
 	$ = layui.jquery;
@@ -111,15 +44,11 @@ layui.use(['form','table','jquery'], function() {
         ,url: 'equipment/selectEquimentExtByPage'
         ,cellMinWidth: 100
         ,cols: [[
-            {checkbox: true, fixed: true}
-            ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
-            ,{field:'sn', title: '序列号', width:150, sort: true,align:'center'}
-            ,{field:'name', title: '设备类型', width:150, sort: true,align:'center'}
-            ,{field:'type', title: '设备型号', width:150, sort: true,align:'center'}
-            ,{field:'in_time', title: '入库时间', sort: true, width:140,align:'center'}
-            ,{field:'property_no', title: '财产编号', width:150,align:'center'}
-            ,{field:'status', width:80, title: '状态',align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:249,toolbar:'#barDemo'}
+            {field:'id', title: 'ID', width:80, sort: true,align:'center'}
+            ,{field:'department', title: '科室',sort: true, width:220,align:'center'}
+            ,{field:'sn', title: '序列号', width:160,align:'center'}
+            ,{field:'time', title: '入科时间',sort: true, width:160,align:'center'}
+            ,{field:'delete_tag', title: '是否在用',sort: true, width:98,align:'center'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -128,8 +57,7 @@ layui.use(['form','table','jquery'], function() {
         ,response: {
         	statusCode: 200 //规定成功的状态码，默认：0
         }
-        ,toolbar:'#toolbarDemo'
-        ,height: 516
+        ,height: 467
     });
     active = {
  	    reload: function(){
@@ -246,6 +174,22 @@ layui.use(['form','table','jquery'], function() {
 		//监听工具条
 		  table.on('tool(test)', function(obj){
 		    var data = obj.data;
+		    if(obj.event === 'details'){
+		    	console.log(JSON.stringify(data));
+		    	layer.open({
+	                title: '详情',
+	                type: 2,
+	                area: [ '800px', '600px'], //宽高
+	                maxmin: true, //开启最大化最小化按钮
+	                content: "toPage?url=/static/hospital-list",
+	                success: function (layero, index) {
+	                    // 获取子页面的iframe
+	                    var iframe = window['layui-layer-iframe' + index];
+	                    // 向子页面的全局函数child传参
+	                    iframe.child(JSON.stringify(data)); 
+	                }
+              })
+		    }
 		   if(obj.event === 'edit'){
 			   console.log(JSON.stringify(data));
 			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */

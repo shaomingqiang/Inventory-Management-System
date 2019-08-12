@@ -140,8 +140,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult updateEquimentExtById(Equipment equipment) {
-		int updateEquimentExtById = equipmentMapper.updateEquimentExtById(equipment);
+	public SystemResult updateEquimentExtById(int id) {
+		int updateEquimentExtById = equipmentMapper.updateEquimentExtById(id);
 		return SystemResult.ok();
 	}
 
