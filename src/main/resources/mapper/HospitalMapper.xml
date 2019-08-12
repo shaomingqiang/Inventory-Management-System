@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bionime.mapper.HospitalMapper">
+
+	<!-- 医院新增 -->
+	<insert id="insert" parameterType="com.bionime.pojo.Hospital">
+		insert into hospital
+		(name,province,level,remarks,delete_tag)
+		values(#{name},#{province},#{level},#{remarks},'0')
+	</insert>
+
+	<!-- 根据医院名查找医院信息 -->
+	<select id="selectByName"
+		parameterType="java.lang.String"
+		resultType="com.bionime.pojo.Hospital">
+		select * from hospital where hospital.name=#{name}
+	</select>
+
+	<!-- 根据省份查找医院信息 -->
+	<select id="selectByProvince" parameterType="java.lang.String"
+		resultType="com.bionime.pojo.Hospital">
+		select * from hospital where hospital.province = #{province}
+	</select>
+
+	<!-- 根据id修改医院信息 -->
+	<update id="updateHospitalById">
+		update hospital a
+		<set>
+			<if test="name != null">
+				a.name=#{name}
+			</if>
+			<if test="province != null">
+				,a.province=#{province}
+			</if>
+			<if test="level != null">
+				,a.level=#{level}
+			</if>
+			<if test="remarks != null">
+				,a.remarks=#{remarks}
+			</if>
+		</set>
+		where
+		a.id=#{id}
+	</update>
+</mapper>
