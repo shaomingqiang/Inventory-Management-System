@@ -2,6 +2,8 @@ package com.bionime.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,7 @@ import com.bionime.utils.SystemResult;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserService userService;
 
@@ -69,6 +71,8 @@ public class UserController {
 		if (user != null) {
 			session.setAttribute("user", user);
 		}
+		logger.info("aaaaaaaaa");
+		logger.error("bbbbbbbbbbb");
 		return result;
 	}
 
