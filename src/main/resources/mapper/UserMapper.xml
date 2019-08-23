@@ -3,7 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.UserMapper">
-	<select id="findAll" resultType="com.bionime.pojo.User">
-		select * from user order by id;
+	<insert id="insert" parameterType="com.bionime.pojo.User">
+		
+	</insert>
+	
+	<select id="login" resultType="com.bionime.pojo.User" parameterType="com.bionime.utils.SystemResult">
+		select * from user where username=#{username} and password=#{password}
 	</select>
 </mapper>

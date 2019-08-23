@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+<meta charset="UTF-8">
+<title>欢迎页面-X-admin2.2</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+<link rel="stylesheet" href="../css/font.css">
+<link rel="stylesheet" href="../css/xadmin.css">
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/xadmin.js"></script>
+<!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+	<div class="x-nav">
+		<span class="layui-breadcrumb"> <a href="">首页</a> <a href="">演示</a>
+			<a> <cite>导航元素</cite></a>
+		</span> <a class="layui-btn layui-btn-small"
+			style="line-height: 1.6em; margin-top: 3px; float: right"
+			onclick="location.reload()" title="刷新"> <i
+			class="layui-icon layui-icon-refresh" style="line-height: 30px"></i>
+		</a>
+	</div>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body ">
+						<form class="layui-form layui-col-space5">
+							<div class="layui-input-inline">
+								<select name="province" id="select_province" lay-filter="province_filter" lay-verify="select_province" class="layui-input">
+								<option value="">省份选择</option>
+								<option value="江苏省">江苏省</option>
+								<option value="北京市">北京市</option>
+								<option value="天津市">天津市</option>
+								<option value="上海市">上海市</option>
+								<option value="重庆市">重庆市</option>
+								<option value="河南省">河南省</option>
+								<option value="河北省">河北省</option>
+								<option value="黑龙江省">黑龙江省</option>
+								<option value="辽宁省">辽宁省</option>
+								<option value="吉林省">吉林省</option>
+								<option value="湖南省">湖南省</option>
+								<option value="湖北省">湖北省</option>
+								<option value="安徽省">安徽省</option>
+								<option value="山东省">山东省</option>
+								<option value="浙江省">浙江省</option>
+								<option value="江西省">江西省</option>
+								<option value="甘肃省">甘肃省</option>
+								<option value="云南省">云南省</option>
+								<option value="山西省">山西省</option>
+								<option value="陕西省">陕西省</option>
+								<option value="福建省">福建省</option>
+								<option value="贵州省">贵州省</option>
+								<option value="广东省">广东省</option>
+								<option value="青海省">青海省</option>
+								<option value="四川省">四川省</option>
+								<option value="海南省">海南省</option>
+								<option value="台湾省">台湾省</option>
+								<option value="广西壮族自治区">广西壮族自治区</option>
+								<option value="内蒙古自治区">内蒙古自治区</option>
+								<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+								<option value="西藏自治区">西藏自治区</option>
+								<option value="宁夏回族自治区">宁夏回族自治区</option>
+								<option value="宁夏回族自治区">香港特别行政区</option>
+								<option value="宁夏回族自治区">澳门特别行政区</option>
+							</select>
+							</div>
+							<div class="layui-input-inline">
+								<select name="hospital" id="hospital"
+									lay-filter="hospital_filter" lay-verify="select_hospital"
+									class="layui-input">
+									<option value="">医院选择</option>
+								</select>
+							</div>
+							<div class="layui-inline layui-show-xs-block">
+								<div class="layui-btn" data-type="reload" lay-submit=""
+									lay-filter="sreach">
+									<i class="layui-icon">&#xe615;</i>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="layui-card-body ">
+						<table class="layui-table" id="LAY_table_hospital"
+							lay-filter="test"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/html" id="toolbarDemo">
+		<div class = "layui-btn-container" > 
+			<button class="layui-btn" onclick="xadmin.open('添加医院','toPage?url=/static/hospital-add',800,600)">
+							<i class="layui-icon"></i>添加医院
+						</button>
+			<button class="layui-btn" onclick="xadmin.open('添加科室','toPage?url=/static/department-add',800,600)">
+							<i class="layui-icon"></i>添加科室
+						</button>
+		</div>
+	</script>
+<script type="text/html" id="barDemo">
+		<div class="layui-btn-container">
+		<a title="详情" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="details" onclick="" href="javascript:;">详情</a>
+		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
+		<a title="删除" lay-event="del" href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+		</div>	
+</script>
+<script>
+layui.use(['form','table','jquery'], function() {
+	$ = layui.jquery;
+	var table = layui.table;
+	//方法级渲染
+    table.render({
+        elem: '#LAY_table_hospital'
+        ,url: 'hospital/selectHospitalExtByPage'
+        ,cellMinWidth: 100
+        ,cols: [[
+            {checkbox: true, fixed: true}
+            ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
+            ,{field:'province', title: '省份', width:150,align:'center'}
+            ,{field:'name', title: '医院', width:250,align:'center'}
+            ,{field:'dname', title: '科室数量',sort: true, width:150,align:'center'}
+            ,{field:'meter', title: 'Meter在用数量',sort: true, width:150,align:'center'}
+            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:150,align:'center'}
+            ,{fixed: 'right', title: '操作',align:'center', width:282,toolbar:'#barDemo'}
+        ]]
+  		,page: true //是否显示分页
+  		,limits:[5,10,15,20,50,100]
+   		,limit: 10 //每页默认显示的数量
+        ,id: 'testReload'
+        ,response: {
+        	statusCode: 200 //规定成功的状态码，默认：0
+        }
+        ,toolbar:'#toolbarDemo'
+        ,height: 516
+    });
+    active = {
+ 	    reload: function(){
+ 	 	  var name = $('#name');
+ 	      var province = $('#province');
+ 	      //执行重载
+ 	      table.reload('testReload', {
+ 	    	url: 'hospital/selectHospitalExtByPage'
+ 	        ,method:'get'
+ 	        ,page: {
+ 	          curr: 1 //重新从第 1 页开始
+ 	        }
+ 	        ,where: {
+ 	          	 name: name.val(),
+ 	             province: province.val(),
+ 	        }
+ 	      });
+ 	    }
+ 	  };
+ 	 $('.layui-card-body .layui-btn').on('click', function(){
+ 	    var type = $(this).data('type');
+ 	    active[type] ? active[type].call(this) : '';
+ 	  });
+	var form = layui.form;
+	/* $(document).ready(function() {　　
+		$.ajax({
+			contentType: "application/json;charset=utf-8",
+			type: "get",
+			url: "equipmentType/selectDistinctEquipmentType",
+			dataType: "json",
+			data:"",
+			success: function(data) {
+				$.each(data.data, function(i, item) {
+					$('#name').append(new Option(item, item));
+				});
+				form.render("select");
+			},
+			error:function(){
+				
+			}
+		});
+	}); */
+	form.on('select(Type_filter)', function(data) {
+		var data1 = {"name":data.value};
+		 $.ajax({
+			contentType: "application/json;charset=utf-8",
+			type: "post",
+			url: "equipmentType/selectEquipmentTypeByName",
+			dataType: "json",
+			data: JSON.stringify(data1),
+			success: function(data2) {
+				var obj = data2.data;
+				$('#type').empty();
+				$('#type').append(new Option("设备型号",""));
+				$.each(obj, function(i) {
+					$('#type').append(new Option(i,i));
+				}); 
+				form.render("select");
+			},error:function(){
+				
+			}
+		});
+	});
+});
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+
+		//执行一个laydate实例
+		laydate.render({
+			elem : '#start' //指定元素
+		});
+
+		//执行一个laydate实例
+		laydate.render({
+			elem : '#end' //指定元素
+		});
+
+	});
+</script>
+<script>
+	/*用户-删除*/
+	function member_del(obj, id) {
+		layer.confirm('确认要删除吗？', function(index) {
+			//发异步删除数据
+			$(obj).parents("tr").remove();
+			$.ajax({
+				//请求方式
+				type : "post",
+				//url 
+				url : "equipment/updateEquimentById",
+				data: "id=" + id,
+				//datarype 
+				dataType : "json",
+				//result 为请求的返回结果对象
+				success : function(result) {
+					if ("200" == result.status) {
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+						location.reload(); 
+					} 
+				}
+			});
+		});
+	} 
+	layui.use('table', function() {
+		var table = layui.table;
+
+		//监听工具条
+		  table.on('tool(test)', function(obj){
+		    var data = obj.data;
+		    if(obj.event === 'details'){
+		    	console.log(JSON.stringify(data));
+		    	layer.open({
+	                title: '详情',
+	                type: 2,
+	                area: [ '800px', '627px'], //宽高
+	                maxmin: true, //开启最大化最小化按钮
+	                content: "toPage?url=/static/department-detail",
+	                success: function (layero, index) {
+	                    // 获取子页面的iframe
+	                    var iframe = window['layui-layer-iframe' + index];
+	                    // 向子页面的全局函数child传参
+	                    iframe.child(JSON.stringify(data)); 
+	                }
+              })
+		    }
+		   if(obj.event === 'edit'){
+			   console.log(JSON.stringify(data));
+			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */
+			  layer.open({
+	                title: '编辑',
+	                type: 2,
+	                area: [ '800px', '600px'], //宽高
+	                maxmin: true, //开启最大化最小化按钮
+	                content: "toPage?url=/static/hospital-edit",
+	                success: function (layero, index) {
+	                    // 获取子页面的iframe
+	                    var iframe = window['layui-layer-iframe' + index];
+	                    // 向子页面的全局函数child传参
+	                    iframe.child(JSON.stringify(data)); 
+	                }
+              })
+		    }
+		   if(obj.event === 'del'){
+			   //alert(data.id)
+			   member_del(data,data.id);
+		   }
+		  });
+
+		//头工具栏事件
+		table.on('toolbar(test)', function(obj) {
+			var checkStatus = table.checkStatus(obj.config.id);
+			switch (obj.event) {
+			case 'getCheckData':
+				var data = checkStatus.data;
+				if(data.length <= 0){
+					layer.alert("请先选择数据!");
+				}else{
+					for(var i=0;i < data.length;i++){
+						if(i == data.length-1){
+							if(data[i].status != data[0].status){
+								layer.alert("选择的数据状态不一致!");
+								return;
+							}
+						}else{
+							if(data[i].status != data[i+1].status){
+								layer.alert("选择的数据状态不一致!");
+								return;
+							}
+						}
+					}
+					layer.open({
+		                title: '批量修改状态',
+		                type: 2,
+		                area: [ '500px', '400px'], //宽高
+		                maxmin: true, //开启最大化最小化按钮
+		                content: "toPage?url=/static/update-status",
+		                success: function (layero, index) {
+		                    // 获取子页面的iframe
+		                    var iframe = window['layui-layer-iframe' + index];
+		                    // 向子页面的全局函数child传参
+		                    iframe.child(JSON.stringify(data)); 
+		                }
+		            })
+				}
+				break;
+			}
+			;
+		});
+	});
+</script>
+</html>

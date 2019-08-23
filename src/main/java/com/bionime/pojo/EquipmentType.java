@@ -12,11 +12,13 @@ public class EquipmentType implements Serializable{
 	
 	private Long id;
 	
+	private String type;
+	
 	private String name;//设备名称
 	
 	private String count;//设备数量
 	
-	private String explian;//设备描述
+	private String description;//设备描述
 	
 	private Boolean delete_tag;//0是在用，1是不用
 
@@ -26,6 +28,14 @@ public class EquipmentType implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getName() {
@@ -44,12 +54,13 @@ public class EquipmentType implements Serializable{
 		this.count = count;
 	}
 
-	public String getExplian() {
-		return explian;
+
+	public String getDescription() {
+		return description;
 	}
 
-	public void setExplian(String explian) {
-		this.explian = explian;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Boolean getDelete_tag() {

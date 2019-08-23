@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+
+<html class="x-admin-sm">
+<head>
+<meta charset="UTF-8">
+<title>欢迎页面-X-admin2.2</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+<link rel="stylesheet" href="./css/font.css">
+<link rel="stylesheet" href="./css/xadmin.css">
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="./js/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+</head>
+
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body ">
+						<blockquote class="layui-elem-quote">
+							欢迎： <span class="x-red" id="username" style="font-weight: bold;"></span>&nbsp;&nbsp;使用库存管理系统！&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当前时间: <span
+								id='time'></span>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">数据统计</div>
+					<div class="layui-card-body ">
+						<ul
+							class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+							<li class="layui-col-md2 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库760Meter</h3>
+									<p>
+										<cite id="meter_760_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md2 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库761Meter</h3>
+									<p>
+										<cite id="meter_761_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md2 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库760Holder</h3>
+									<p>
+										<cite id="holder_760_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md2 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库761Holder</h3>
+									<p>
+										<cite id="holder_761_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md2 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在院760Meter</h3>
+									<p>
+										<cite id="meter_760_20"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md2 layui-col-xs6 "><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在院761Meter</h3>
+									<p>
+										<cite id="meter_761_20"></cite>
+									</p>
+							</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class=" layui-col-space15">
+				<div class="layui-col-sm12 layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">数据分析</div>
+						<div class="layui-card-body" style="min-height: 280px;">
+							<div id="main3" class="layui-col-sm12" style="height: 300px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-sm12 layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">区域分析</div>
+						<div class="layui-card-body" style="min-height: 280px;">
+							<div id="main4" class="layui-col-sm12" style="height: 300px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+		var myChart3 = echarts.init(document.getElementById('main3'));
+		var option = null;
+		var ArrNum = new Array();
+		layui
+				.use(
+						[ 'jquery' ],
+						function() {
+							$ = layui.jquery;
+							function getSession() {
+								$
+										.ajax({
+											type : "get",
+											url : "/user/getSession",
+											data : "",
+											contentType : "application/json; charset=utf-8",
+											success : function(result) {
+												$("#username").html(result.username);
+											},
+											error : function() {
+												
+											}
+										})
+
+							}
+							function selectCount() {
+								$
+										.ajax({
+											type : "post",
+											url : "/equipment/selectCountByStatus",
+											data : "",
+											contentType : "application/json; charset=utf-8",
+											dataType : "json",
+											success : function(result) {
+												if ("200" == result.code) {
+													if (result.meter_760_10 <= 20) {
+														$("#meter_760_10").css(
+																"color", "red");
+													}
+													if (result.meter_761_10 <= 2) {
+														$("#meter_761_10").css(
+																"color", "red");
+													}
+													if (result.holder_760_10 <= 20) {
+														$("#holder_760_10")
+																.css("color",
+																		"red");
+													}
+													if (result.holder_761_10 <= 20) {
+														$("#holder_761_10")
+																.css("color",
+																		"red");
+													}
+													if (result.meter_760_20 <= 20) {
+														$("#meter_760_20").css(
+																"color", "red");
+													}
+													if (result.meter_761_20 <= 20) {
+														$("#meter_761_20").css(
+																"color", "red");
+													}
+													$("#meter_760_10")
+															.text(
+																	result.meter_760_10);
+													$("#meter_761_10")
+															.text(
+																	result.meter_761_10);
+													$("#holder_760_10")
+															.text(
+																	result.holder_760_10);
+													$("#holder_761_10")
+															.text(
+																	result.holder_761_10);
+													$("#meter_760_20")
+															.text(
+																	result.meter_760_20);
+													$("#meter_761_20")
+															.text(
+																	result.meter_761_20);
+													ArrNum
+															.push({
+																"value" : result.meter_10,
+																"name" : "在库"
+															});
+													ArrNum
+															.push({
+																"value" : result.meter_20,
+																"name" : "在院"
+															});
+													ArrNum
+															.push({
+																"value" : result.meter_30,
+																"name" : "出库"
+															});
+													ArrNum
+															.push({
+																"value" : result.meter_40,
+																"name" : "借用"
+															});
+													ArrNum
+															.push({
+																"value" : result.meter_50,
+																"name" : "返修"
+															});
+													ArrNum
+															.push({
+																"value" : result.meter_60,
+																"name" : "审核"
+															});
+													option = {
+														tooltip : {
+															trigger : 'item',
+															formatter : "{a} <br/>{b} : {c} ({d}%)"
+														},
+														legend : {
+															orient : 'vertical',
+															left : 'left',
+															data : [ '在库',
+																	'在院', '出库',
+																	'借用', '返修',
+																	'审核' ]
+														},
+														series : [ {
+															name : '血糖仪',
+															type : 'pie',
+															radius : '55%',
+															center : [ '50%',
+																	'60%' ],
+															data : ArrNum,
+															itemStyle : {
+																emphasis : {
+																	shadowBlur : 10,
+																	shadowOffsetX : 0,
+																	shadowColor : 'rgba(0, 0, 0, 0.5)'
+																}
+															}
+														} ]
+													};
+													// 使用刚指定的配置项和数据显示图表。
+													myChart3.setOption(option);
+												}
+											},
+											error : function() {
+											}
+										});
+							}
+							window.onload = function() {
+								refreshTime(); //当页面加载完时运行时间函数
+								getSession();
+								selectCount();
+							}
+
+							function checkTime(i) {
+								if (i < 10) {
+									i = '0' + i //定义当分钟，秒钟小于10时，使一位数显示为两位数
+								}
+								return i //大于10时，正常显示
+							}
+
+							function refreshTime() { //定义时间函数
+								var date = new Date(); //获取当前默认格式的当前时间
+								var myYear = date.getFullYear(); //在默认格式时间中提取四位数的年份
+								var myMonth = date.getMonth() + 1; //在默认格式时间中提取月份，（月份返回值是0-11，实际月份要返回值+1）
+								var myDate = date.getDate(); //在默认格式实践中提取日期
+								var myDay = date.getDay(); //在默认格式中提取星期（返回值0-6对应星期天-星期六）
+								var week = [ '星期天', '星期一', '星期二', '星期三', '星期四',
+										'星期五', '星期六', ] //创建数组对应myDay
+								var myHours = date.getHours(); //在默认格式实践中提取日期小时
+								var myMinutes = date.getMinutes(); //在默认格式实践中提取日期分钟
+								var mySeconds = date.getSeconds(); //在默认格式实践中提取日期分钟
+								var pushM = checkTime(myMinutes);
+								var pushS = checkTime(mySeconds); //用checkTime函数使时间为0~9时替换为00~09
+								//alert(myDay);//test
+								document.getElementById('time').innerHTML = myYear
+										+ '年'
+										+ myMonth
+										+ '月'
+										+ myDate
+										+ '日&nbsp&nbsp'
+										+ week[myDay]
+										+ '&nbsp&nbsp'
+										+ myHours
+										+ ':'
+										+ pushM
+										+ ':' + pushS + '<br/>' //使id为'time'的文本值替换为该格式的时间
+								setTimeout(refreshTime, 1000); //每1000毫秒运行一次refreshTime函数，即每秒刷新一次时间
+							}
+						});
+
+		// 指定图表的配置项和数据
+
+		//地图数据
+
+		//数据纯属虚构
+		var data = [ {
+			name : '北京市',
+			value : 38
+		}, {
+			name : '天津市',
+			value : 30
+		}, {
+			name : '上海市',
+			value : 46
+		}, {
+			name : '重庆市',
+			value : 36
+		}, {
+			name : '河北省',
+			value : 34
+		}, {
+			name : '河南省',
+			value : 32
+		}, {
+			name : '云南省',
+			value : 16
+		}, {
+			name : '辽宁省',
+			value : 43
+		}, {
+			name : '黑龙江省',
+			value : 41
+		}, {
+			name : '湖南省',
+			value : 24
+		}, {
+			name : '安徽省',
+			value : 33
+		}, {
+			name : '山东省',
+			value : 30
+		}, {
+			name : '新疆维吾尔自治区',
+			value : 1
+		}, {
+			name : '江苏省',
+			value : 39
+		}, {
+			name : '浙江省',
+			value : 35
+		}, {
+			name : '江西省',
+			value : 20
+		}, {
+			name : '湖北省',
+			value : 21
+		}, {
+			name : '广西壮族自治区',
+			value : 30
+		}, {
+			name : '甘肃省',
+			value : 12
+		}, {
+			name : '山西省',
+			value : 32
+		}, {
+			name : '内蒙古自治区',
+			value : 35
+		}, {
+			name : '陕西省',
+			value : 25
+		}, {
+			name : '吉林省',
+			value : 45
+		}, {
+			name : '福建省',
+			value : 28
+		}, {
+			name : '贵州省',
+			value : 18
+		}, {
+			name : '广东省',
+			value : 37
+		}, {
+			name : '青海省',
+			value : 6
+		}, {
+			name : '西藏自治区',
+			value : 4
+		}, {
+			name : '四川省',
+			value : 33
+		}, {
+			name : '宁夏回族自治区',
+			value : 8
+		}, {
+			name : '海南省',
+			value : 19
+		}, {
+			name : '台湾省',
+			value : 0
+		}, {
+			name : '香港特别行政区',
+			value : 0
+		}, {
+			name : '澳门特别行政区',
+			value : 0
+		} ];
+
+		var yData = [];
+		var barData = [];
+
+		for (var i = 0; i < 10; i++) {
+			barData.push(data[i]);
+			yData.push(i + data[i].name);
+		}
+
+		$.get('china.json', function(chinaJson) {
+			echarts.registerMap('china', chinaJson);
+			var chart = echarts.init(document.getElementById('main4'));
+			chart.setOption({
+				title : [ {
+					show : true,
+					text : '装机排名',
+					textStyle : {
+						color : '#2D3E53',
+						fontSize : 15
+					},
+					right : 120,
+					top : 5
+				} ],
+				tooltip : {
+					show : true,
+					formatter : function(params) {
+						return params.name + '：' + params.value
+					},
+				},
+				visualMap : {
+					type : 'continuous',
+					orient : 'horizontal',
+					itemWidth : 10,
+					itemHeight : 80,
+					text : [ '高', '低' ],
+					showLabel : true,
+					seriesIndex : [ 0 ],
+					min : 0,
+					max : 100,
+					inRange : {
+						color : [ '#6FCF6A', '#FFFD64', '#FF5000' ]
+					},
+					textStyle : {
+						color : '#7B93A7'
+					},
+					bottom : 30,
+					left : 'left',
+				},
+				grid : {
+					right : 0,
+					top : 30,
+					bottom : 30,
+					width : '17%'
+				},
+				xAxis : {
+					show : false
+				},
+				yAxis : {
+					type : 'category',
+					inverse : true,
+					nameGap : 16,
+					axisLine : {
+						show : false,
+						lineStyle : {
+							color : '#ddd'
+						}
+					},
+					axisTick : {
+						show : false,
+						lineStyle : {
+							color : '#ddd'
+						}
+					},
+					axisLabel : {
+						interval : 0,
+						margin : 85,
+						textStyle : {
+							color : '#455A74',
+							align : 'left',
+							fontSize : 14
+						},
+						rich : {
+							a : {
+								color : '#fff',
+								backgroundColor : '#FAAA39',
+								width : 20,
+								height : 20,
+								align : 'center',
+								borderRadius : 2
+							},
+							b : {
+								color : '#fff',
+								backgroundColor : '#4197FD',
+								width : 20,
+								height : 20,
+								align : 'center',
+								borderRadius : 2
+							}
+						},
+						formatter : function(params) {
+							if (parseInt(params.slice(0, 1)) < 3) {
+								return [ '{a|'
+										+ (parseInt(params.slice(0, 1)) + 1)
+										+ '}' + '  ' + params.slice(1) ]
+										.join('\n')
+							} else {
+								return [ '{b|'
+										+ (parseInt(params.slice(0, 1)) + 1)
+										+ '}' + '  ' + params.slice(1) ]
+										.join('\n')
+							}
+						}
+					},
+					data : yData
+				},
+				geo : {
+					// roam: true,
+					map : 'china',
+					left : '30',
+					zoom : 1.1,
+					layoutSize : '80%',
+					label : {
+						emphasis : {
+							show : false
+						}
+					},
+					regions : [ {
+						name : '南海诸岛',
+						value : 0,
+						itemStyle : {
+							normal : {
+								opacity : 0,
+								label : {
+									show : false
+								}
+							}
+						}
+					} ],
+					itemStyle : {
+						emphasis : {
+							areaColor : '#fff464'
+						}
+					}
+				},
+				series : [ {
+					name : 'mapSer',
+					type : 'map',
+					roam : false,
+					geoIndex : 0,
+					label : {
+						show : false,
+					},
+					data : data
+				}, {
+					name : 'barSer',
+					type : 'bar',
+					roam : false,
+					visualMap : false,
+					zlevel : 2,
+					barMaxWidth : 8,
+					barGap : 0,
+					itemStyle : {
+						normal : {
+							color : function(params) {
+								// build a color map as your need.
+								var colorList = [ {
+									colorStops : [ {
+										offset : 0,
+										color : '#FFD119' // 0% 处的颜色
+									}, {
+										offset : 1,
+										color : '#FFAC4C' // 100% 处的颜色
+									} ]
+								}, {
+									colorStops : [ {
+										offset : 0,
+										color : '#00C0FA' // 0% 处的颜色
+									}, {
+										offset : 1,
+										color : '#2F95FA' // 100% 处的颜色
+									} ]
+								} ];
+								if (params.dataIndex < 3) {
+									return colorList[0]
+								} else {
+									return colorList[1]
+								}
+							},
+							barBorderRadius : 15
+						}
+					},
+					data : barData
+				} ]
+			});
+		});
+	</script>
+</body>
+
+</html>

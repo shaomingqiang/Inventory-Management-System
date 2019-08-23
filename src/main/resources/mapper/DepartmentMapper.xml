@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bionime.mapper.DepartmentMapper">
+	<resultMap type="com.bionime.pojo.DepartmentExt" id="deptAndHospitalRsMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="h_id" property="h_id"/>
+		<result column="remark" property="remark"/>
+		<result column="delete_tag" property="delete_tag"/>
+		<association property="hospital" javaType="com.bionime.pojo.Hospital">
+			<id column="id" property="id"/>
+			<result column="province" property="province"/>
+			<result column="level" property="level"/>
+		</association>
+		
+	</resultMap>
+	
+	<select id="findDeptAndHosp" resultType="com.bionime.pojo.DepartmentExt">
+		<!-- select 
+		department.id,
+		department.name,
+		department.h_id,
+		department.remarks,
+		department.delete_tag,
+		hospital.province,
+		hospital.level
+		from department,hospital
+		where department.h_id=hospital.id -->
+		select 
+		department.id,
+		department.name,
+		department.h_id,
+		department.remarks,
+		department.delete_tag,
+		hospital.province,
+		hospital.level
+		from department left join hospital
+		on department.h_id=hospital.id
+	</select>
+	
+	<select id="findDeptAndHosp1" resultMap="deptAndHospitalRsMap"  parameterType="com.bionime.pojo.Department">
+		select 
+		department.id,
+		department.name,
+		department.h_id,
+		department.remarks,
+		department.delete_tag,
+		hospital.province,
+		hospital.level
+		from department,hospital
+		where department.h_id=hospital.id
+		<where>
+		   <if test="name!=null">
+          	 and department.name like #{name}
+		   </if>
+		   <if test="h_id!=null">
+          	 and department.h_id =#{h_id}
+		   </if>
+		</where>
+	</select>
+	
+	<select id="findDept" resultType="com.bionime.pojo.Department"  parameterType="com.bionime.pojo.Department">
+		select *
+		from department
+		<where>
+		1=1
+		   <if test="name!=null">
+          	 and department.name like #{name}
+		   </if>
+		   <if test="h_id!=null">
+          	 and department.h_id =#{h_id}
+		   </if>
+		</where>
+	</select>
+	
+	<!-- 科室新增 -->
+	<insert id="insert"  parameterType="com.bionime.pojo.Department">
+		insert into department (name,h_id,remarks,delete_tag)
+           values(#{name},#{h_id},#{remarks},'0')
+	</insert>
+</mapper>

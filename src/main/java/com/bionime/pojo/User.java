@@ -11,7 +11,7 @@ public class User implements Serializable {
 
 	private Long id;
 
-	private String name;// 用户账号
+	private String username;// 用户账号
 
 	private String password;// 用户密码
 
@@ -29,12 +29,14 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
