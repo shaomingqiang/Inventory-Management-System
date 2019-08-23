@@ -35,18 +35,21 @@
 					<label for="select_base_type" class="layui-form-label">设备类型
 					</label>
 					<div class="layui-input-inline">
-						<input readonly="readonly" type="text" id="name" name="name"
-							required="" lay-verify="name" autocomplete="off"
-							class="layui-input">
+						<select name="name" id="name" lay-filter="Type_filter"
+									lay-search lay-verify="select_base_type" class="layui-input">
+									<option value="">设备类型</option>
+								</select>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<label for="type" class="layui-form-label"> 设备型号 </label>
 					<div class="layui-input-inline">
-						<input readonly="readonly" type="text" id="type" name="type"
-							required="" lay-verify="type" autocomplete="off"
-							class="layui-input">
+						<select name="type" id="type" lay-search
+									lay-filter="Model_filter" lay-verify="select_base_modle"
+									class="layui-input">
+									<option value="">设备型号</option>
+								</select>
 					</div>
 				</div>
 
@@ -117,6 +120,45 @@
 					}
 				}
 			});
+			$(document).ready(function() {　　
+				$.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "get",
+					url: "equipmentType/selectDistinctEquipmentType",
+					dataType: "json",
+					data:"",
+					success: function(data) {
+						$.each(data.data, function(i, item) {
+							$('#name').append(new Option(item, item));
+						});
+						form.render("select");
+					},
+					error:function(){
+						
+					}
+				});
+			});
+			form.on('select(Type_filter)', function(data) {
+				var data1 = {"name":data.value};
+				 $.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "equipmentType/selectEquipmentTypeByName",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#type').empty();
+						$('#type').append(new Option("设备型号",""));
+						$.each(obj, function(i) {
+							$('#type').append(new Option(i,i));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			});
 			//监听提交
 			form.on('submit(edit)', function(data) {
 				var data = JSON.stringify(data.field);
@@ -124,7 +166,7 @@
 					//请求方式
 					type : "post",
 					//url 
-					url : "/equipment/updateEquimentById",
+					url : "/equipment/updateEquiment",
 					//把Js的对象或数组序列化一个son字符串
 					data : data,
 					//contentType 
@@ -163,8 +205,36 @@
 	<script>
 		function child(d) {
 			var obj = JSON.parse(d);
-			$("#name").val(obj.name);
-			$("#type").val(obj.type);
+			$("#name option").each(function() {
+				if ($(this).text() == obj.name) {
+					$(this).attr("selected", true);
+				}
+			});
+			/* function getType (){
+				$.ajax({
+					var data2 = {"name":obj.name};
+					alert(data2);
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "equipmentType/selectEquipmentTypeByName",
+					dataType: "json",
+					data: JSON.stringify(data2),
+					success: function(data) {
+						$.each(data.data, function(i, item) {
+							$('#type').append(new Option(item, item));
+						});
+						form.render("select");
+					},
+					error:function(){
+						
+					}
+				});
+			} */
+			$("#type option").each(function() {
+				if ($(this).text() == obj.type) {
+					$(this).attr("selected", true);
+				}
+			});
 			$("#sn").val(obj.sn);
 			$("#status option").each(function() {
 				if ($(this).text() == obj.status) {

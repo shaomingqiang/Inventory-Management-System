@@ -34,7 +34,7 @@
 						class="x-red">*</span>省份选择
 					</label>
 					<div class="layui-input-inline">
-						<select name="" id="select_province" lay-filter="province_filter"
+						<select name="province" id="select_province" lay-filter="province_filter"
 							lay-search="" lay-verify="select_province" class="layui-input">
 							<option value="">省份选择</option>
 							<option value="江苏省">江苏省</option>
@@ -80,7 +80,7 @@
 						class="x-red">*</span>医院名称
 					</label>
 					<div class="layui-input-inline">
-						<select name="" id="select_hospital" lay-filter="hospital_filter"
+						<select name="h_id" id="select_hospital" lay-filter="hospital_filter"
 							lay-verify="select_hospital" class="layui-input">
 							<option value="">医院选择</option>
 						</select>
@@ -96,6 +96,14 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<label for="desc" class="layui-form-label">描述</label>
+					<div class="layui-input-inline">
+						<textarea placeholder="请输入内容" id="desc" name="remarks"
+							class="layui-textarea"></textarea>
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
 					<label for="L_repass" class="layui-form-label"></label>
 					<button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
 				</div>
@@ -103,29 +111,6 @@
 		</div>
 	</div>
 	<script>
-			layui.use(['form', 'jquery'], function() {
-				$ = layui.jquery;
-				var form = layui.form;
-				$(document).ready(function() {　　
-					$.ajax({
-						contentType: "application/json;charset=utf-8",
-						type: "get",
-						url: "equipmentType/selectDistinctEquipmentType",
-						dataType: "json",
-						data: "",
-						success: function(data) {
-							$.each(data.data, function(i, item) {
-								$('#select_base_type').append(new Option(item, item));
-							});
-							form.render("select");
-						},
-						error: function() {
-
-						}
-					});
-				});
-			});
-
 			layui.use(['form', 'layer', 'jquery'], function() {
 				$ = layui.jquery;
 				var form = layui.form,
@@ -149,22 +134,22 @@
 						}
 					}
 				});
-				form.on('select(Type_filter)', function(data) {
+				form.on('select(province_filter)', function(data) {
 					var data1 = {
-						"name": data.value
+						"province": data.value
 					};
 					$.ajax({
 						contentType: "application/json;charset=utf-8",
 						type: "post",
-						url: "equipmentType/selectEquipmentTypeByName",
+						url: "hospital/selectHospitalByProvince",
 						dataType: "json",
 						data: JSON.stringify(data1),
 						success: function(data2) {
 							var obj = data2.data;
-							$('#select_base_modle').empty();
-							$('#select_base_modle').append(new Option("设备型号", ""));
+							$('#select_hospital').empty();
+							$('#select_hospital').append(new Option("医院名称", ""));
 							$.each(obj, function(i) {
-								$('#select_base_modle').append(new Option(i, obj[i]));
+								$('#select_hospital').append(new Option(i, obj[i]));
 							});
 							form.render("select");
 						},
@@ -180,7 +165,7 @@
 						//请求方式
 						type: "post",
 						//url 
-						url: "/equipment/insert",
+						url: "/department/insert",
 						//把Js的对象或数组序列化一个son字符串
 						data: data,
 						//contentType 
@@ -199,7 +184,7 @@
 									xadmin.father_reload();
 								});
 							} else {
-								layer.alert("增加失败", {
+								layer.alert(result.msg, {
 									icon: 2
 								}, function() {
 									//关闭当前frame

@@ -93,9 +93,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult statusChange(String id, int status) {
+	public SystemResult statusChange(String id, int status,Long h_id,Long d_id) {
 		List<String> ids = Arrays.asList(id.split(","));
-		equipmentMapper.statusChange(ids, status);
+		equipmentMapper.statusChange(ids, status,h_id,d_id);
 		return SystemResult.ok();
 	}
 
@@ -140,8 +140,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
+	public SystemResult updateEquimentExt(EquipmentExt equipmentExt) {
+		int updateEquimentExt = equipmentMapper.updateEquimentExt(equipmentExt);
+		return SystemResult.ok();
+	}
+
+	@Override
 	public SystemResult updateEquimentExtById(int id) {
-		int updateEquimentExtById = equipmentMapper.updateEquimentExtById(id);
+		int updateEquimentExt = equipmentMapper.updateEquimentExtById(id);
 		return SystemResult.ok();
 	}
 

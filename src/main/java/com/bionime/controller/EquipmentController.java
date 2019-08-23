@@ -89,8 +89,8 @@ public class EquipmentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/statusChange", method = RequestMethod.POST)
-	public SystemResult equipmentStatusChange(String id, Integer status) {
-		SystemResult result = equipmentService.statusChange(id, status);
+	public SystemResult equipmentStatusChange(String id, Integer status,Long h_id,Long d_id) {
+		SystemResult result = equipmentService.statusChange(id, status,h_id,d_id);
 		return result;
 	}
 	
@@ -103,6 +103,12 @@ public class EquipmentController {
 	@RequestMapping(value = "/updateEquimentById", method = RequestMethod.POST)
 	public SystemResult updateEquimentById(Integer id) {
 		SystemResult result = equipmentService.updateEquimentExtById(id);
+		return result;
+	}
+	
+	@RequestMapping(value = "/updateEquiment", method = RequestMethod.POST)
+	public SystemResult updateEquiment(@RequestBody EquipmentExt equipmentExt) {
+		SystemResult result = equipmentService.updateEquimentExt(equipmentExt);
 		return result;
 	}
 	

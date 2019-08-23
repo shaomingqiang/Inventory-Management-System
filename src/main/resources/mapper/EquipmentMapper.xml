@@ -46,7 +46,17 @@
 
 	<!-- 批量修改设备状态 -->
 	<update id="statusChange">
-		update equipment set status=#{status} where id in
+		update equipment
+		<set>
+			status=#{status}
+			<if test="h_id!=null and h_id!=''">
+				,h_id =#{h_id}
+			</if>
+			<if test="d_id!=null and d_id!=''">
+				,d_id=#{d_id}
+			</if>
+		</set>
+		where id in
 		<foreach collection="ids" index="index" item="item" open="("
 			separator="," close=")">
 			#{item}
@@ -61,12 +71,30 @@
 		where
 		e.id=#{id}
 	</update>
+	<!-- 修改设备信息 -->
+	<update id="updateEquimentExt">
+		update equipment set
+		sn=#{sn},status=#{status},description=#{description}
+		<if test="h_id!=null and h_id!=''">
+			,and h_id =#{h_id}
+		</if>
+		<if test="d_id!=null and d_id!=''">
+			,and d_id=#{d_id}
+		</if>
+		<if test="et_id!=null and et_id!=''">
+			,and et_id=#{et_id}
+		</if>
+		<if test="property_no!=null and property_no!=''">
+			,and property_no=#{property_no}
+		</if>
+		where id =#{id}
+	</update>
 	<!-- 根据设备型号和状态统计数量 -->
 	<select id="selectCountByStatus" resultType="int">
-	SELECT count(*) from equipment e,equipment_type et 
-		where e.et_id=et.id 
+		SELECT count(*) from equipment e,equipment_type et
+		where e.et_id=et.id
 		<if test="type!=null and type!=''">
-			and	et.type=#{type}
+			and et.type=#{type}
 		</if>
 		<if test="status!=null and status!=''">
 			and e.status=#{status}

@@ -35,7 +35,7 @@
 					<div class="layui-card-body ">
 						<form class="layui-form layui-col-space5">
 							<div class="layui-input-inline">
-								<select name="" id="select_province" lay-filter="province_filter" lay-verify="select_province" class="layui-input">
+								<select name="province" id="select_province" lay-filter="province_filter" lay-verify="select_province" class="layui-input">
 								<option value="">省份选择</option>
 								<option value="江苏省">江苏省</option>
 								<option value="北京市">北京市</option>
@@ -89,7 +89,7 @@
 						</form>
 					</div>
 					<div class="layui-card-body ">
-						<table class="layui-table" id="LAY_table_equipment"
+						<table class="layui-table" id="LAY_table_hospital"
 							lay-filter="test"></table>
 					</div>
 				</div>
@@ -120,18 +120,18 @@ layui.use(['form','table','jquery'], function() {
 	var table = layui.table;
 	//方法级渲染
     table.render({
-        elem: '#LAY_table_equipment'
-        ,url: 'equipment/selectEquimentExtByPage'
+        elem: '#LAY_table_hospital'
+        ,url: 'hospital/selectHospitalExtByPage'
         ,cellMinWidth: 100
         ,cols: [[
             {checkbox: true, fixed: true}
             ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
-            ,{field:'province', title: '省份', width:250,align:'center'}
-            ,{field:'hospital', title: '医院', width:250,align:'center'}
-            ,{field:'d_number', title: '科室数量',sort: true, width:100,align:'center'}
-            ,{field:'m_use', title: 'Meter在用数量',sort: true, width:122,align:'center'}
-            ,{field:'m_all', title: 'Meter全部数量',sort: true, width:122,align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:225,toolbar:'#barDemo'}
+            ,{field:'province', title: '省份', width:150,align:'center'}
+            ,{field:'name', title: '医院', width:250,align:'center'}
+            ,{field:'dname', title: '科室数量',sort: true, width:150,align:'center'}
+            ,{field:'meter', title: 'Meter在用数量',sort: true, width:150,align:'center'}
+            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:150,align:'center'}
+            ,{fixed: 'right', title: '操作',align:'center', width:282,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -145,22 +145,18 @@ layui.use(['form','table','jquery'], function() {
     });
     active = {
  	    reload: function(){
- 	      var sn = $('#sn');
- 	      var name = $('#name');
- 	      var type = $('#type');
- 	      var status = $('#status');
+ 	 	  var name = $('#name');
+ 	      var province = $('#province');
  	      //执行重载
  	      table.reload('testReload', {
- 	    	url: 'equipment/selectEquimentExtByPage'
+ 	    	url: 'hospital/selectHospitalExtByPage'
  	        ,method:'get'
  	        ,page: {
  	          curr: 1 //重新从第 1 页开始
  	        }
  	        ,where: {
- 	        	 sn: sn.val(),
  	          	 name: name.val(),
- 	          	 type: type.val(),
- 	          	 status: status.val()
+ 	             province: province.val(),
  	        }
  	      });
  	    }
@@ -170,7 +166,7 @@ layui.use(['form','table','jquery'], function() {
  	    active[type] ? active[type].call(this) : '';
  	  });
 	var form = layui.form;
-	$(document).ready(function() {　　
+	/* $(document).ready(function() {　　
 		$.ajax({
 			contentType: "application/json;charset=utf-8",
 			type: "get",
@@ -187,7 +183,7 @@ layui.use(['form','table','jquery'], function() {
 				
 			}
 		});
-	});
+	}); */
 	form.on('select(Type_filter)', function(data) {
 		var data1 = {"name":data.value};
 		 $.ajax({

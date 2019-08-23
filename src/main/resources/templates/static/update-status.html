@@ -49,7 +49,7 @@
 						<label for="status" class="layui-form-label"><span
 						class="x-red">*</span>省份</label>
 						<div class="layui-input-inline">
-							<select name="" id="select_province" lay-filter="province_filter"
+							<select name="select_province" id="select_province" lay-filter="province_filter"
 								lay-search="" lay-verify="select_province" class="layui-input">
 								<option value="">省份选择</option>
 								<option value="江苏省">江苏省</option>
@@ -93,7 +93,7 @@
 						<label for="status" class="layui-form-label"><span
 						class="x-red">*</span>医院</label>
 						<div class="layui-input-inline">
-							<select name="" id="select_hospital" lay-filter="hospital_filter"
+							<select name="select_hospital" id="select_hospital" lay-filter="hospital_filter"
 								lay-verify="select_hospital" class="layui-input">
 								<option value="">医院选择</option>
 							</select>
@@ -102,7 +102,7 @@
 					<div class="layui-form-item">
 						<label for="status" class="layui-form-label">科室</label>
 						<div class="layui-input-inline">
-							<select name="" id="select_department"
+							<select name="select_department" id="select_department"
 								lay-filter="department_filter" lay-verify="select_department"
 								class="layui-input">
 								<option value="">科室选择</option>
@@ -138,7 +138,7 @@
 					//url 
 					url : "equipment/statusChange",
 					data : "id=" + data.field.ids + "&status="
-							+ data.field.status,
+							+ data.field.status+"&h_id="+data.field.select_hospital+"&d_id="+data.field.select_department,
 					//datarype 
 					dataType : "json",
 					//result 为请求的返回结果对象
@@ -217,7 +217,49 @@
 		layui.use([ 'form', 'layer', 'jquery' ], function() {
 			$ = layui.jquery;
 			var form = layui.form, layer = layui.layer;
-
+			form.on('select(province_filter)', function(data) {
+				var data1 = {"province":data.value};
+				console.log(data1);
+				 $.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "hospital/selectHospitalByProvince",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#select_hospital').empty();
+						$('#select_hospital').append(new Option("医院",""));
+						$.each(obj, function(i,item) {
+							$('#select_hospital').append(new Option(i,item));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			});
+			form.on('select(hospital_filter)', function(data) {
+				var data1 = {"h_id":data.value};
+				 $.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "department/findDept",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#select_department').empty();
+						$('#select_department').append(new Option("科室",""));
+						$.each(obj, function(i,item) {
+							$('#select_department').append(new Option(i,item));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			});
 			form.on('select(Status_filter)', function(data) {
 				if (data.value == "20") {
 					$('#show_div').css('display', 'block');
