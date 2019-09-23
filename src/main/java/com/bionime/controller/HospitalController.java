@@ -59,7 +59,7 @@ public class HospitalController {
 	
 	
 	//分页查询加模糊查询
-		@RequestMapping(value = "/selectHospitalExtByPage", method = {RequestMethod.GET,RequestMethod.POST})
+		@RequestMapping(value = "/selectHospitalExtByPage", method = RequestMethod.GET)
 		public Object selectHospital(HttpServletRequest request) {
 			HashMap<String, Object> paramMap = new HashMap<String, Object>();
 			int page = Integer.parseInt(request.getParameter("page"));

@@ -27,10 +27,10 @@
 	<!-- 所有医院的信息，使用HospitalExt Pojo,并分页查询 -->
 	<select id="selectHospitalExtByPage" parameterType="hashMap" resultType="com.bionime.pojo.HospitalExt">
 		select h.id,h.name,h.province,h.dname,
- 			COUNT(if(e.delete_tag=0,e.delete_tag,NULL)) Meter,
+ 			COUNT(if(e.status='20',e.status,NULL)) Meter,
  			COUNT(e.delete_tag) MeterTotal
  		 from (select h.id,h.`name`,count(d.name) dname,d.id did,h.province from hospital h,department d where h.id=d.h_id and h.delete_tag=0 group by h.name) h 
- 		 left join (select h_id,delete_tag,id meterid,d_id from equipment where et_id in (select id from equipment_type where `name`='血糖仪')) e 
+ 		 left join (select h_id,delete_tag,id meterid,status,d_id from equipment where et_id in (select id from equipment_type where `name`='血糖仪')) e 
  		 on h.did =e.d_id
 		<where>
 			1=1
@@ -48,4 +48,5 @@
             ]]>
 		</if>
 	</select>
+	
 </mapper>

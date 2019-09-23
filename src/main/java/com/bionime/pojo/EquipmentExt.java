@@ -5,11 +5,39 @@ public class EquipmentExt{
 	private String sn;// 设备序列号
 	private String status;// 设备状态 1:在院，2:在库，3:出库，4:借用，5:返修，6:审核
 	private String in_time;// 入库时间
+	private Long h_id;
+	private Long d_id;
+	private Long et_id;
 	private String property_no;
 	//private EquipmentType equipmentType;
 	private String name;
 	private String type;
+	private String description;
 	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Long getH_id() {
+		return h_id;
+	}
+	public void setH_id(Long h_id) {
+		this.h_id = h_id;
+	}
+	public Long getD_id() {
+		return d_id;
+	}
+	public void setD_id(Long d_id) {
+		this.d_id = d_id;
+	}
+	public Long getEt_id() {
+		return et_id;
+	}
+	public void setEt_id(Long et_id) {
+		this.et_id = et_id;
+	}
 	public Long getId() {
 		return id;
 	}

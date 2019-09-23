@@ -63,7 +63,7 @@
 		</foreach>
 	</update>
 	<!-- 根据id修改设备delete_tag,伪删除 -->
-	<update id="updateEquimentExtById">
+	<update id="updateEquipmentExtById">
 		update equipment e
 		<set>
 			e.delete_tag=1
@@ -72,20 +72,23 @@
 		e.id=#{id}
 	</update>
 	<!-- 修改设备信息 -->
-	<update id="updateEquimentExt">
+	<update id="updateEquipmentExt">
 		update equipment set
-		sn=#{sn},status=#{status},description=#{description}
+		sn=#{sn},status=#{status}
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
 		<if test="h_id!=null and h_id!=''">
-			,and h_id =#{h_id}
+			,h_id =#{h_id}
 		</if>
 		<if test="d_id!=null and d_id!=''">
-			,and d_id=#{d_id}
+			,d_id=#{d_id}
 		</if>
 		<if test="et_id!=null and et_id!=''">
-			,and et_id=#{et_id}
+			,et_id=#{et_id}
 		</if>
 		<if test="property_no!=null and property_no!=''">
-			,and property_no=#{property_no}
+			,property_no=#{property_no}
 		</if>
 		where id =#{id}
 	</update>
@@ -105,7 +108,7 @@
 	</select>
 	<!-- 所有设备的信息，外联EquipmentType -->
 	<!-- <select id="selectEquimentExt" resultMap="EquipmentAndTypeRsMap"> -->
-	<select id="selectEquimentExt"
+	<select id="selectEquipmentExt"
 		parameterType="com.bionime.pojo.EquipmentExt"
 		resultType="com.bionime.pojo.EquipmentExt">
 		select
@@ -135,8 +138,15 @@
 			</if>
 		</where>
 	</select>
+	<!-- 根据id查询 -->
+	<select id="selectEquipmentById"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where id=#{id}
+	</select>
+	
 	<!-- 所有设备的信息，外联EquipmentType,并分页查询 -->
-	<select id="selectEquimentExtByPage" parameterType="hashMap"
+	<select id="selectEquipmentExtByPage" parameterType="hashMap"
 		resultType="com.bionime.pojo.EquipmentExt">
 		select
 		equipment.id,

@@ -3,22 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.DepartmentMapper">
-	<resultMap type="com.bionime.pojo.DepartmentExt" id="deptAndHospitalRsMap">
-		<id column="id" property="id"/>
-		<result column="name" property="name"/>
-		<result column="h_id" property="h_id"/>
-		<result column="remark" property="remark"/>
-		<result column="delete_tag" property="delete_tag"/>
-		<association property="hospital" javaType="com.bionime.pojo.Hospital">
-			<id column="id" property="id"/>
-			<result column="province" property="province"/>
-			<result column="level" property="level"/>
+	<resultMap type="com.bionime.pojo.DepartmentExt"
+		id="deptAndHospitalRsMap">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="h_id" property="h_id" />
+		<result column="remark" property="remark" />
+		<result column="delete_tag" property="delete_tag" />
+		<association property="hospital"
+			javaType="com.bionime.pojo.Hospital">
+			<id column="id" property="id" />
+			<result column="province" property="province" />
+			<result column="level" property="level" />
 		</association>
-		
+
 	</resultMap>
-	
-	<select id="findDeptAndHosp" resultType="com.bionime.pojo.DepartmentExt">
-		<!-- select 
+
+	<select id="findDeptAndHosp"
+		resultType="com.bionime.pojo.DepartmentExt">
+		<!-- select department.id, department.name, department.h_id, department.remarks, 
+			department.delete_tag, hospital.province, hospital.level from department,hospital 
+			where department.h_id=hospital.id -->
+		select
 		department.id,
 		department.name,
 		department.h_id,
@@ -26,22 +32,14 @@
 		department.delete_tag,
 		hospital.province,
 		hospital.level
-		from department,hospital
-		where department.h_id=hospital.id -->
-		select 
-		department.id,
-		department.name,
-		department.h_id,
-		department.remarks,
-		department.delete_tag,
-		hospital.province,
-		hospital.level
-		from department left join hospital
+		from department
+		left join hospital
 		on department.h_id=hospital.id
 	</select>
-	
-	<select id="findDeptAndHosp1" resultMap="deptAndHospitalRsMap"  parameterType="com.bionime.pojo.Department">
-		select 
+
+	<select id="findDeptAndHosp1" resultMap="deptAndHospitalRsMap"
+		parameterType="com.bionime.pojo.Department">
+		select
 		department.id,
 		department.name,
 		department.h_id,
@@ -49,35 +47,96 @@
 		department.delete_tag,
 		hospital.province,
 		hospital.level
-		from department,hospital
+		from
+		department,hospital
 		where department.h_id=hospital.id
 		<where>
-		   <if test="name!=null">
-          	 and department.name like #{name}
-		   </if>
-		   <if test="h_id!=null">
-          	 and department.h_id =#{h_id}
-		   </if>
+			<if test="name!=null">
+				and department.name like #{name}
+			</if>
+			<if test="h_id!=null">
+				and department.h_id =#{h_id}
+			</if>
 		</where>
 	</select>
-	
-	<select id="findDept" resultType="com.bionime.pojo.Department"  parameterType="com.bionime.pojo.Department">
+
+	<select id="findDept" resultType="com.bionime.pojo.Department"
+		parameterType="com.bionime.pojo.Department">
 		select *
 		from department
 		<where>
-		1=1
-		   <if test="name!=null">
-          	 and department.name like #{name}
-		   </if>
-		   <if test="h_id!=null">
-          	 and department.h_id =#{h_id}
-		   </if>
+			1=1
+			<if test="name!=null">
+				and department.name like #{name}
+			</if>
+			<if test="h_id!=null">
+				and department.h_id =#{h_id}
+			</if>
+		</where>
+	</select>
+
+	<!-- 科室新增 -->
+	<insert id="insert" parameterType="com.bionime.pojo.Department">
+		insert into department
+		(name,h_id,remarks,delete_tag)
+		values(#{name},#{h_id},#{remarks},'0')
+	</insert>
+	
+	<select id="selectDepartmentDetail"
+		parameterType="com.bionime.pojo.DepartmentDetail"
+		resultType="com.bionime.pojo.DepartmentDetail">
+		select
+		e.id,e.sn,e.status,h.dname,h.id h_id
+		from
+		(SELECT
+		h.id,
+		h.name,
+		d.name dname,
+		d.id did,
+		h.province
+		FROM
+		hospital h,
+		department d
+		WHERE
+		h.id = d.h_id
+		AND h.delete_tag = 0 ) h INNER JOIN equipment e on h.did=e.d_id 
+		<where>
+		e.delete_tag=0
+			<if test="d_id!=null and d_id!=''">
+				and h.id=#{h_id}
+			</if>
 		</where>
 	</select>
 	
-	<!-- 科室新增 -->
-	<insert id="insert"  parameterType="com.bionime.pojo.Department">
-		insert into department (name,h_id,remarks,delete_tag)
-           values(#{name},#{h_id},#{remarks},'0')
-	</insert>
+	<!-- 查询科室机器的详细信息,并分页查询 -->
+	<select id="selectDepartmentDetailByPage"
+		parameterType="hashMap"
+		resultType="com.bionime.pojo.DepartmentDetail">
+		select
+		e.id meterId,e.sn,e.status,h.dname,h.id h_id
+		from
+		(SELECT
+		h.id,
+		h.name,
+		d.name dname,
+		d.id did,
+		h.province
+		FROM
+		hospital h,
+		department d
+		WHERE
+		h.id = d.h_id
+		AND h.delete_tag = 0 ) h INNER JOIN equipment e on h.did=e.d_id 
+		<where>
+		e.delete_tag=0
+			<if test="h_id!=null and h_id!=''">
+				and h.id=#{h_id}
+			</if>
+		</where>
+		<if test="page != null and limit!= null">
+            <![CDATA[
+                LIMIT #{page},#{limit}
+            ]]>
+		</if>
+	</select>
 </mapper>

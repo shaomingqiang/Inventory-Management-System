@@ -1,5 +1,9 @@
 package com.bionime.controller;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Department;
+import com.bionime.pojo.DepartmentDetail;
 import com.bionime.service.DepartmentService;
 import com.bionime.utils.SystemResult;
 
@@ -56,6 +61,29 @@ public class DepartmentController {
 	@RequestMapping(value="/findDept",method = RequestMethod.POST)
 	public SystemResult findDept(@RequestBody Department department) {
 		SystemResult result = departmentService.findDept(department);
+		return result;
+	}
+	
+	@RequestMapping(value="/findDeptDetail",method = RequestMethod.GET)
+	public Object findDeptDetail(HttpServletRequest request) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		int page = Integer.parseInt(request.getParameter("page"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
+		Long h_id = Long.parseLong(request.getParameter("h_id"));
+		int temp = limit;
+		if (page != 1) {
+			page = (page - 1) * temp;
+		} else {
+			page = 0;
+		}
+		DepartmentDetail departmentDetail = new DepartmentDetail();
+		departmentDetail.sethId(h_id);
+		paramMap.put("page", page);
+		paramMap.put("limit", limit);
+		paramMap.put("h_id", h_id);
+		HashMap<String, Object> result = (HashMap<String, Object>) departmentService.selectDepartmentDetailByPage(paramMap,
+				departmentDetail);
+		result.put("msg", "");
 		return result;
 	}
 }

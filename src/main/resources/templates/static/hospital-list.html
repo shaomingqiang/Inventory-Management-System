@@ -35,7 +35,7 @@
 					<div class="layui-card-body ">
 						<form class="layui-form layui-col-space5">
 							<div class="layui-input-inline">
-								<select name="province" id="select_province" lay-filter="province_filter" lay-verify="select_province" class="layui-input">
+								<select name="province" id="province" lay-filter="province_filter" lay-search="" lay-verify="select_province" class="layui-input">
 								<option value="">省份选择</option>
 								<option value="江苏省">江苏省</option>
 								<option value="北京市">北京市</option>
@@ -128,9 +128,9 @@ layui.use(['form','table','jquery'], function() {
             ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
             ,{field:'province', title: '省份', width:150,align:'center'}
             ,{field:'name', title: '医院', width:250,align:'center'}
-            ,{field:'dname', title: '科室数量',sort: true, width:150,align:'center'}
-            ,{field:'meter', title: 'Meter在用数量',sort: true, width:150,align:'center'}
-            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:150,align:'center'}
+            ,{field:'dname', title: '科室数量',sort: true, width:130,align:'center'}
+            ,{field:'meter', title: 'Meter在用数量',sort: true, width:130,align:'center'}
+            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:130,align:'center'}
             ,{fixed: 'right', title: '操作',align:'center', width:282,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
@@ -145,7 +145,7 @@ layui.use(['form','table','jquery'], function() {
     });
     active = {
  	    reload: function(){
- 	 	  var name = $('#name');
+ 	 	  var hospital = $('#hospital');
  	      var province = $('#province');
  	      //执行重载
  	      table.reload('testReload', {
@@ -155,8 +155,8 @@ layui.use(['form','table','jquery'], function() {
  	          curr: 1 //重新从第 1 页开始
  	        }
  	        ,where: {
- 	          	 name: name.val(),
- 	             province: province.val(),
+ 	          	 name: hospital.val(),
+ 	             province: province.val()
  	        }
  	      });
  	    }
@@ -184,20 +184,20 @@ layui.use(['form','table','jquery'], function() {
 			}
 		});
 	}); */
-	form.on('select(Type_filter)', function(data) {
-		var data1 = {"name":data.value};
+	form.on('select(province_filter)', function(data) {
+		var data1 = {"province":data.value};
 		 $.ajax({
 			contentType: "application/json;charset=utf-8",
 			type: "post",
-			url: "equipmentType/selectEquipmentTypeByName",
+			url: "hospital/selectHospitalByProvince",
 			dataType: "json",
 			data: JSON.stringify(data1),
 			success: function(data2) {
 				var obj = data2.data;
-				$('#type').empty();
-				$('#type').append(new Option("设备型号",""));
+				$('#hospital').empty();
+				$('#hospital').append(new Option("医院选择",""));
 				$.each(obj, function(i) {
-					$('#type').append(new Option(i,i));
+					$('#hospital').append(new Option(i,i));
 				}); 
 				form.render("select");
 			},error:function(){

@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../css/xadmin.css">
 <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../js/xadmin.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
 <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -23,7 +24,7 @@
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md12">
 				<div class="layui-card">
-					<div class="layui-card-header">标题</div>
+					<div class="layui-card-header" id="title"></div>
 					<div class="layui-card-body">
 						<table class="layui-table" id="LAY_table_equipment"
 							lay-filter="test"></table>
@@ -35,31 +36,8 @@
 </body>
 
 <script>
-layui.use(['form','table','jquery'], function() {
-	$ = layui.jquery;
-	var table = layui.table;
-	//方法级渲染
-    table.render({
-        elem: '#LAY_table_equipment'
-        ,url: 'equipment/selectEquimentExtByPage'
-        ,cellMinWidth: 100
-        ,cols: [[
-            {field:'id', title: 'ID', width:80, sort: true,align:'center'}
-            ,{field:'department', title: '科室',sort: true, width:220,align:'center'}
-            ,{field:'sn', title: '序列号', width:160,align:'center'}
-            ,{field:'time', title: '入科时间',sort: true, width:160,align:'center'}
-            ,{field:'delete_tag', title: '是否在用',sort: true, width:98,align:'center'}
-        ]]
-  		,page: true //是否显示分页
-  		,limits:[5,10,15,20,50,100]
-   		,limit: 10 //每页默认显示的数量
-        ,id: 'testReload'
-        ,response: {
-        	statusCode: 200 //规定成功的状态码，默认：0
-        }
-        ,height: 467
-    });
-    active = {
+
+   active = {
  	    reload: function(){
  	      var sn = $('#sn');
  	      var name = $('#name');
@@ -81,11 +59,7 @@ layui.use(['form','table','jquery'], function() {
  	      });
  	    }
  	  };
- 	 $('.layui-card-body .layui-btn').on('click', function(){
- 	    var type = $(this).data('type');
- 	    active[type] ? active[type].call(this) : '';
- 	  });
-	var form = layui.form;
+	/*var form = layui.form;
 	$(document).ready(function() {　　
 		$.ajax({
 			contentType: "application/json;charset=utf-8",
@@ -103,29 +77,8 @@ layui.use(['form','table','jquery'], function() {
 				
 			}
 		});
-	});
-	form.on('select(Type_filter)', function(data) {
-		var data1 = {"name":data.value};
-		 $.ajax({
-			contentType: "application/json;charset=utf-8",
-			type: "post",
-			url: "equipmentType/selectEquipmentTypeByName",
-			dataType: "json",
-			data: JSON.stringify(data1),
-			success: function(data2) {
-				var obj = data2.data;
-				$('#type').empty();
-				$('#type').append(new Option("设备型号",""));
-				$.each(obj, function(i) {
-					$('#type').append(new Option(i,i));
-				}); 
-				form.render("select");
-			},error:function(){
-				
-			}
-		});
-	});
-});
+	}); */
+	
 	layui.use('laydate', function() {
 		var laydate = layui.laydate;
 
@@ -142,117 +95,37 @@ layui.use(['form','table','jquery'], function() {
 	});
 </script>
 <script>
-	/*用户-删除*/
-	function member_del(obj, id) {
-		layer.confirm('确认要删除吗？', function(index) {
-			//发异步删除数据
-			$(obj).parents("tr").remove();
-			$.ajax({
-				//请求方式
-				type : "post",
-				//url 
-				url : "equipment/updateEquimentById",
-				data: "id=" + id,
-				//datarype 
-				dataType : "json",
-				//result 为请求的返回结果对象
-				success : function(result) {
-					if ("200" == result.status) {
-						layer.msg('已删除!', {
-							icon : 1,
-							time : 1000
-						});
-						location.reload(); 
-					} 
-				}
-			});
-		});
-	} 
-	layui.use('table', function() {
+function child(d) {
+	var obj = JSON.parse(d);
+	$("#title").html(obj.province+"("+obj.name+")");
+	var id = obj.id;
+	//alert(id);
+	layui.use(['form','table','jquery'], function() {
+		$ = layui.jquery;
 		var table = layui.table;
-
-		//监听工具条
-		  table.on('tool(test)', function(obj){
-		    var data = obj.data;
-		    if(obj.event === 'details'){
-		    	console.log(JSON.stringify(data));
-		    	layer.open({
-	                title: '详情',
-	                type: 2,
-	                area: [ '800px', '600px'], //宽高
-	                maxmin: true, //开启最大化最小化按钮
-	                content: "toPage?url=/static/hospital-list",
-	                success: function (layero, index) {
-	                    // 获取子页面的iframe
-	                    var iframe = window['layui-layer-iframe' + index];
-	                    // 向子页面的全局函数child传参
-	                    iframe.child(JSON.stringify(data)); 
-	                }
-              })
-		    }
-		   if(obj.event === 'edit'){
-			   console.log(JSON.stringify(data));
-			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */
-			  layer.open({
-	                title: '编辑',
-	                type: 2,
-	                area: [ '800px', '600px'], //宽高
-	                maxmin: true, //开启最大化最小化按钮
-	                content: "toPage?url=/static/Warehousing-edit",
-	                success: function (layero, index) {
-	                    // 获取子页面的iframe
-	                    var iframe = window['layui-layer-iframe' + index];
-	                    // 向子页面的全局函数child传参
-	                    iframe.child(JSON.stringify(data)); 
-	                }
-              })
-		    }
-		   if(obj.event === 'del'){
-			   //alert(data.id)
-			   member_del(data,data.id);
-		   }
-		  });
-
-		//头工具栏事件
-		table.on('toolbar(test)', function(obj) {
-			var checkStatus = table.checkStatus(obj.config.id);
-			switch (obj.event) {
-			case 'getCheckData':
-				var data = checkStatus.data;
-				if(data.length <= 0){
-					layer.alert("请先选择数据!");
-				}else{
-					for(var i=0;i < data.length;i++){
-						if(i == data.length-1){
-							if(data[i].status != data[0].status){
-								layer.alert("选择的数据状态不一致!");
-								return;
-							}
-						}else{
-							if(data[i].status != data[i+1].status){
-								layer.alert("选择的数据状态不一致!");
-								return;
-							}
-						}
-					}
-					layer.open({
-		                title: '批量修改状态',
-		                type: 2,
-		                area: [ '500px', '400px'], //宽高
-		                maxmin: true, //开启最大化最小化按钮
-		                content: "toPage?url=/static/update-status",
-		                success: function (layero, index) {
-		                    // 获取子页面的iframe
-		                    var iframe = window['layui-layer-iframe' + index];
-		                    // 向子页面的全局函数child传参
-		                    iframe.child(JSON.stringify(data)); 
-		                }
-		            })
-				}
-				break;
-			}
-			;
-		});
+		//方法级渲染
+	    table.render({
+	        elem: '#LAY_table_equipment'
+	        ,url: 'department/findDeptDetail'
+	        ,where: {h_id:id}
+	        ,cellMinWidth: 100
+	        ,cols: [[
+	            {field:'meterId', title: '仪器ID', width:100, sort: true,align:'center'}
+	            ,{field:'dName', title: '科室',sort: true, width:200,align:'center'}
+	            ,{field:'sn', title: '序列号', width:160,align:'center'}
+	            ,{field:'time', title: '入科时间',sort: true, width:160,align:'center'}
+	            ,{field:'status', title: '是否在用',sort: true, width:98,align:'center'}
+	        ]]
+	  		,page: true //是否显示分页
+	  		,limits:[5,10,15,20,50,100]
+	   		,limit: 10 //每页默认显示的数量
+	        ,id: 'testReload'
+	        ,response: {
+	        	statusCode: 200 //规定成功的状态码，默认：0
+	        }
+	        ,height: 467
+	    });
 	});
+} 
 </script>
 </html>

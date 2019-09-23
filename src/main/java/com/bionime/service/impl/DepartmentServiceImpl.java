@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.DepartmentMapper;
 import com.bionime.pojo.Department;
+import com.bionime.pojo.DepartmentDetail;
 import com.bionime.pojo.DepartmentExt;
+import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.Hospital;
 import com.bionime.service.DepartmentService;
 import com.bionime.utils.SystemResult;
@@ -67,5 +69,32 @@ public class DepartmentServiceImpl implements DepartmentService {
 		SystemResult result = SystemResult.ok(typeMap);
 		return result;
 	}
+
+	@Override
+	public Map<String, Object> selectDepartmentDetailByPage(HashMap<String, Object> paramMap,
+			DepartmentDetail departmentDetail) {
+		List<DepartmentDetail> list = departmentMapper.selectDepartmentDetailByPage(paramMap);
+		List<DepartmentDetail> equipmentExtList = departmentMapper.selectDepartmentDetail(departmentDetail);
+		int count = equipmentExtList.size();
+		String status = null;
+		if(list != null && list.size() != 0) {
+			for(int i=0;i<list.size();i++) {
+				status = list.get(i).getStatus();
+				if("20".equals(status)) {
+					status = "是";
+				}else {
+					status = "否";
+				}
+				list.get(i).setStatus(status);
+			}
+		}
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("code", 200);
+		map.put("data",list);
+		map.put("count", count);
+		return map;
+	}
+
+	
 
 }

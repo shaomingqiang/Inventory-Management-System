@@ -71,8 +71,8 @@ public class UserController {
 		if (user != null) {
 			session.setAttribute("user", user);
 		}
-		logger.info("aaaaaaaaa");
-		logger.error("bbbbbbbbbbb");
+		logger.info(user.getUsername());
+		//logger.error("bbbbbbbbbbb");
 		return result;
 	}
 
