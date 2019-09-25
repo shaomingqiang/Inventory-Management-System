@@ -111,6 +111,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public SystemResult statusChange(String id, int status, Long h_id, Long d_id) {
 		List<String> ids = Arrays.asList(id.split(","));
 		equipmentMapper.statusChange(ids, status, h_id, d_id);
+		for (String idTemp : ids) {
+			EquipmentRecord equipmentRecord = new EquipmentRecord();
+			equipmentRecord.setE_id(Long.parseLong(idTemp));
+			equipmentRecord.setChange_type(String.valueOf(status));
+			equipmentRecord.setChange_time(new Date());
+			equipmentRecord.setH_id(h_id);
+			equipmentRecord.setD_id(d_id);
+			equipmentRecordMapper.insert(equipmentRecord);	
+		}
 		return SystemResult.ok();
 	}
 

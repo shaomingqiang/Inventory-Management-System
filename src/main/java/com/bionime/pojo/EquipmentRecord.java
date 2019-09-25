@@ -15,8 +15,8 @@ public class EquipmentRecord implements Serializable{
 	private String change_type;
 	private Date change_time;
 	private String operator;
-	private int h_id;
-	private int d_id;
+	private Long h_id;
+	private Long d_id;
 	private String remarks;
 	public Long getId() {
 		return id;
@@ -48,16 +48,17 @@ public class EquipmentRecord implements Serializable{
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	public int getH_id() {
+	
+	public Long getH_id() {
 		return h_id;
 	}
-	public void setH_id(int h_id) {
+	public void setH_id(Long h_id) {
 		this.h_id = h_id;
 	}
-	public int getD_id() {
+	public Long getD_id() {
 		return d_id;
 	}
-	public void setD_id(int d_id) {
+	public void setD_id(Long d_id) {
 		this.d_id = d_id;
 	}
 	public String getRemarks() {
