@@ -18,4 +18,5 @@ public interface EquipmentService {
 	Map<String, Object> selectCountByStatus();
 	SystemResult selectEquimentExt(EquipmentExt equipmentExt);
 	Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> map,EquipmentExt equipmentExt);
+	Equipment selectEquipmentIdBySn(String sn);
 }

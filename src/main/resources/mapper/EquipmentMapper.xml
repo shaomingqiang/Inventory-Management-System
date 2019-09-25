@@ -180,4 +180,11 @@
             ]]>
 		</if>
 	</select>
+	
+	<!-- 根据序列号查询id -->
+	<select id="selectEquipmentIdBySn"
+		parameterType="java.lang.String"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where sn=#{sn}
+	</select>
 </mapper>

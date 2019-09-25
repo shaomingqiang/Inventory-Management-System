@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.EquipmentMapper;
+import com.bionime.mapper.EquipmentRecordMapper;
 import com.bionime.mapper.EquipmentTypeMapper;
 import com.bionime.pojo.Equipment;
 import com.bionime.pojo.EquipmentExt;
+import com.bionime.pojo.EquipmentRecord;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
@@ -44,6 +46,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Autowired
 	private EquipmentTypeMapper equipmentTypeMapper;
+	
+	@Autowired
+	private EquipmentRecordMapper equipmentRecordMapper;
 
 	@Override
 	public SystemResult insert(Equipment equipment) {
@@ -83,6 +88,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}
 		equipmentMapper.insert(equipmentsList);
 		equipmentTypeMapper.countIncrease(equipment.getEt_id(), snSize);
+		
+		//添加数据到记录表
+		for (Equipment equipmentTemp : equipmentsList) {
+			Equipment equipment1 = equipmentMapper.selectEquipmentIdBySn(equipmentTemp.getSn());
+			EquipmentRecord equipmentRecord = new EquipmentRecord();
+			equipmentRecord.setE_id(equipment1.getId());
+			equipmentRecord.setChange_type("10");
+			equipmentRecord.setChange_time(new Date());
+			equipmentRecordMapper.insert(equipmentRecord);		
+		}
 		return SystemResult.ok();
 	}
 
@@ -230,5 +245,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("meter_50", meter_50);
 		map.put("meter_60", meter_60);
 		return map;
+	}
+
+	@Override
+	public Equipment selectEquipmentIdBySn(String sn) {
+		Equipment equipment = equipmentMapper.selectEquipmentIdBySn(sn);
+		return equipment;
 	}
 }

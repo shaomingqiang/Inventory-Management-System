@@ -20,4 +20,5 @@ public interface EquipmentMapper {
 	List<EquipmentExt> selectEquipmentExt(EquipmentExt equipmentExt);
 	List<EquipmentExt> selectEquipmentExtByPage(HashMap<String, Object> map);
 	List<Equipment> selectEquipmentById(@Param("id")Long id);
+	Equipment selectEquipmentIdBySn(String sn);
 }
