@@ -14,7 +14,7 @@ public class EquipmentRecord implements Serializable{
 	private Long e_id;//设备id，外键
 	private String change_type;
 	private Date change_time;
-	private String operator;
+	private Long operator;
 	private Long h_id;
 	private Long d_id;
 	private String remarks;
@@ -42,10 +42,10 @@ public class EquipmentRecord implements Serializable{
 	public void setChange_time(Date change_time) {
 		this.change_time = change_time;
 	}
-	public String getOperator() {
+	public Long getOperator() {
 		return operator;
 	}
-	public void setOperator(String operator) {
+	public void setOperator(Long operator) {
 		this.operator = operator;
 	}
 	

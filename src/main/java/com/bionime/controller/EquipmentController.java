@@ -3,7 +3,10 @@ package com.bionime.controller;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.bionime.mapper.UserMapper;
+import com.bionime.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +42,9 @@ public class EquipmentController {
 	@Autowired
 	private EquipmentService equipmentService;
 
+	@Autowired
+	private UserMapper userMapper;
+
 	/**
 	 * 设备添加
 	 * <p>
@@ -52,8 +58,11 @@ public class EquipmentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public SystemResult insertEquipment(@RequestBody Equipment equipment) {
-		SystemResult result = equipmentService.insert(equipment);
+	public SystemResult insertEquipment(HttpServletRequest request,@RequestBody Equipment equipment) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		user=userMapper.login(user);
+		SystemResult result = equipmentService.insert(equipment,user.getId());
 		return result;
 	}
 
@@ -89,8 +98,11 @@ public class EquipmentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/statusChange", method = RequestMethod.POST)
-	public SystemResult equipmentStatusChange(String id, Integer status,Long h_id,Long d_id) {
-		SystemResult result = equipmentService.statusChange(id, status,h_id,d_id);
+	public SystemResult equipmentStatusChange(HttpServletRequest request,String id, Integer status,Long h_id,Long d_id) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		user=userMapper.login(user);
+		SystemResult result = equipmentService.statusChange(id, status,h_id,d_id,user.getId());
 		return result;
 	}
 	

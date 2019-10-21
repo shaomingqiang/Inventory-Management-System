@@ -6,8 +6,8 @@
 	<!-- 设备新增 -->
 	<insert id="insert" parameterType="java.util.List">
 		insert into equipment_record
-		(e_id,change_type,change_time,h_id,d_id)
+		(e_id,change_type,change_time,h_id,d_id,operator)
 		values
-		(#{e_id},#{change_type},#{change_time},#{h_id},#{d_id})
+		(#{e_id},#{change_type},#{change_time},#{h_id},#{d_id},#{operator})
 	</insert>
 </mapper>

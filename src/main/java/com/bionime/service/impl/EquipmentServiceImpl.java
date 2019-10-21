@@ -51,7 +51,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private EquipmentRecordMapper equipmentRecordMapper;
 
 	@Override
-	public SystemResult insert(Equipment equipment) {
+	public SystemResult insert(Equipment equipment,Long uid) {
 		List<Equipment> equipmentsList = new ArrayList<Equipment>();
 		List<String> snList = Arrays.asList(equipment.getSn().split(","));
 		List<String> propertyNoList = null;
@@ -95,6 +95,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			EquipmentRecord equipmentRecord = new EquipmentRecord();
 			equipmentRecord.setE_id(equipment1.getId());
 			equipmentRecord.setChange_type("10");
+			equipmentRecord.setOperator(uid);
 			equipmentRecord.setChange_time(new Date());
 			equipmentRecordMapper.insert(equipmentRecord);		
 		}
@@ -108,7 +109,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult statusChange(String id, int status, Long h_id, Long d_id) {
+	public SystemResult statusChange(String id, int status, Long h_id, Long d_id,Long uid) {
 		List<String> ids = Arrays.asList(id.split(","));
 		equipmentMapper.statusChange(ids, status, h_id, d_id);
 		for (String idTemp : ids) {
@@ -118,6 +119,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			equipmentRecord.setChange_time(new Date());
 			equipmentRecord.setH_id(h_id);
 			equipmentRecord.setD_id(d_id);
+			equipmentRecord.setOperator(uid);
 			equipmentRecordMapper.insert(equipmentRecord);	
 		}
 		return SystemResult.ok();
