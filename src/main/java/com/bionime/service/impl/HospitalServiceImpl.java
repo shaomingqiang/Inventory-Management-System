@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.HospitalMapper;
+import com.bionime.pojo.Department;
 import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.pojo.Hospital;
@@ -58,7 +59,18 @@ public class HospitalServiceImpl implements HospitalService {
 		SystemResult result = SystemResult.ok(typeMap);
 		return result;
 	}
-
+	
+	
+	@Override
+	public SystemResult selectDepartmentByHospital(Long id) {
+		List<Department> hospitallist = hospitalMapper.selectDepartment(id);
+		Map<String,Long> typeMap = new HashMap<String,Long>();
+		for (Department hospital1 : hospitallist) {
+			typeMap.put(hospital1.getName(), hospital1.getId());
+		}
+		SystemResult result = SystemResult.ok(typeMap);
+		return result;
+	}
 	
 
 	@Override
@@ -72,5 +84,11 @@ public class HospitalServiceImpl implements HospitalService {
 		map.put("data",hospitalExtListByPage);
 		map.put("count", count);
 		return map;
+	}
+
+	@Override
+	public SystemResult selectHospitalById(Long id) {
+		List<Hospital> result = hospitalMapper.selectHospitalById(id);
+		return SystemResult.ok(result);
 	}
 }

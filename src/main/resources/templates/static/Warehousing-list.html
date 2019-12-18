@@ -280,12 +280,12 @@ layui.use(['form','table','jquery'], function() {
 				}else{
 					for(var i=0;i < data.length;i++){
 						if(i == data.length-1){
-							if(data[i].status != data[0].status){
+							if(data[i].status != data[0].status){//比较最后一个和第一个的数据
 								layer.alert("选择的数据状态不一致!");
 								return;
 							}
 						}else{
-							if(data[i].status != data[i+1].status){
+							if(data[i].status != data[i+1].status){//比较中间的数据
 								layer.alert("选择的数据状态不一致!");
 								return;
 							}

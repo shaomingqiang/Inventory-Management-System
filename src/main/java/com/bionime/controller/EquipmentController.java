@@ -1,6 +1,7 @@
 package com.bionime.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -131,6 +132,13 @@ public class EquipmentController {
 		}
 		SystemResult result = equipmentService.selectEquimentExt(equipmentExt);
 		return result;
+	}
+	
+	@RequestMapping(value = "/selectHospitalDetail", method = RequestMethod.POST)
+	public Object selectHospitalDetail(@RequestBody Equipment equipment) {
+		Long Lid = equipment.getId();
+		Map<String, String> map = equipmentService.selectHospitalDetail(Lid);
+		return map;
 	}
 	//分页查询加模糊查询
 	@RequestMapping(value = "/selectEquimentExtByPage", method = RequestMethod.GET)

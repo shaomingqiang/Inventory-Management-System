@@ -125,7 +125,7 @@
 						<label for="status" class="layui-form-label"><span
 							class="x-red">*</span>医院</label>
 						<div class="layui-input-inline">
-							<select name="select_hospital" id="select_hospital"
+							<select name="h_id" id="select_hospital"
 								lay-filter="hospital_filter" lay-verify="select_hospital"
 								class="layui-input">
 								<option value="">医院选择</option>
@@ -135,7 +135,7 @@
 					<div class="layui-form-item">
 						<label for="status" class="layui-form-label">科室</label>
 						<div class="layui-input-inline">
-							<select name="select_department" id="select_department"
+							<select name="d_id" id="select_department"
 								lay-filter="department_filter" lay-verify="select_department"
 								class="layui-input">
 								<option value="">科室选择</option>
@@ -204,8 +204,6 @@
 					}
 				});
 			});
-			
-			
 			form.on('select(Type_filter)', function(data) {
 				var data1 = {"name":data.value};
 				 $.ajax({
@@ -234,10 +232,8 @@
 					$('#show_div').css('display', 'block');
 				}
 			}); 
-			form.on('select(province_filter)', function(data) {
-				var data1 = {"province":data.value};
-				console.log(data1);
-				 $.ajax({
+			function setHospital(data1){
+				$.ajax({
 					contentType: "application/json;charset=utf-8",
 					type: "post",
 					url: "hospital/selectHospitalByProvince",
@@ -255,6 +251,10 @@
 						
 					}
 				});
+			}
+			form.on('select(province_filter)', function(data) {
+				var data1 = {"province":data.value};
+				setHospital(data1);
 			});
 			form.on('select(hospital_filter)', function(data) {
 				var data1 = {"h_id":data.value};
@@ -339,7 +339,6 @@
 							}, function() {
 								//关闭当前frame
 								xadmin.close();
-
 								// 可以对父窗口进行刷新 
 								xadmin.father_reload();
 							});
@@ -352,6 +351,64 @@
 		});
 	</script>
 	<script>
+	function setHospital(data1,hName){
+		layui.use(['form', 'jquery' ], function() {
+			 $ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "hospital/selectHospitalByProvince",
+				dataType: "json",
+				data: JSON.stringify(data1),
+				success: function(data2) {
+					var obj = data2.data;
+					$('#select_hospital').empty();
+					$('#select_hospital').append(new Option("医院",""));
+					$.each(obj, function(i,item) {
+						$('#select_hospital').append(new Option(i,item));
+					}); 
+					$("#select_hospital option").each(function(){
+				        if($(this).val()==hName){
+				            $(this).attr("selected", true);
+				        }
+				    });
+					form.render("select");
+				 },error:function(){
+					
+				}
+			}); 
+		});
+	}
+	function setDepartment(data2,hName){
+		layui.use(['form', 'jquery' ], function() {
+			 $ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "hospital/selectDepartment",
+				dataType: "json",
+				data: JSON.stringify(data2),
+				success: function(data3) {
+					var obj = data3.data;
+					$('#select_department').empty();
+					$('#select_department').append(new Option("科室",""));
+					$.each(obj, function(i,item) {
+						$('#select_department').append(new Option(i,item));
+					}); 
+					$("#select_department option").each(function(){
+				        if($(this).val()==hName){
+				            $(this).attr("selected", true);
+				        }
+				    });
+					form.render("select");
+				 },error:function(){
+					
+				}
+			}); 
+		});
+	}
 	function getType(data1,data2){
 		var data3 = JSON.stringify({"name":data1});
 		layui.use(['form', 'jquery' ], function() {
@@ -379,6 +436,39 @@
 			});
 		});
 	}
+	function getHospital(id){
+		var data1 = JSON.stringify({"id":id});
+		layui.use(['form', 'jquery' ], function() {
+			$ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "equipment/selectHospitalDetail",
+				dataType: "json",
+				data: data1,
+				success: function(data) {
+					$("#select_province").val(data.province);
+					var data1 = {"province":data.province};
+					var data2 = {"id":data.hNo};
+					setHospital(data1,data.hNo);
+					setDepartment(data2,data.dNo);
+					$("#select_hospital").val();
+					$("#select_department").val(data.dName);
+					form.render("select");
+					var status = data.status;
+					//只有状态是20的时候，才是在院，show_div才会显示
+					if(status == "20"){
+						$('#show_div').css('display', 'block');
+					}
+					
+				},
+				error:function(){
+					
+				}
+			});
+		});
+	}
 		 function child(d) {
 			var obj = JSON.parse(d);
 			$("#name option").each(function() {
@@ -398,6 +488,9 @@
 			$("#status option").each(function() {
 				if ($(this).text() == obj.status) {
 					$(this).attr("selected", true);
+				}
+				if($(this).text() == "在院"){
+					getHospital(obj.id);
 				}
 			});
 			$(".layui-form-select dl dd").each(function() {

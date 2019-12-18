@@ -57,33 +57,47 @@ public class HospitalController {
 		return result;
 	}
 	
+	/**
+	 * 根据医院查询科室
+	 * <p>Title: insert</p>
+	 * <p>Description: </p>
+	 * @param hNo
+	 * @return
+	 */
+	@RequestMapping(value="/selectDepartment",method = {RequestMethod.GET,RequestMethod.POST})
+	public SystemResult selectDepartment(@RequestBody Hospital hospital) {
+		Long hNo = hospital.getId();
+		SystemResult result = hospitalService.selectDepartmentByHospital(hNo);
+		return result;
+	}
+	
 	
 	//分页查询加模糊查询
-		@RequestMapping(value = "/selectHospitalExtByPage", method = RequestMethod.GET)
-		public Object selectHospital(HttpServletRequest request) {
-			HashMap<String, Object> paramMap = new HashMap<String, Object>();
-			int page = Integer.parseInt(request.getParameter("page"));
-			int limit = Integer.parseInt(request.getParameter("limit"));
-			String name = request.getParameter("name");
-			String province = request.getParameter("province");
-			int temp = limit;
-			if (page != 1) {
-				page = (page - 1) * temp;
-			} else {
-				page = 0;
-			}
-			System.out.println(name);
-			System.out.println(province);
-			paramMap.put("page", page);
-			paramMap.put("limit", limit);
-			paramMap.put("name", name);
-			paramMap.put("province", province);
-			paramMap.put("tname", "血糖仪");
-			HashMap<String, Object> result = (HashMap<String, Object>) hospitalService.selectHospitalExtByPage(paramMap);
-			result.put("msg", "");
-			System.out.println(result);
-			return result;
+	@RequestMapping(value = "/selectHospitalExtByPage", method = RequestMethod.GET)
+	public Object selectHospital(HttpServletRequest request) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		int page = Integer.parseInt(request.getParameter("page"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
+		String name = request.getParameter("name");
+		String province = request.getParameter("province");
+		int temp = limit;
+		if (page != 1) {
+			page = (page - 1) * temp;
+		} else {
+			page = 0;
 		}
+		System.out.println(name);
+		System.out.println(province);
+		paramMap.put("page", page);
+		paramMap.put("limit", limit);
+		paramMap.put("name", name);
+		paramMap.put("province", province);
+		paramMap.put("tname", "血糖仪");
+		HashMap<String, Object> result = (HashMap<String, Object>) hospitalService.selectHospitalExtByPage(paramMap);
+		result.put("msg", "");
+		System.out.println(result);
+		return result;
+	}
 	
 	@RequestMapping(value="/selectHospitalByProvince",method = RequestMethod.POST)
 	public SystemResult selectHospitalByProvince(@RequestBody Hospital hospital) {

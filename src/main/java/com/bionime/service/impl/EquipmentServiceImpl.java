@@ -11,13 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bionime.mapper.DepartmentMapper;
 import com.bionime.mapper.EquipmentMapper;
 import com.bionime.mapper.EquipmentRecordMapper;
 import com.bionime.mapper.EquipmentTypeMapper;
+import com.bionime.mapper.HospitalMapper;
+import com.bionime.pojo.Department;
 import com.bionime.pojo.Equipment;
 import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentRecord;
 import com.bionime.pojo.EquipmentType;
+import com.bionime.pojo.Hospital;
 import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
 
@@ -49,6 +53,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	@Autowired
 	private EquipmentRecordMapper equipmentRecordMapper;
+	
+	@Autowired
+	private HospitalMapper hospitalMapper;
+	
+	@Autowired
+	private DepartmentMapper departmentMapper;
 
 	@Override
 	public SystemResult insert(Equipment equipment,Long uid) {
@@ -170,6 +180,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		if (equipmentExt != null) {
 			// 拿到设备id
 			Long id = equipmentExt.getId();
+			Long h_id = equipmentExt.getH_id();//医院id
+			Long d_id = equipmentExt.getD_id();//科室id
 			Long etId = null;
 			String oldStatus = null;
 			EquipmentType equipmentType = new EquipmentType();
@@ -183,15 +195,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 			// 根据设备id去查询设备的旧的序列号
 			List<Equipment> selectEquiment = equipmentMapper.selectEquipmentById(id);
 			String oldSn = "";
+			String oldType = "";
+			String oldPropertyNo = "";
+			Long oldHId = null;
+			Long oldDId = null;
 			if (selectEquiment != null && selectEquiment.size() == 1) {
 				oldSn = selectEquiment.get(0).getSn();
 				oldStatus = selectEquiment.get(0).getStatus();
+				EquipmentType equipmentType2 = null;
+				//根据id去找type
+				List<EquipmentType> selectEquipmentTypeById = equipmentTypeMapper.selectEquipmentTypeById(selectEquiment.get(0));
+				if(selectEquipmentTypeById.size()==1) {
+					equipmentType2 = selectEquipmentTypeById.get(0);
+				}
+				oldType = equipmentType2.getType();
+				oldHId = selectEquiment.get(0).getH_id();
+				oldDId = selectEquiment.get(0).getD_id();
+				oldPropertyNo = selectEquiment.get(0).getProperty_no();
 			}
 			if (!oldSn.equals(equipmentExt.getSn())) {
-				equipmentMapper.updateEquipmentExt(equipmentExt);
-			}else if(!oldStatus.equals(equipmentExt.getStatus())) {
-				equipmentMapper.updateEquipmentExt(equipmentExt);
-			} else {
 				List<String> snList = Arrays.asList(equipmentExt.getSn().split(","));
 				List<Equipment> equipmentsExist = equipmentMapper.selectBySn(snList);
 				List<String> duplicatedSns = new ArrayList<String>();
@@ -201,6 +223,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 					}
 					return SystemResult.build(500, "序列号" + duplicatedSns.toString() + "已存在，请修改序列号！");
 				}
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(!oldStatus.equals(equipmentExt.getStatus())) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(!oldType.equals(equipmentExt.getType())) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(oldHId == null) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(!oldHId.equals(h_id)) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(oldDId == null) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(!oldDId.equals(d_id)) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(oldPropertyNo == null) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(!oldPropertyNo.equals(equipmentExt.getProperty_no())) {
+				equipmentMapper.updateEquipmentExt(equipmentExt);
+			}else if(oldSn.equals(equipmentExt.getSn())){
+				return SystemResult.build(500, "没有修改任何内容！");
 			}
 			return SystemResult.ok();
 		} else {
@@ -262,5 +303,33 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Equipment selectEquipmentIdBySn(String sn) {
 		Equipment equipment = equipmentMapper.selectEquipmentIdBySn(sn);
 		return equipment;
+	}
+
+	@Override
+	public Map<String, String> selectHospitalDetail(Long id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		List<Equipment> equiments = equipmentMapper.selectEquipmentById(id);//根据设备id查询设备
+		if(equiments != null && equiments.size() == 1) {
+			//获取到设备状态
+			String status = equiments.get(0).getStatus();
+			map.put("status", status);
+			Long h_id = equiments.get(0).getH_id();//查询到医院id
+			String hNo = String.valueOf(h_id);
+			List<Hospital> hospitals = hospitalMapper.selectHospitalById(h_id);
+			if(hospitals != null && hospitals.size() == 1) {
+				String province = hospitals.get(0).getProvince();//省份
+				map.put("province", province);
+				map.put("hNo", hNo);
+			}
+			Long d_id = equiments.get(0).getD_id();//查询到科室id
+			String dNo = String.valueOf(d_id);
+			map.put("dNo", dNo);
+			/*List<Department> departments = departmentMapper.selectDepartmentById(d_id);
+			if(departments != null && departments.size() == 1) {
+				String hospital = hospitals.get(0).getName();//医院
+				map.put("hospital", hospital);
+			}*/
+		}
+		return map;
 	}
 }

@@ -16,6 +16,7 @@ public interface EquipmentService {
 	SystemResult updateEquimentExtById(int id);
 	SystemResult updateEquimentExt(EquipmentExt equipmentExt);
 	Map<String, Object> selectCountByStatus();
+	Map<String, String> selectHospitalDetail(Long id);
 	SystemResult selectEquimentExt(EquipmentExt equipmentExt);
 	Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> map,EquipmentExt equipmentExt);
 	Equipment selectEquipmentIdBySn(String sn);

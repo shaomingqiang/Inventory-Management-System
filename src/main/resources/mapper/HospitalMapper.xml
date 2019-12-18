@@ -10,6 +10,13 @@
            values(#{name},#{province},#{level},#{remarks},'0')
 	</insert>
 	
+	<!-- 根据id查询 -->
+	<select id="selectHospitalById"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Hospital">
+		select * from hospital where id=#{id}
+	</select>
+	
 	<!-- 根据省份查找医院 -->
 	<select id="selectHospitalExt" parameterType="com.bionime.pojo.Hospital" resultType="com.bionime.pojo.Hospital">
 		select * from hospital 
@@ -22,6 +29,13 @@
           	 and province like #{province}
 		   </if>
 		</where>
+	</select>
+	
+	<!-- 根据医院查找科室 -->
+	<select id="selectDepartment"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Department">
+		select * from department where h_id=#{id}
 	</select>
 	
 	<!-- 所有医院的信息，使用HospitalExt Pojo,并分页查询 -->

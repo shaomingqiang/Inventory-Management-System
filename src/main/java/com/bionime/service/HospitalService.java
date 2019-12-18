@@ -10,5 +10,7 @@ public interface HospitalService {
 	SystemResult insert(Hospital hospital);
 	SystemResult selectHospital(Hospital hospital);
 	SystemResult selectHospitalByProvince(Hospital hospital);
+	SystemResult selectDepartmentByHospital(Long id);
+	SystemResult selectHospitalById(Long id);
 	Map<String, Object> selectHospitalExtByPage(HashMap<String, Object> hospitalMap);
 }

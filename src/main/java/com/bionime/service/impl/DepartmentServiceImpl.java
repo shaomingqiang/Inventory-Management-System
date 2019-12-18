@@ -95,6 +95,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return map;
 	}
 
-	
+	@Override
+	public SystemResult selectDepartmentById(Long id) {
+		List<Department> result = departmentMapper.selectDepartmentById(id);
+		return SystemResult.ok(result);
+	}
 
 }

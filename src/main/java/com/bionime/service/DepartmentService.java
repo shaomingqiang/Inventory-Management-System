@@ -12,5 +12,6 @@ public interface DepartmentService {
 	SystemResult findDept(Department department);
 	SystemResult findDeptAndHosp();
 	SystemResult findDeptAndHosp1(Department department);
+	SystemResult selectDepartmentById(Long id);
 	Map<String, Object> selectDepartmentDetailByPage(HashMap<String, Object> map,DepartmentDetail departmentDetail);
 }

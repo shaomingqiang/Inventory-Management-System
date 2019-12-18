@@ -87,7 +87,7 @@
 		<if test="et_id!=null and et_id!=''">
 			,et_id=#{et_id}
 		</if>
-		<if test="property_no!=null and property_no!=''">
+		<if test="property_no!=null">
 			,property_no=#{property_no}
 		</if>
 		where id =#{id}
