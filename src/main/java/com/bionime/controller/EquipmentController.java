@@ -120,8 +120,11 @@ public class EquipmentController {
 	}
 	
 	@RequestMapping(value = "/updateEquiment", method = RequestMethod.POST)
-	public SystemResult updateEquiment(@RequestBody EquipmentExt equipmentExt) {
-		SystemResult result = equipmentService.updateEquimentExt(equipmentExt);
+	public SystemResult updateEquiment(@RequestBody EquipmentExt equipmentExt,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		user=userMapper.login(user);
+		SystemResult result = equipmentService.updateEquimentExt(equipmentExt,user.getId());
 		return result;
 	}
 	

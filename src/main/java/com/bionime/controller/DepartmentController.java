@@ -86,4 +86,27 @@ public class DepartmentController {
 		result.put("msg", "");
 		return result;
 	}
+	
+	@RequestMapping(value="/findDept",method = RequestMethod.GET)
+	public Object findDept(HttpServletRequest request) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		int page = Integer.parseInt(request.getParameter("page"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
+		Long h_id = Long.parseLong(request.getParameter("h_id"));
+		int temp = limit;
+		if (page != 1) {
+			page = (page - 1) * temp;
+		} else {
+			page = 0;
+		}
+		DepartmentDetail departmentDetail = new DepartmentDetail();
+		departmentDetail.sethId(h_id);
+		paramMap.put("page", page);
+		paramMap.put("limit", limit);
+		paramMap.put("h_id", h_id);
+		HashMap<String, Object> result = (HashMap<String, Object>) departmentService.selectDepartmentByPage(paramMap,
+				departmentDetail);
+		result.put("msg", "");
+		return result;
+	}
 }

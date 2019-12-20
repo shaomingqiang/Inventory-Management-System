@@ -3,6 +3,8 @@ package com.bionime.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bionime.pojo.Department;
 import com.bionime.pojo.Hospital;
 
@@ -15,5 +17,7 @@ public interface HospitalMapper {
 	List<Hospital> selectHospitalById(Long id);
 	//根据id查询科室
 	List<Department> selectDepartment(Long id);
+	//修改医院信息
+	int updateHospital(Hospital hospital);
 	
 }

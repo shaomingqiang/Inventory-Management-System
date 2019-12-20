@@ -95,13 +95,18 @@ public class HospitalController {
 		paramMap.put("tname", "血糖仪");
 		HashMap<String, Object> result = (HashMap<String, Object>) hospitalService.selectHospitalExtByPage(paramMap);
 		result.put("msg", "");
-		System.out.println(result);
 		return result;
 	}
 	
 	@RequestMapping(value="/selectHospitalByProvince",method = RequestMethod.POST)
 	public SystemResult selectHospitalByProvince(@RequestBody Hospital hospital) {
 		SystemResult result = hospitalService.selectHospitalByProvince(hospital);
+		return result;
+	}
+	
+	@RequestMapping(value = "/updateHospital", method = RequestMethod.POST)
+	public SystemResult updateEquiment(@RequestBody Hospital hospital) {
+		SystemResult result = hospitalService.updateHospital(hospital);
 		return result;
 	}
 }

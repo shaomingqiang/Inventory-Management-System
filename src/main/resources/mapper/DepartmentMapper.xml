@@ -34,7 +34,8 @@
 		hospital.level
 		from department
 		left join hospital
-		on department.h_id=hospital.id
+		on
+		department.h_id=hospital.id
 	</select>
 
 	<select id="findDeptAndHosp1" resultMap="deptAndHospitalRsMap"
@@ -61,8 +62,7 @@
 	</select>
 
 	<!-- 根据id查询 -->
-	<select id="selectDepartmentById"
-		parameterType="java.lang.Long"
+	<select id="selectDepartmentById" parameterType="java.lang.Long"
 		resultType="com.bionime.pojo.Department">
 		select * from department where id=#{id}
 	</select>
@@ -88,7 +88,7 @@
 		(name,h_id,remarks,delete_tag)
 		values(#{name},#{h_id},#{remarks},'0')
 	</insert>
-	
+
 	<select id="selectDepartmentDetail"
 		parameterType="com.bionime.pojo.DepartmentDetail"
 		resultType="com.bionime.pojo.DepartmentDetail">
@@ -105,20 +105,20 @@
 		hospital h,
 		department d
 		WHERE
-		h.id = d.h_id
-		AND h.delete_tag = 0 ) h INNER JOIN equipment e on h.did=e.d_id 
+		h.id =
+		d.h_id
+		AND h.delete_tag = 0 ) h INNER JOIN equipment e on h.did=e.d_id
 		<where>
-		e.delete_tag=0
+			e.delete_tag=0
 			<if test="d_id!=null and d_id!=''">
 				and h.id=#{h_id}
 			</if>
 		</where>
 	</select>
-	
+
 	<!-- 查询科室机器的详细信息,并分页查询 -->
 	<select id="selectDepartmentDetailByPage"
-		parameterType="hashMap"
-		resultType="com.bionime.pojo.DepartmentDetail">
+		parameterType="hashMap" resultType="com.bionime.pojo.DepartmentDetail">
 		select
 		e.id meterId,e.sn,e.status,h.dname,h.id h_id
 		from
@@ -133,13 +133,55 @@
 		department d
 		WHERE
 		h.id = d.h_id
-		AND h.delete_tag = 0 ) h INNER JOIN equipment e on h.did=e.d_id 
+		AND h.delete_tag = 0 ) h INNER JOIN equipment e on
+		h.did=e.d_id
 		<where>
-		e.delete_tag=0
+			e.delete_tag=0
 			<if test="h_id!=null and h_id!=''">
 				and h.id=#{h_id}
 			</if>
 		</where>
+		<if test="page != null and limit!= null">
+            <![CDATA[
+                LIMIT #{page},#{limit}
+            ]]>
+		</if>
+	</select>
+	<!-- 查询医院已有的科室,并分页查询 -->
+	<select id="selectDepartmentByPage" parameterType="hashMap"
+		resultType="com.bionime.pojo.DepartmentDetail">
+		SELECT DISTINCT
+		t.dname,
+		t.`status`
+		FROM
+		(
+		SELECT
+		h.dname,
+		h.id h_id,
+		h.`status`
+		FROM
+		(
+		SELECT
+		h.id,
+		h.NAME,
+		d.NAME dname,
+		d.id did,
+		d.delete_tag STATUS,
+		h.province
+		FROM
+		hospital h,
+		department d
+		WHERE
+		h.id = d.h_id
+		AND h.delete_tag = 0
+		) h
+		INNER JOIN department d ON h.did = d.id
+		<where>
+			<if test="h_id!=null and h_id!=''">
+				and h.id=#{h_id}
+			</if>
+		</where>
+		) t
 		<if test="page != null and limit!= null">
             <![CDATA[
                 LIMIT #{page},#{limit}

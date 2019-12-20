@@ -12,6 +12,7 @@
 <script type="text/javascript" src="../lib/layui/layui.js"
 	charset="utf-8"></script>
 <script type="text/javascript" src="../js/xadmin.js"></script>
+<link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 <!--[if lt IE 9]>
             <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -26,69 +27,94 @@
 
 <body>
 	<div class="layui-fluid">
-		<div class="layui-row">
-			<form class="layui-form">
-					<input readonly="readonly" style="display: none;" type="text" id="id" name="id"
-							required="" lay-verify="id" autocomplete="off"
-							class="layui-input">
-				<div class="layui-form-item">
-					<label for="select_base_type" class="layui-form-label">设备类型
-					</label>
-					<div class="layui-input-inline">
-						<input readonly="readonly" type="text" id="name" name="name"
-							required="" lay-verify="name" autocomplete="off"
-							class="layui-input">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-card">
+				<div class="layui-card-body ">
+					<form class="layui-form layui-row">
+						<input readonly="readonly" style="display: none;" type="text"
+						id="id" name="id" required="" lay-verify="id" autocomplete="off"
+						class="layui-input">
+						<div class="layui-col-xs6">
+							<label for="select_base_province" class="layui-form-label">省份
+							</label>
+							<div class="layui-input-inline">
+								<select name="province" id="select_province"
+									lay-filter="province_filter" lay-search=""
+									lay-verify="select_province" class="layui-input">
+									<option value="">省份选择</option>
+									<option value="江苏省">江苏省</option>
+									<option value="北京市">北京市</option>
+									<option value="天津市">天津市</option>
+									<option value="上海市">上海市</option>
+									<option value="重庆市">重庆市</option>
+									<option value="河南省">河南省</option>
+									<option value="河北省">河北省</option>
+									<option value="黑龙江省">黑龙江省</option>
+									<option value="辽宁省">辽宁省</option>
+									<option value="吉林省">吉林省</option>
+									<option value="湖南省">湖南省</option>
+									<option value="湖北省">湖北省</option>
+									<option value="安徽省">安徽省</option>
+									<option value="山东省">山东省</option>
+									<option value="浙江省">浙江省</option>
+									<option value="江西省">江西省</option>
+									<option value="甘肃省">甘肃省</option>
+									<option value="云南省">云南省</option>
+									<option value="山西省">山西省</option>
+									<option value="陕西省">陕西省</option>
+									<option value="福建省">福建省</option>
+									<option value="贵州省">贵州省</option>
+									<option value="广东省">广东省</option>
+									<option value="青海省">青海省</option>
+									<option value="四川省">四川省</option>
+									<option value="海南省">海南省</option>
+									<option value="台湾省">台湾省</option>
+									<option value="广西壮族自治区">广西壮族自治区</option>
+									<option value="内蒙古自治区">内蒙古自治区</option>
+									<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+									<option value="西藏自治区">西藏自治区</option>
+									<option value="宁夏回族自治区">宁夏回族自治区</option>
+									<option value="宁夏回族自治区">香港特别行政区</option>
+									<option value="宁夏回族自治区">澳门特别行政区</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-col-xs6">
+							<label for="name" class="layui-form-label"> 医院 </label>
+							<div class="layui-input-inline">
+								<input type="text" id="name" name="name" required=""
+									lay-verify="hospital" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-col-xs6">
+						<label for="level" class="layui-form-label">
+						医院级别
+						</label>
+						<div class="layui-input-inline">
+							<select name="level" id="select_level" lay-filter="Model_level" lay-verify="select_level" class="layui-input">
+								<option value="">医院级别</option>
+								<option value="一级甲等">一级甲等</option>
+								<option value="一级乙等">一级乙等</option>
+								<option value="一级丙等">一级丙等</option>
+								<option value="二级甲等">二级甲等</option>
+								<option value="二级乙等">二级乙等</option>
+								<option value="二级丙等">二级丙等</option>
+								<option value="三级甲等">三级甲等</option>
+								<option value="三级乙等">三级乙等</option>
+								<option value="三级丙等">三级丙等</option>
+							</select>
+						</div>
 					</div>
+						<div class="layui-col-xs6" style="padding-left: 70px;">
+							<button class="layui-btn" lay-submit="" lay-filter="edit">修改</button>
+						</div>
+					</form>
 				</div>
-
-				<div class="layui-form-item">
-					<label for="type" class="layui-form-label"> 设备型号 </label>
-					<div class="layui-input-inline">
-						<input readonly="readonly" type="text" id="type" name="type"
-							required="" lay-verify="type" autocomplete="off"
-							class="layui-input">
-					</div>
+				<div class="layui-card-body ">
+					<table class="layui-table" id="LAY_table_departmrnt"
+						lay-filter="test"></table>
 				</div>
-
-				<div class="layui-form-item">
-					<label for="sn" class="layui-form-label"> 序列号 </label>
-					<div class="layui-input-inline">
-						<input readonly="readonly" type="text" id="sn" name="sn"
-							required="" lay-verify="sn" autocomplete="off"
-							class="layui-input">
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label for="status" class="layui-form-label">状态</label>
-					<div class="layui-input-inline">
-						<select name="status" id="status" lay-filter="Status_filter"
-							class="layui-input">
-							<option value="10">在库</option>
-							<option value="20">在院</option>
-							<option value="30">出库</option>
-							<option value="40">借用</option>
-							<option value="50">返修</option>
-							<option value="60">审核</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label for="property_no" class="layui-form-label"> <!--<span class="x-red">*</span>-->
-						财产编号
-					</label>
-					<div class="layui-input-inline">
-						<input type="text" id="property_no" name="property_no"
-							autocomplete="off" class="layui-input">
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label for="L_repass" class="layui-form-label"></label>
-					<button class="layui-btn" lay-submit="" lay-filter="edit">修改</button>
-				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 	<script>
@@ -98,22 +124,19 @@
 
 			//自定义验证规则
 			form.verify({
-				select_base_type : function(value) {
+				select_province : function(value) {
 					if (value == "") {
-						return "设备类型不能为空";
+						return "省份不能为空!";
 					}
 				},
-				select_base_modle : function(value) {
+				hospital : function(value) {
 					if (value == "") {
-						return "设备型号不能为空";
+						return "医院名称不能为空!";
 					}
 				},
-				sn : function(value) {
+				select_level : function(value) {
 					if (value == "") {
-						return "序列号不能为空";
-					}
-					if (/\s+/.test(value)) {
-						return "序列号不能有空格";
+						return "医院级别不能为空!";
 					}
 				}
 			});
@@ -124,7 +147,7 @@
 					//请求方式
 					type : "post",
 					//url 
-					url : "/equipment/updateEquimentById",
+					url : "/hospital/updateHospital",
 					//把Js的对象或数组序列化一个son字符串
 					data : data,
 					//contentType 
@@ -155,34 +178,102 @@
 						}
 					}
 				});
-				return false; 
+				return false;
 			});
 
 		});
 	</script>
-	<script>
+	<script type="text/html" id="checkboxTpl">
+		<span title="启用" onclick="member_stop(this,'10001')" href="javascript:;" class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
+	</script>
+	<script type="text/javascript">
 		function child(d) {
 			var obj = JSON.parse(d);
-			$("#name").val(obj.name);
-			$("#type").val(obj.type);
-			$("#sn").val(obj.sn);
-			$("#status option").each(function() {
-				if ($(this).text() == obj.status) {
+			$("#select_province option").each(function() {
+				if ($(this).text() == obj.province) {
 					$(this).attr("selected", true);
 				}
 			});
+			$("#select_level option").each(function() {
+				if ($(this).text() == obj.level) {
+					$(this).attr("selected", true);
+				}
+			});
+			
+			$("#name").val(obj.name);
 			$(".layui-form-select dl dd").each(function() {
 				if ($(this).text() == obj.status) {
 					$(this).addClass("layui-this");
 				}
 			});
-			layui.use(['form'], function() {
+			layui.use([ 'form' ], function() {
 				var form = layui.form;
 				form.render("select");
 			});
-			$("#property_no").val(obj.property_no);
 			$("#id").val(obj.id);
+			var h_id = obj.id;
+			layui.use([ 'form', 'table', 'jquery' ], function() {
+				$ = layui.jquery;
+				var table = layui.table, form = layui.form;
+				;
+				//方法级渲染
+				table.render({
+					elem : '#LAY_table_departmrnt',
+					url : 'department/findDept',
+					where : {
+						h_id : h_id
+					},
+					cellMinWidth : 100,
+					cols : [ [ {
+						field : 'dName',
+						title : '科室',
+						sort : true,
+						width : 320,
+						align : 'center'
+					}, {
+						field : 'status',
+						title : '是否在用',
+						templet : '#checkboxTpl',
+						unresize : true,
+						width : 320,
+						align : 'center'
+					}
+					] ],
+					page : true //是否显示分页
+					,
+					limits : [ 5, 10, 15, 20, 50, 100 ],
+					limit : 10 //每页默认显示的数量
+					,
+					response : {
+						statusCode : 200
+					//规定成功的状态码，默认：0
+					},
+					height : 410,
+					width : 640
+				});
+			})
 		}
+		 /*用户-停用*/
+	      function member_stop(obj,id){
+			 if($(obj).attr('title')=='启用'){
+				 layer.confirm('确认要停用吗？',function(index){
+		                //发异步把用户状态进行更改
+		                
+		                $(obj).attr('title','停用')
+		                $(obj).addClass('layui-btn-danger').html('已停用');
+		                layer.msg('已停用!',{icon: 2,time:1000});
+		          });
+			 }else{
+				 layer.confirm('确认要启用吗？',function(index){
+		            	//发异步把用户状态进行更改
+		            	
+		                $(obj).attr('title','启用')
+		                $(obj).removeClass('layui-btn-danger').html('已启用');
+		                layer.msg('已启用!',{icon: 1,time:1000});
+				 });
+			 }
+	          
+	      }
 	</script>
 	<script>
 		var _hmt = _hmt || [];

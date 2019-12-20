@@ -176,7 +176,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult updateEquimentExt(EquipmentExt equipmentExt) {
+	public SystemResult updateEquimentExt(EquipmentExt equipmentExt,Long uid) {
 		if (equipmentExt != null) {
 			// 拿到设备id
 			Long id = equipmentExt.getId();
@@ -226,16 +226,61 @@ public class EquipmentServiceImpl implements EquipmentService {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 			}else if(!oldStatus.equals(equipmentExt.getStatus())) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
+				//当设备状态修改的时候,往记录表中插入数据
+				EquipmentRecord equipmentRecord = new EquipmentRecord();
+				equipmentRecord.setE_id(id);
+				equipmentRecord.setChange_type(String.valueOf(equipmentExt.getStatus()));
+				equipmentRecord.setChange_time(new Date());
+				equipmentRecord.setH_id(h_id);
+				equipmentRecord.setD_id(d_id);
+				equipmentRecord.setOperator(uid);
+				equipmentRecordMapper.insert(equipmentRecord);
 			}else if(!oldType.equals(equipmentExt.getType())) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
-			}else if(oldHId == null) {
+			}else if(oldHId == null && h_id != null) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
+				//当设备状态修改的时候,往记录表中插入数据
+				EquipmentRecord equipmentRecord = new EquipmentRecord();
+				equipmentRecord.setE_id(id);
+				equipmentRecord.setChange_type(String.valueOf(equipmentExt.getStatus()));
+				equipmentRecord.setChange_time(new Date());
+				equipmentRecord.setH_id(h_id);
+				equipmentRecord.setD_id(d_id);
+				equipmentRecord.setOperator(uid);
+				equipmentRecordMapper.insert(equipmentRecord);
 			}else if(!oldHId.equals(h_id)) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
-			}else if(oldDId == null) {
+				//当设备状态修改的时候,往记录表中插入数据
+				EquipmentRecord equipmentRecord = new EquipmentRecord();
+				equipmentRecord.setE_id(id);
+				equipmentRecord.setChange_type(String.valueOf(equipmentExt.getStatus()));
+				equipmentRecord.setChange_time(new Date());
+				equipmentRecord.setH_id(h_id);
+				equipmentRecord.setD_id(d_id);
+				equipmentRecord.setOperator(uid);
+				equipmentRecordMapper.insert(equipmentRecord);
+			}else if(oldDId == null && d_id != null) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
+				//当设备状态修改的时候,往记录表中插入数据
+				EquipmentRecord equipmentRecord = new EquipmentRecord();
+				equipmentRecord.setE_id(id);
+				equipmentRecord.setChange_type(String.valueOf(equipmentExt.getStatus()));
+				equipmentRecord.setChange_time(new Date());
+				equipmentRecord.setH_id(h_id);
+				equipmentRecord.setD_id(d_id);
+				equipmentRecord.setOperator(uid);
+				equipmentRecordMapper.insert(equipmentRecord);
 			}else if(!oldDId.equals(d_id)) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
+				//当设备状态修改的时候,往记录表中插入数据
+				EquipmentRecord equipmentRecord = new EquipmentRecord();
+				equipmentRecord.setE_id(id);
+				equipmentRecord.setChange_type(String.valueOf(equipmentExt.getStatus()));
+				equipmentRecord.setChange_time(new Date());
+				equipmentRecord.setH_id(h_id);
+				equipmentRecord.setD_id(d_id);
+				equipmentRecord.setOperator(uid);
+				equipmentRecordMapper.insert(equipmentRecord);
 			}else if(oldPropertyNo == null) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 			}else if(!oldPropertyNo.equals(equipmentExt.getProperty_no())) {

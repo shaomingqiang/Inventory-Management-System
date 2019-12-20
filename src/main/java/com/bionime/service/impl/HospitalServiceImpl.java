@@ -91,4 +91,10 @@ public class HospitalServiceImpl implements HospitalService {
 		List<Hospital> result = hospitalMapper.selectHospitalById(id);
 		return SystemResult.ok(result);
 	}
+
+	@Override
+	public SystemResult updateHospital(Hospital hospital) {
+		int updateHospital = hospitalMapper.updateHospital(hospital);
+		return SystemResult.ok();
+	}
 }

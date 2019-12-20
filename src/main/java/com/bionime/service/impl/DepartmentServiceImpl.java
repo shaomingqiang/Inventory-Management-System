@@ -94,7 +94,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 		map.put("count", count);
 		return map;
 	}
-
+	@Override
+	public Map<String, Object> selectDepartmentByPage(HashMap<String, Object> paramMap,
+			DepartmentDetail departmentDetail) {
+		List<DepartmentDetail> list = departmentMapper.selectDepartmentByPage(paramMap);
+		int count = list.size();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("code", 200);
+		map.put("data",list);
+		map.put("count", count);
+		return map;
+	}
+	
 	@Override
 	public SystemResult selectDepartmentById(Long id) {
 		List<Department> result = departmentMapper.selectDepartmentById(id);

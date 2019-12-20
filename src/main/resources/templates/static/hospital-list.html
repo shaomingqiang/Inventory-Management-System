@@ -125,13 +125,14 @@ layui.use(['form','table','jquery'], function() {
         ,cellMinWidth: 100
         ,cols: [[
             {checkbox: true, fixed: true}
-            ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
+            ,{field:'id', title: 'ID', width:60, sort: true,align:'center'}
             ,{field:'province', title: '省份', width:150,align:'center'}
             ,{field:'name', title: '医院', width:250,align:'center'}
+            ,{field:'level', title: '级别', width:100,align:'center'}
             ,{field:'dname', title: '科室数量',sort: true, width:130,align:'center'}
             ,{field:'meter', title: 'Meter在用数量',sort: true, width:130,align:'center'}
             ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:130,align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:282,toolbar:'#barDemo'}
+            ,{fixed: 'right', title: '操作',align:'center', width:180,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
