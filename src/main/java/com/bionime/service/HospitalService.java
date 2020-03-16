@@ -14,4 +14,5 @@ public interface HospitalService {
 	SystemResult selectHospitalById(Long id);
 	Map<String, Object> selectHospitalExtByPage(HashMap<String, Object> hospitalMap);
 	SystemResult updateHospital(Hospital hospital);
+	SystemResult getProvinceData();
 }

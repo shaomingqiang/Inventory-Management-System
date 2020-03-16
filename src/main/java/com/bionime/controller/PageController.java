@@ -20,6 +20,15 @@ public class PageController {
 	@RequestMapping(value = "/toPage", method = RequestMethod.GET)
 	public String toPage(HttpServletRequest request) {
 		String url = request.getParameter("url");
+		
+		//打jar包以后路径要进行修改，本地测试可以注释掉下面一段代码
+		//开始
+		
+		  String head = url.substring(0,1); if("/".equals(head)) { url =
+		  url.substring(1, url.length()); }
+		 
+		//结束
+		
 		//如果返回登录页面,就注销session
 		if("login".equals(url)) {
 			request.getSession().removeAttribute("user");

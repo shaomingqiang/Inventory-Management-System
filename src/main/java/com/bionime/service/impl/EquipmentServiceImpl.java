@@ -237,7 +237,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				equipmentRecordMapper.insert(equipmentRecord);
 			}else if(!oldType.equals(equipmentExt.getType())) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
-			}else if(oldHId == null && h_id != null) {
+			}else if(oldHId != null && h_id != null) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 				//当设备状态修改的时候,往记录表中插入数据
 				EquipmentRecord equipmentRecord = new EquipmentRecord();
@@ -248,7 +248,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				equipmentRecord.setD_id(d_id);
 				equipmentRecord.setOperator(uid);
 				equipmentRecordMapper.insert(equipmentRecord);
-			}else if(!oldHId.equals(h_id)) {
+			}else if(oldHId!=null && !oldHId.equals(h_id)) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 				//当设备状态修改的时候,往记录表中插入数据
 				EquipmentRecord equipmentRecord = new EquipmentRecord();
@@ -270,7 +270,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				equipmentRecord.setD_id(d_id);
 				equipmentRecord.setOperator(uid);
 				equipmentRecordMapper.insert(equipmentRecord);
-			}else if(!oldDId.equals(d_id)) {
+			}else if(oldDId!=null && !oldDId.equals(d_id)) {
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 				//当设备状态修改的时候,往记录表中插入数据
 				EquipmentRecord equipmentRecord = new EquipmentRecord();
@@ -304,35 +304,35 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Override
 	public Map<String, Object> selectCountByStatus() {
 		// 查询在库761meter
-		Integer meter_761_10 = equipmentMapper.selectCountByStatus("761", 10, "血糖仪");
+		Integer meter_761_10 = equipmentMapper.selectCountByStatus("761", 10, "700Pro");
 		// 查询在库760meter
-		Integer meter_760_10 = equipmentMapper.selectCountByStatus("760", 10, "血糖仪");
-		// 查询在库761holder
-		Integer holder_761_10 = equipmentMapper.selectCountByStatus("761", 10, "holder");
-		// 查询在库760holder
-		Integer holder_760_10 = equipmentMapper.selectCountByStatus("761", 10, "holder");
+		Integer meter_760_10 = equipmentMapper.selectCountByStatus("760", 10, "700Pro");
+		// 查询在库新761meter
+		Integer new_761_10 = equipmentMapper.selectCountByStatus("新761", 10, "700Pro");
 		// 查询在院761meter
-		Integer meter_761_20 = equipmentMapper.selectCountByStatus("761", 20, "血糖仪");
+		Integer meter_761_20 = equipmentMapper.selectCountByStatus("761", 20, "700Pro");
+		// 查询在院新761meter
+		Integer new_761_20 = equipmentMapper.selectCountByStatus("新761", 20, "700Pro");
 		// 查询在院760meter
-		Integer meter_760_20 = equipmentMapper.selectCountByStatus("761", 20, "血糖仪");
+		Integer meter_760_20 = equipmentMapper.selectCountByStatus("761", 20, "700Pro");
 		// 查询在库meter
-		Integer meter_10 = equipmentMapper.selectCountByStatus("", 10, "血糖仪");
+		Integer meter_10 = equipmentMapper.selectCountByStatus("", 10, "700Pro");
 		// 查询在院meter
-		Integer meter_20 = equipmentMapper.selectCountByStatus("", 20, "血糖仪");
+		Integer meter_20 = equipmentMapper.selectCountByStatus("", 20, "700Pro");
 		// 查询出库meter
-		Integer meter_30 = equipmentMapper.selectCountByStatus("", 30, "血糖仪");
+		Integer meter_30 = equipmentMapper.selectCountByStatus("", 30, "700Pro");
 		// 查询借用meter
-		Integer meter_40 = equipmentMapper.selectCountByStatus("", 40, "血糖仪");
+		Integer meter_40 = equipmentMapper.selectCountByStatus("", 40, "700Pro");
 		// 查询返修meter
-		Integer meter_50 = equipmentMapper.selectCountByStatus("", 50, "血糖仪");
+		Integer meter_50 = equipmentMapper.selectCountByStatus("", 50, "700Pro");
 		// 查询审核meter
-		Integer meter_60 = equipmentMapper.selectCountByStatus("", 60, "血糖仪");
+		Integer meter_60 = equipmentMapper.selectCountByStatus("", 60, "700Pro");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("code", 200);
 		map.put("meter_761_10", meter_761_10);
 		map.put("meter_760_10", meter_760_10);
-		map.put("holder_761_10", holder_761_10);
-		map.put("holder_760_10", holder_760_10);
+		map.put("new_761_10", new_761_10);
+		map.put("new_761_20", new_761_20);
 		map.put("meter_761_20", meter_761_20);
 		map.put("meter_760_20", meter_760_20);
 		map.put("meter_10", meter_10);

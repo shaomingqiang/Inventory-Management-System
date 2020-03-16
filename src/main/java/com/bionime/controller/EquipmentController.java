@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bionime.mapper.UserMapper;
 import com.bionime.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;

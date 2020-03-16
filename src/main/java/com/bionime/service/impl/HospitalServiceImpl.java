@@ -13,7 +13,10 @@ import com.bionime.pojo.Department;
 import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.pojo.Hospital;
+import com.bionime.pojo.HospitalExt;
+import com.bionime.pojo.Province;
 import com.bionime.service.HospitalService;
+import com.bionime.utils.JsonUtils;
 import com.bionime.utils.SystemResult;
 
 
@@ -75,10 +78,18 @@ public class HospitalServiceImpl implements HospitalService {
 
 	@Override
 	public Map<String, Object> selectHospitalExtByPage(HashMap<String, Object> hospitalMap) {
-		System.out.println(hospitalMap);
-		List<Hospital> hospitalExtListByPage = hospitalMapper.selectHospitalExtByPage(hospitalMap);
-		//查询出医院的总行数
+		List<HospitalExt> hospitalExtListByPage = hospitalMapper.selectHospitalExtByPage(hospitalMap);
+		//查询每个医院的科室数量
+		List<HospitalExt> hospitalExtDCount =  hospitalMapper.selectHospitalExtDCount();
+		//查询出医院的总数
 		int count = hospitalExtListByPage.size();
+		for(int j=0; j < hospitalExtListByPage.size();j++) {
+			for(int i=0; i< hospitalExtDCount.size();i++) {
+				if(hospitalExtDCount.get(i).getId()==hospitalExtListByPage.get(j).getId()) {
+					hospitalExtListByPage.get(j).setDname(hospitalExtDCount.get(i).getDname());
+				}
+			}
+		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("code", 200);
 		map.put("data",hospitalExtListByPage);
@@ -96,5 +107,11 @@ public class HospitalServiceImpl implements HospitalService {
 	public SystemResult updateHospital(Hospital hospital) {
 		int updateHospital = hospitalMapper.updateHospital(hospital);
 		return SystemResult.ok();
+	}
+
+	@Override
+	public SystemResult getProvinceData() {
+		List<Province> provinceData = hospitalMapper.getProvinceData();
+		return SystemResult.ok(provinceData);
 	}
 }

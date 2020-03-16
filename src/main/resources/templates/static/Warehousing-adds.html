@@ -57,7 +57,7 @@
 						class="x-red">*</span>序列号
 					</label>
 						<div class="layui-input-inline">
-							<textarea placeholder="请输入序列号，并用分号隔开"  id="sn" name="sn" required="" lay-verify="sn" class="layui-textarea"></textarea>
+							<textarea placeholder="请输入序列号，并用英文逗号隔开"  id="sn" name="sn" required="" lay-verify="sn" class="layui-textarea"></textarea>
 						</div>
 						<!-- <div class="layui-form-mid layui-word-aux">
                             <span class="x-red">*</span>将会成为您唯一的登入名</div> -->
@@ -69,7 +69,7 @@
 							财产编号
 						</label>
 						<div class="layui-input-inline">
-							<textarea placeholder="请输入财产编号，并用分号隔开，并与序列号对应" id="property_no" name="property_no"  class="layui-textarea"></textarea>
+							<textarea placeholder="请输入财产编号，并用英文逗号隔开，并与序列号对应" id="property_no" name="property_no"  class="layui-textarea"></textarea>
 						</div>
 					</div>
 
@@ -159,16 +159,41 @@
 
 				//监听提交
 				form.on('submit(add)', function(data) {
-					console.log(data);
-					//发异步，把数据提交给php
-					layer.alert("增加成功", {
-						icon: 6
-					}, function() {
-						//关闭当前frame
-						xadmin.close();
+					var data = JSON.stringify(data.field);
+					$.ajax({
+						//请求方式
+						type : "post",
+						//url 
+						url : "/equipment/insert",
+						//把Js的对象或数组序列化一个son字符串
+						data : data,
+						//contentType 
+						contentType : "application/json; charset=utf-8",
+						//datarype 
+						dataType : "json",
+						//result 为请求的返回结果对象
+						success : function(result) {
+							if ("200" == result.status) {
+								layer.alert("增加成功", {
+									icon : 1
+								}, function() {
+									//关闭当前frame
+									xadmin.close();
+									// 可以对父窗口进行刷新 
+									xadmin.father_reload();
+								});
+							} else {
+								layer.alert(result.msg, {
+									icon : 2
+								}, function() {
+									//关闭当前frame
+									xadmin.close();
 
-						// 可以对父窗口进行刷新 
-						xadmin.father_reload();
+									// 可以对父窗口进行刷新 
+									xadmin.father_reload();
+								});
+							}
+						}
 					});
 					return false;
 				});

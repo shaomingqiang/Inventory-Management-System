@@ -51,16 +51,9 @@
 							</a></li>
 							<li class="layui-col-md2 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在库760Holder</h3>
+									<h3>在库新761Meter</h3>
 									<p>
-										<cite id="holder_760_10"></cite>
-									</p>
-							</a></li>
-							<li class="layui-col-md2 layui-col-xs6"><a
-								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在库761Holder</h3>
-									<p>
-										<cite id="holder_761_10"></cite>
+										<cite id="new_761_10"></cite>
 									</p>
 							</a></li>
 							<li class="layui-col-md2 layui-col-xs6"><a
@@ -70,11 +63,18 @@
 										<cite id="meter_760_20"></cite>
 									</p>
 							</a></li>
-							<li class="layui-col-md2 layui-col-xs6 "><a
+							<li class="layui-col-md2 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
 									<h3>在院761Meter</h3>
 									<p>
 										<cite id="meter_761_20"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md2 layui-col-xs6 "><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在院新761Meter</h3>
+									<p>
+										<cite id="new_761_20"></cite>
 									</p>
 							</a></li>
 						</ul>
@@ -143,17 +143,17 @@
 														$("#meter_760_10").css(
 																"color", "red");
 													}
-													if (result.meter_761_10 <= 2) {
+													if (result.meter_761_10 <= 20) {
 														$("#meter_761_10").css(
 																"color", "red");
 													}
-													if (result.holder_760_10 <= 20) {
-														$("#holder_760_10")
+													if (result.new_761_10 <= 20) {
+														$("#new_761_10")
 																.css("color",
 																		"red");
 													}
-													if (result.holder_761_10 <= 20) {
-														$("#holder_761_10")
+													if (result.new_761_20 <= 20) {
+														$("#new_761_20")
 																.css("color",
 																		"red");
 													}
@@ -171,12 +171,12 @@
 													$("#meter_761_10")
 															.text(
 																	result.meter_761_10);
-													$("#holder_760_10")
+													$("#new_761_10")
 															.text(
-																	result.holder_760_10);
-													$("#holder_761_10")
+																	result.new_761_10);
+													$("#new_761_20")
 															.text(
-																	result.holder_761_10);
+																	result.new_761_20);
 													$("#meter_760_20")
 															.text(
 																	result.meter_760_20);

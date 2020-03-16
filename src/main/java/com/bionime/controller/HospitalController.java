@@ -1,6 +1,7 @@
 package com.bionime.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.Hospital;
+import com.bionime.pojo.Province;
 import com.bionime.service.HospitalService;
 import com.bionime.utils.SystemResult;
 
@@ -32,6 +34,16 @@ public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 	
+	/**
+	 * 根据省份查询医院数量
+	 * @param hospital
+	 * @return
+	 */
+	@RequestMapping(value="/getProvinceData",method = {RequestMethod.GET})
+	public SystemResult getProvinceData() {
+		SystemResult result = hospitalService.getProvinceData();
+		return result;
+	}
 	/**
 	 * 医院添加
 	 * <p>Title: insert</p>
@@ -86,13 +98,11 @@ public class HospitalController {
 		} else {
 			page = 0;
 		}
-		System.out.println(name);
-		System.out.println(province);
 		paramMap.put("page", page);
 		paramMap.put("limit", limit);
 		paramMap.put("name", name);
 		paramMap.put("province", province);
-		paramMap.put("tname", "血糖仪");
+		paramMap.put("tname", "700Pro");
 		HashMap<String, Object> result = (HashMap<String, Object>) hospitalService.selectHospitalExtByPage(paramMap);
 		result.put("msg", "");
 		return result;
