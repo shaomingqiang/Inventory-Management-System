@@ -13,10 +13,11 @@
 
  Date: 13/03/2020 13:01:49
 */
+CREATE DATABASE IF NOT EXISTS `dms_equipment` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
+USE `dms_equipment`;
 -- ----------------------------
 -- Table structure for borrow
 -- ----------------------------
