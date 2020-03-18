@@ -64,6 +64,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public SystemResult insert(Equipment equipment,Long uid) {
 		List<Equipment> equipmentsList = new ArrayList<Equipment>();
 		List<String> snList = Arrays.asList(equipment.getSn().split(","));
+		//状态
+		String status = equipment.getStatus();
 		List<String> propertyNoList = null;
 		int snSize = snList.size();
 		boolean hasPropertyNo = false;
@@ -89,6 +91,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			Equipment equipmentForInsert = new Equipment();
 			equipmentForInsert.setSn(snList.get(i));
 			equipmentForInsert.setIn_time(new Date());
+			equipmentForInsert.setStatus(status);
 			equipmentForInsert.setDescription(equipment.getDescription());
 			equipmentForInsert.setEt_id(equipment.getEt_id());
 			if (hasPropertyNo) {
@@ -104,7 +107,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			Equipment equipment1 = equipmentMapper.selectEquipmentIdBySn(equipmentTemp.getSn());
 			EquipmentRecord equipmentRecord = new EquipmentRecord();
 			equipmentRecord.setE_id(equipment1.getId());
-			equipmentRecord.setChange_type("10");
+			equipmentRecord.setChange_type(equipmentTemp.getStatus());
 			equipmentRecord.setOperator(uid);
 			equipmentRecord.setChange_time(new Date());
 			equipmentRecordMapper.insert(equipmentRecord);		
@@ -139,12 +142,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public SystemResult selectEquimentExt(EquipmentExt equipmentExt) {
 		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquipmentExt(equipmentExt);
 		Map<String, String> statusMap = new HashMap<String, String>();
-		statusMap.put("10", "在库");
+		statusMap.put("10", "在库新机");
 		statusMap.put("20", "在院");
 		statusMap.put("30", "出库");
 		statusMap.put("40", "借用");
-		statusMap.put("50", "返修");
-		statusMap.put("60", "审核中");
+		statusMap.put("50", "在库返修");
+		statusMap.put("60", "审核");
+		statusMap.put("70", "故障");
 		for (EquipmentExt equipmentExtItem : equipmentExtList) {
 			equipmentExtItem.setIn_time(equipmentExtItem.getIn_time().substring(0, 10));
 			equipmentExtItem.setStatus(statusMap.get(equipmentExtItem.getStatus()));
@@ -156,12 +160,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> paramMap, EquipmentExt equipmentExt) {
 		List<EquipmentExt> equimentExtListByPage = equipmentMapper.selectEquipmentExtByPage(paramMap);
 		Map<String, String> STATUS_CODES = new HashMap<String, String>();
-		STATUS_CODES.put("10", "在库");
+		STATUS_CODES.put("10", "在库新机");
 		STATUS_CODES.put("20", "在院");
 		STATUS_CODES.put("30", "出库");
 		STATUS_CODES.put("40", "借用");
-		STATUS_CODES.put("50", "返修");
+		STATUS_CODES.put("50", "在库返修");
 		STATUS_CODES.put("60", "审核");
+		STATUS_CODES.put("70", "故障");
 		for (EquipmentExt ext : equimentExtListByPage) {
 			ext.setIn_time(ext.getIn_time().substring(0, 10));
 			ext.setStatus(STATUS_CODES.get(ext.getStatus()));
@@ -303,18 +308,38 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Override
 	public Map<String, Object> selectCountByStatus() {
-		// 查询在库761meter
-		Integer meter_761_10 = equipmentMapper.selectCountByStatus("761", 10, "700Pro");
-		// 查询在库760meter
-		Integer meter_760_10 = equipmentMapper.selectCountByStatus("760", 10, "700Pro");
-		// 查询在库新761meter
-		Integer new_761_10 = equipmentMapper.selectCountByStatus("新761", 10, "700Pro");
-		// 查询在院761meter
-		Integer meter_761_20 = equipmentMapper.selectCountByStatus("761", 20, "700Pro");
-		// 查询在院新761meter
-		Integer new_761_20 = equipmentMapper.selectCountByStatus("新761", 20, "700Pro");
+		
+		// 查询在库760
+		Integer meter_760_10 = equipmentMapper.selectCountByStatus("760", 10, "700Pro") 
+				+ equipmentMapper.selectCountByStatus("760", 50, "700Pro");
+		// 查询在库760新机
+		Integer new_760_10 = equipmentMapper.selectCountByStatus("760", 10, "700Pro");		
+		// 查询在库760返修机
+		Integer fanxiu_760_50 = equipmentMapper.selectCountByStatus("760", 50, "700Pro");
 		// 查询在院760meter
 		Integer meter_760_20 = equipmentMapper.selectCountByStatus("761", 20, "700Pro");
+		
+		// 查询在库旧761
+		Integer old_total_761_10 = equipmentMapper.selectCountByStatus("旧761", 10, "700Pro")
+				+ equipmentMapper.selectCountByStatus("旧761", 50, "700Pro");
+		// 查询在库旧761新机
+		Integer old_761_10 = equipmentMapper.selectCountByStatus("旧761", 10, "700Pro");
+		// 查询在库旧761返修机
+		Integer old_761_50 = equipmentMapper.selectCountByStatus("旧761", 50, "700Pro");
+		// 查询在院旧761meter
+		Integer old_761_20 = equipmentMapper.selectCountByStatus("旧761", 20, "700Pro");
+		
+		// 查询在库761
+		Integer meter_total_761_10 = equipmentMapper.selectCountByStatus("761", 10, "700Pro")
+				+ equipmentMapper.selectCountByStatus("761", 50, "700Pro");
+		// 查询在库761新机
+		Integer meter_761_10 = equipmentMapper.selectCountByStatus("761", 10, "700Pro");
+		// 查询在库761返修机
+		Integer meter_761_50 = equipmentMapper.selectCountByStatus("761", 50, "700Pro");
+		// 查询在院761meter
+		Integer meter_761_20 = equipmentMapper.selectCountByStatus("761", 20, "700Pro");
+		
+
 		// 查询在库meter
 		Integer meter_10 = equipmentMapper.selectCountByStatus("", 10, "700Pro");
 		// 查询在院meter
@@ -327,20 +352,34 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Integer meter_50 = equipmentMapper.selectCountByStatus("", 50, "700Pro");
 		// 查询审核meter
 		Integer meter_60 = equipmentMapper.selectCountByStatus("", 60, "700Pro");
+		// 查询故障meter
+		Integer meter_70 = equipmentMapper.selectCountByStatus("", 70, "700Pro");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("code", 200);
-		map.put("meter_761_10", meter_761_10);
+		
 		map.put("meter_760_10", meter_760_10);
-		map.put("new_761_10", new_761_10);
-		map.put("new_761_20", new_761_20);
-		map.put("meter_761_20", meter_761_20);
+		map.put("new_760_10", new_760_10);
+		map.put("fanxiu_760_50", fanxiu_760_50);
 		map.put("meter_760_20", meter_760_20);
+		
+		map.put("old_total_761_10", old_total_761_10);
+		map.put("old_761_10", old_761_10);
+		map.put("old_761_50", old_761_50);
+		map.put("old_761_20", old_761_20);
+		
+		map.put("meter_total_761_10", meter_total_761_10);
+		map.put("meter_761_10", meter_761_10);
+		map.put("meter_761_50", meter_761_50);
+		map.put("meter_761_20", meter_761_20);
+		
+		
 		map.put("meter_10", meter_10);
 		map.put("meter_20", meter_20);
 		map.put("meter_30", meter_30);
 		map.put("meter_40", meter_40);
 		map.put("meter_50", meter_50);
 		map.put("meter_60", meter_60);
+		map.put("meter_70", meter_70);
 		return map;
 	}
 

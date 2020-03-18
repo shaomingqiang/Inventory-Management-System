@@ -31,56 +31,113 @@
 			</div>
 			<div class="layui-col-md12">
 				<div class="layui-card">
-					<div class="layui-card-header">数据统计</div>
+					<div class="layui-card-header">760数据统计</div>
 					<div class="layui-card-body ">
 						<ul
 							class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
-							<li class="layui-col-md2 layui-col-xs6"><a
+							<li class="layui-col-md3 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在库760Meter</h3>
+									<h3>在库总数</h3>
 									<p>
 										<cite id="meter_760_10"></cite>
 									</p>
 							</a></li>
-							<li class="layui-col-md2 layui-col-xs6"><a
+							<li class="layui-col-md3 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在库761Meter</h3>
+									<h3>在库新机</h3>
 									<p>
-										<cite id="meter_761_10"></cite>
+										<cite id="new_760_10"></cite>
 									</p>
 							</a></li>
-							<li class="layui-col-md2 layui-col-xs6"><a
+							<li class="layui-col-md3 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在库新761Meter</h3>
+									<h3>在库返修机</h3>
 									<p>
-										<cite id="new_761_10"></cite>
+										<cite id="fanxiu_760_50"></cite>
 									</p>
 							</a></li>
-							<li class="layui-col-md2 layui-col-xs6"><a
+							<li class="layui-col-md3 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在院760Meter</h3>
+									<h3>在院数量</h3>
 									<p>
 										<cite id="meter_760_20"></cite>
 									</p>
 							</a></li>
-							<li class="layui-col-md2 layui-col-xs6"><a
+							</ul>
+						</div>
+						
+						<div class="layui-card-header">旧761数据统计</div>
+					<div class="layui-card-body ">
+						<ul
+							class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+							<li class="layui-col-md3 layui-col-xs6"><a
 								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在院761Meter</h3>
+									<h3>在库总数</h3>
+									<p>
+										<cite id="old_total_761_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库新机</h3>
+									<p>
+										<cite id="old_761_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库返修机</h3>
+									<p>
+										<cite id="old_761_50"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在院数量</h3>
+									<p>
+										<cite id="old_761_20"></cite>
+									</p>
+							</a></li>
+							</ul>
+						</div>
+						
+					<div class="layui-card-header">761数据统计</div>
+					<div class="layui-card-body ">
+						<ul
+							class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库总数</h3>
+									<p>
+										<cite id="meter_total_761_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库新机</h3>
+									<p>
+										<cite id="meter_761_10"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在库返修机</h3>
+									<p>
+										<cite id="meter_761_50"></cite>
+									</p>
+							</a></li>
+							<li class="layui-col-md3 layui-col-xs6"><a
+								href="javascript:;" class="x-admin-backlog-body">
+									<h3>在院数量</h3>
 									<p>
 										<cite id="meter_761_20"></cite>
 									</p>
 							</a></li>
-							<li class="layui-col-md2 layui-col-xs6 "><a
-								href="javascript:;" class="x-admin-backlog-body">
-									<h3>在院新761Meter</h3>
-									<p>
-										<cite id="new_761_20"></cite>
-									</p>
-							</a></li>
-						</ul>
-					</div>
+							</ul>
+						</div>
 				</div>
 			</div>
+			
 			<div class=" layui-col-space15">
 				<div class="layui-col-sm12 layui-col-md6">
 					<div class="layui-card">
@@ -359,43 +416,88 @@
 														$("#meter_760_10").css(
 																"color", "red");
 													}
+													if (result.new_760_10 <= 20) {
+														$("#new_760_10").css(
+																"color", "red");
+													}
+													if (result.fanxiu_760_50 <= 20) {
+														$("#fanxiu_760_50").css(
+																"color", "red");
+													}
+													if (result.meter_760_20 <= 20) {
+														$("#meter_760_20").css(
+																"color", "red");
+													}
+													
+													if (result.old_total_761_10 <= 20) {
+														$("#old_total_761_10").css(
+																"color", "red");
+													}
+													if (result.old_761_10 <= 20) {
+														$("#old_761_10").css(
+																"color", "red");
+													}
+													if (result.old_761_50 <= 20) {
+														$("#old_761_50").css(
+																"color", "red");
+													}
+													if (result.old_761_20 <= 20) {
+														$("#old_761_20").css(
+																"color", "red");
+													}
+													
+													if (result.meter_total_761_10 <= 20) {
+														$("#meter_total_761_10").css(
+																"color", "red");
+													}
 													if (result.meter_761_10 <= 20) {
 														$("#meter_761_10").css(
 																"color", "red");
 													}
-													if (result.new_761_10 <= 20) {
-														$("#new_761_10")
-																.css("color",
-																		"red");
-													}
-													if (result.new_761_20 <= 20) {
-														$("#new_761_20")
-																.css("color",
-																		"red");
-													}
-													if (result.meter_760_20 <= 20) {
-														$("#meter_760_20").css(
+													if (result.meter_761_50 <= 20) {
+														$("#meter_761_50").css(
 																"color", "red");
 													}
 													if (result.meter_761_20 <= 20) {
 														$("#meter_761_20").css(
 																"color", "red");
 													}
+													
 													$("#meter_760_10")
 															.text(
 																	result.meter_760_10);
-													$("#meter_761_10")
+													$("#new_760_10")
 															.text(
-																	result.meter_761_10);
-													$("#new_761_10")
+																	result.new_760_10);
+													$("#fanxiu_760_50")
 															.text(
-																	result.new_761_10);
-													$("#new_761_20")
-															.text(
-																	result.new_761_20);
+																	result.fanxiu_760_50);
 													$("#meter_760_20")
 															.text(
 																	result.meter_760_20);
+													
+													$("#old_total_761_10")
+														.text(
+																result.old_total_761_10);
+													$("#old_761_10")
+														.text(
+																result.old_761_10);
+													$("#old_761_50")
+														.text(
+																result.old_761_50);
+													$("#old_761_20")
+														.text(
+																result.old_761_20);
+													
+													$("#meter_total_761_10")
+															.text(
+																	result.meter_total_761_10);
+													$("#meter_761_10")
+															.text(
+																	result.meter_761_10);
+													$("#meter_761_50")
+															.text(
+																	result.meter_761_50);
 													$("#meter_761_20")
 															.text(
 																	result.meter_761_20);
@@ -429,6 +531,11 @@
 																"value" : result.meter_60,
 																"name" : "审核"
 															});
+													ArrNum
+															.push({
+																"value" : result.meter_70,
+																"name" : "故障"
+															});
 													option = {
 														tooltip : {
 															trigger : 'item',
@@ -440,7 +547,7 @@
 															data : [ '在库',
 																	'在院', '出库',
 																	'借用', '返修',
-																	'审核' ]
+																	'审核', '故障' ]
 														},
 														series : [ {
 															name : '血糖仪',

@@ -61,7 +61,7 @@ DROP TABLE IF EXISTS `equipment`;
 CREATE TABLE `equipment`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sn` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备序列号',
-  `status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备状态，1:在院，2:在库，3:出库，4:借用，5:返修，6:审核',
+  `status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备状态，10:在库新机，20:在院，30:出库，40:借用，50:在库返修，60:审核，70:故障',
   `in_time` datetime(0) NULL DEFAULT NULL COMMENT '入库时间',
   `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述',
   `h_id` int(11) NULL DEFAULT NULL COMMENT '所在医院id，外键',

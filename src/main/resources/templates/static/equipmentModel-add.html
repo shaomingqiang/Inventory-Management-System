@@ -22,25 +22,6 @@
 	width: 240px;
 }
 </style>-->
-<script type="text/javascript">
-	$(document).ready(
-			function() {
-				$.ajax({
-					contentType : "application/json;charset=utf-8",
-					type : "POST",
-					url : "localhost://",
-					dataType : "json",
-					success : function(data) {
-						alert("ss");
-						$.each(data, function(i, item) {
-							$('#select_base_type').append(new Option(item.name, item.id));
-						});
-						layui.form.render("select");	
-					}
-				});
-			});
-	);
-</script>
 </head>
 
 <body>

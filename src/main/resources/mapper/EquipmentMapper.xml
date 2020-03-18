@@ -23,7 +23,7 @@
 		(sn,status,in_time,description,et_id,property_no,delete_tag)
 		values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.sn},1,#{item.in_time},#{item.description},#{item.et_id},#{item.property_no},'0')
+			(#{item.sn},#{item.status},#{item.in_time},#{item.description},#{item.et_id},#{item.property_no},'0')
 		</foreach>
 	</insert>
 

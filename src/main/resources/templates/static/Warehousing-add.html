@@ -64,6 +64,26 @@
 				</div>
 
 				<div class="layui-form-item">
+					<label for="select_base_status" class="layui-form-label"> <span
+						class="x-red">*</span>设备状态
+					</label>
+					<div class="layui-input-inline">
+					<select name="status" id="status" lay-search
+						lay-filter="Status_filter" lay-verify="select_base_status"
+						class="layui-input">
+						<option value="">状态</option>
+						<option value="10">在库新机</option>
+						<option value="20">在院</option>
+						<option value="30">出库</option>
+						<option value="40">借用</option>
+						<option value="50">在库返修</option>
+						<option value="60">审核</option>
+						<option value="70">故障</option>
+					</select>
+				</div>
+				</div>
+				
+				<div class="layui-form-item">
 					<label for="property_no" class="layui-form-label"> <!--<span class="x-red">*</span>-->
 						财产编号
 					</label>
@@ -125,6 +145,11 @@
 				select_base_modle : function(value) {
 					if (value == "") {
 						return "设备型号不能为空";
+					}
+				},
+				select_base_status : function(value) {
+					if (value == "") {
+						return "设备状态不能为空";
 					}
 				},
 				sn : function(value) {
