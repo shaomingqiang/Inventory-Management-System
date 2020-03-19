@@ -120,32 +120,31 @@
 	<select id="selectDepartmentDetailByPage"
 		parameterType="hashMap" resultType="com.bionime.pojo.DepartmentDetail">
 		select
-		e.id meterId,e.sn,e.status,h.dname,h.id h_id
+		h.meterId,e.sn,e.status,h.dname,h.hid,h.inDepartmentTime
 		from
-		(SELECT
-		h.id,
-		h.name,
-		d.name dname,
-		d.id did,
-		h.province
-		FROM
-		hospital h,
-		department d
-		WHERE
-		h.id = d.h_id
-		AND h.delete_tag = 0 ) h INNER JOIN equipment e on
-		h.did=e.d_id
+		(select
+	 	d.eid meterId,d.name dname,d.h_id hid,d.intime inDepartmentTime
+		from
+		(select
+	 	d.eid ,d.name ,d.h_id ,d.intime 
+		from
+		(select
+		er.e_id eid,d.name,d.h_id,er.change_time  intime
+		from
+  		department d left JOIN 
+  		equipment_record er on d.id = er.d_id
 		<where>
-			e.delete_tag=0
+			d.id = er.d_id  And d.delete_tag = 0
 			<if test="h_id!=null and h_id!=''">
-				and h.id=#{h_id}
-			</if>
+					and d.h_id=#{h_id}
+				</if>
 		</where>
 		<if test="page != null and limit!= null">
             <![CDATA[
                 LIMIT #{page},#{limit}
             ]]>
 		</if>
+		) d ORDER BY d.intime DESC)d GROUP BY d.eid) h left JOIN equipment e on  h.meterId = e.id
 	</select>
 	<!-- 查询医院已有的科室,并分页查询 -->
 	<select id="selectDepartmentByPage" parameterType="hashMap"

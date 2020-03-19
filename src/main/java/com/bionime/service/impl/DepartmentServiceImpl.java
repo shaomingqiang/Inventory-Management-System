@@ -75,6 +75,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 			DepartmentDetail departmentDetail) {
 		List<DepartmentDetail> list = departmentMapper.selectDepartmentDetailByPage(paramMap);
 		List<DepartmentDetail> equipmentExtList = departmentMapper.selectDepartmentDetail(departmentDetail);
+		for (DepartmentDetail dd : list) {
+		  dd.setInDepartmentTime(dd.getInDepartmentTime().substring(0, 10));
+		}
 		int count = equipmentExtList.size();
 		String status = null;
 		if(list != null && list.size() != 0) {
