@@ -10,4 +10,48 @@
 		values
 		(#{e_id},#{change_type},#{change_time},#{h_id},#{d_id},#{operator})
 	</insert>
+	
+	<select id="findEquiomentRecord"
+		parameterType="com.bionime.pojo.EquipmentRecord"
+		resultType="com.bionime.pojo.EquipmentRecord">
+		select
+		e.id e_id,e.sn,h.name hname,d.name dname,er.change_type,er.change_time,u.username oname,er.remarks 
+		from
+		equipment_record er,
+  		equipment e,
+  		department d,
+  		hospital h,
+  		user u
+		<where>
+			e.id = er.e_id and er.d_id = d.id and er.h_id = h.id and er.operator = u.id
+			<if test="e_id!=null and e_id!=''">
+					and e.id=#{e_id}
+				</if>
+		</where>
+	</select>
+	
+	<!-- 查询机器的详细信息记录,并分页查询 -->
+	<select id="findEquiomentRecordByPage"
+		parameterType="hashMap" resultType="com.bionime.pojo.EquipmentRecordExt">
+		select
+		e.id e_id,e.sn,h.name hname,d.name dname,er.change_type,er.change_time,u.username oname,er.remarks 
+		from
+		equipment_record er,
+  		equipment e,
+  		department d,
+  		hospital h,
+  		user u
+		<where>
+			e.id = er.e_id and er.d_id = d.id and er.h_id = h.id and er.operator = u.id
+			<if test="e_id!=null and e_id!=''">
+					and e.id=#{e_id}
+				</if>
+		</where>
+		<if test="page != null and limit!= null">
+            <![CDATA[
+                LIMIT #{page},#{limit}
+            ]]>
+		</if>
+		 ORDER BY change_time DESC
+	</select>
 </mapper>

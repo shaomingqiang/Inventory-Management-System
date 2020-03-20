@@ -1,5 +1,8 @@
 package com.bionime.controller;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -41,6 +44,29 @@ public class EquipmentRecordController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public SystemResult insert(@RequestBody EquipmentRecord equipmentRecord) {
 		SystemResult result = equipmentRecordService.insert(equipmentRecord);
+		return result;
+	}
+	
+	@RequestMapping(value = "/findEquiomentRecord", method = RequestMethod.POST)
+	public Object findEquiomentRecord(HttpServletRequest request) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		int page = Integer.parseInt(request.getParameter("page"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
+		Long e_id = Long.parseLong(request.getParameter("e_id"));
+		int temp = limit;
+		if (page != 1) {
+			page = (page - 1) * temp;
+		} else {
+			page = 0;
+		}
+		EquipmentRecord equipmentRecord= new EquipmentRecord();
+		equipmentRecord.setE_id(e_id);
+		paramMap.put("page", page);
+		paramMap.put("limit", limit);
+		paramMap.put("e_id", e_id);
+		HashMap<String, Object> result = (HashMap<String, Object>) equipmentRecordService.findEquiomentRecordByPage(paramMap,
+				equipmentRecord);
+		result.put("msg", "");
 		return result;
 	}
 
