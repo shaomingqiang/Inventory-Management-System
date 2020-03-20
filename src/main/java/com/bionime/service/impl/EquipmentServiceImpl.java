@@ -230,6 +230,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 				}
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 			}else if(!oldStatus.equals(equipmentExt.getStatus())) {
+				if(oldStatus.equals("20")&&!equipmentExt.getStatus().equals("20")) {
+					equipmentExt.setH_id(null);
+					equipmentExt.setD_id(null);
+				}
 				equipmentMapper.updateEquipmentExt(equipmentExt);
 				//当设备状态修改的时候,往记录表中插入数据
 				EquipmentRecord equipmentRecord = new EquipmentRecord();

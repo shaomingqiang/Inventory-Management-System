@@ -48,13 +48,7 @@
 	<update id="statusChange">
 		update equipment
 		<set>
-			status=#{status}
-			<if test="h_id!=null and h_id!=''">
-				,h_id =#{h_id}
-			</if>
-			<if test="d_id!=null and d_id!=''">
-				,d_id=#{d_id}
-			</if>
+			status=#{status},h_id =#{h_id},d_id=#{d_id}
 		</set>
 		where id in
 		<foreach collection="ids" index="index" item="item" open="("
@@ -73,16 +67,10 @@
 	</update>
 	<!-- 修改设备信息 -->
 	<update id="updateEquipmentExt">
-		update equipment set
-		sn=#{sn},status=#{status}
+		update equipment set 
+		sn=#{sn},status=#{status},h_id =#{h_id},d_id=#{d_id}
 		<if test="description!=null and description!=''">
 			,description=#{description}
-		</if>
-		<if test="h_id!=null and h_id!=''">
-			,h_id =#{h_id}
-		</if>
-		<if test="d_id!=null and d_id!=''">
-			,d_id=#{d_id}
 		</if>
 		<if test="et_id!=null and et_id!=''">
 			,et_id=#{et_id}
