@@ -183,9 +183,6 @@
 
 		});
 	</script>
-	<script type="text/html" id="checkboxTpl">
-		<span title="启用" onclick="member_stop(this,'10001')" href="javascript:;" class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
-	</script>
 	<script type="text/javascript">
 		function child(d) {
 			var obj = JSON.parse(d);
@@ -233,7 +230,14 @@
 					}, {
 						field : 'status',
 						title : '是否在用',
-						templet : '#checkboxTpl',
+						templet : function (d) {
+                            if (d.status == "停用") {
+                                return "<span title='停用' class='layui-btn layui-btn-danger layui-btn-normal layui-btn-mini'>停用</span>"
+                            }
+                            if (d.status == "启用") {
+                            	return "<span title='启用' class='layui-btn layui-btn-normal layui-btn-mini'>启用</span>"
+                            }
+                        },
 						unresize : true,
 						width : 320,
 						align : 'center'
@@ -253,27 +257,6 @@
 				});
 			})
 		}
-		 /*用户-停用*/
-	      function member_stop(obj,id){
-			 if($(obj).attr('title')=='启用'){
-				 layer.confirm('确认要停用吗？',function(index){
-		                //发异步把用户状态进行更改
-		                
-		                $(obj).attr('title','停用')
-		                $(obj).addClass('layui-btn-danger').html('已停用');
-		                layer.msg('已停用!',{icon: 2,time:1000});
-		          });
-			 }else{
-				 layer.confirm('确认要启用吗？',function(index){
-		            	//发异步把用户状态进行更改
-		            	
-		                $(obj).attr('title','启用')
-		                $(obj).removeClass('layui-btn-danger').html('已启用');
-		                layer.msg('已启用!',{icon: 1,time:1000});
-				 });
-			 }
-	          
-	      }
 	</script>
 	<script>
 		var _hmt = _hmt || [];

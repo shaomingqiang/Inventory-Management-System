@@ -187,4 +187,11 @@
 		resultType="com.bionime.pojo.Equipment">
 		select * from equipment where sn=#{sn}
 	</select>
+	
+	<!-- 根据科室id查询设备 -->
+	<select id="selectEquipmentIdByDid"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where d_id=#{d_id}
+	</select>
 </mapper>

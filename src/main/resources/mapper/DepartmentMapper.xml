@@ -150,6 +150,7 @@
 	<select id="selectDepartmentByPage" parameterType="hashMap"
 		resultType="com.bionime.pojo.DepartmentDetail">
 		SELECT DISTINCT
+		t.d_id,
 		t.dname,
 		t.`status`
 		FROM
@@ -157,6 +158,7 @@
 		SELECT
 		h.dname,
 		h.id h_id,
+		h.did d_id,
 		h.`status`
 		FROM
 		(

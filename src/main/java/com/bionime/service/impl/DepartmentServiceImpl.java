@@ -12,8 +12,7 @@ import com.bionime.mapper.DepartmentMapper;
 import com.bionime.pojo.Department;
 import com.bionime.pojo.DepartmentDetail;
 import com.bionime.pojo.DepartmentExt;
-import com.bionime.pojo.EquipmentExt;
-import com.bionime.pojo.Hospital;
+
 import com.bionime.service.DepartmentService;
 import com.bionime.utils.SystemResult;
 

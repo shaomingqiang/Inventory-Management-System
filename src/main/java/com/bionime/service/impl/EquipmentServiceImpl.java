@@ -416,4 +416,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}
 		return map;
 	}
+
+	@Override
+	public List<Equipment> selectEquipmentIdByDid(Long d_id) {
+		List<Equipment> selectEquipmentIdByDid = equipmentMapper.selectEquipmentIdByDid(d_id);
+		return selectEquipmentIdByDid;
+	}
 }

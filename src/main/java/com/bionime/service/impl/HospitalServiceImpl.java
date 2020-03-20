@@ -82,7 +82,8 @@ public class HospitalServiceImpl implements HospitalService {
 		//查询每个医院的科室数量
 		List<HospitalExt> hospitalExtDCount =  hospitalMapper.selectHospitalExtDCount();
 		//查询出医院的总数
-		int count = hospitalExtListByPage.size();
+		List<Hospital> hospitalAllList = hospitalMapper.selectHospitalExt(new Hospital());
+		int count = hospitalAllList.size();
 		for(int j=0; j < hospitalExtListByPage.size();j++) {
 			for(int i=0; i< hospitalExtDCount.size();i++) {
 				if(hospitalExtDCount.get(i).getId()==hospitalExtListByPage.get(j).getId()) {

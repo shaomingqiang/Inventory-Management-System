@@ -1,6 +1,8 @@
 package com.bionime.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.Department;
 import com.bionime.pojo.DepartmentDetail;
+import com.bionime.pojo.Equipment;
 import com.bionime.service.DepartmentService;
+import com.bionime.service.EquipmentService;
 import com.bionime.utils.SystemResult;
 
 
@@ -32,7 +36,8 @@ public class DepartmentController {
 	
 	@Autowired
 	private DepartmentService departmentService;
-	
+	@Autowired
+	private EquipmentService equipmentService;
 	/**
 	 * 科室添加
 	 * <p>Title: insert</p>
@@ -58,11 +63,13 @@ public class DepartmentController {
 		return result;
 	}
 	
-	@RequestMapping(value="/findDept",method = RequestMethod.POST)
-	public SystemResult findDept(@RequestBody Department department) {
-		SystemResult result = departmentService.findDept(department);
-		return result;
+	
+	 @RequestMapping(value="/findDept",method = RequestMethod.POST) 
+	 public SystemResult findDept(@RequestBody Department department) { 
+		 SystemResult result = departmentService.findDept(department); 
+		 return result; 
 	}
+	 
 	
 	@RequestMapping(value="/findDeptDetail",method = RequestMethod.GET)
 	public Object findDeptDetail(HttpServletRequest request) {
@@ -106,6 +113,17 @@ public class DepartmentController {
 		paramMap.put("h_id", h_id);
 		HashMap<String, Object> result = (HashMap<String, Object>) departmentService.selectDepartmentByPage(paramMap,
 				departmentDetail);
+		List<DepartmentDetail> departmentDetailList = (ArrayList<DepartmentDetail>)result.get("data");
+		Long d_id = null;
+		for (DepartmentDetail departmentDetail2 : departmentDetailList) {
+			d_id = departmentDetail2.getD_id();
+			List<Equipment> selectEquipmentIdByDid = equipmentService.selectEquipmentIdByDid(d_id);
+			if(selectEquipmentIdByDid == null||selectEquipmentIdByDid.size()==0) {
+				departmentDetail2.setStatus("停用");
+			}else {
+				departmentDetail2.setStatus("启用");
+			}
+		}
 		result.put("msg", "");
 		return result;
 	}
