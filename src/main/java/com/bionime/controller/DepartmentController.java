@@ -77,7 +77,7 @@ public class DepartmentController {
 			page = 0;
 		}
 		DepartmentDetail departmentDetail = new DepartmentDetail();
-		departmentDetail.sethId(h_id);
+		departmentDetail.setH_id(h_id);
 		paramMap.put("page", page);
 		paramMap.put("limit", limit);
 		paramMap.put("h_id", h_id);
@@ -100,7 +100,7 @@ public class DepartmentController {
 			page = 0;
 		}
 		DepartmentDetail departmentDetail = new DepartmentDetail();
-		departmentDetail.sethId(h_id);
+		departmentDetail.setH_id(h_id);
 		paramMap.put("page", page);
 		paramMap.put("limit", limit);
 		paramMap.put("h_id", h_id);

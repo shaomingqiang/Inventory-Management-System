@@ -120,19 +120,19 @@
 	<select id="selectDepartmentDetailByPage"
 		parameterType="hashMap" resultType="com.bionime.pojo.DepartmentDetail">
 		select
-		h.meterId,e.sn,e.status,h.dname,h.hid,h.inDepartmentTime
+		h.meterId,e.sn,e.status,h.dname,h.hid h_id,h.did d_id,h.inDepartmentTime,e.d_id e_did
 		from
 		(select
-	 	d.eid meterId,d.name dname,d.h_id hid,d.intime inDepartmentTime
+	 	d.eid meterId,d.name dname,d.h_id hid,d.id did,d.intime inDepartmentTime
 		from
 		(select
-	 	d.eid ,d.name ,d.h_id ,d.intime 
+	 	d.eid ,d.name ,d.h_id ,d.id,d.intime 
 		from
 		(select
-		er.e_id eid,d.name,d.h_id,er.change_time  intime
+		er.e_id eid,d.name,d.h_id,d.id,er.change_time  intime
 		from
-  		department d left JOIN 
-  		equipment_record er on d.id = er.d_id
+  		department d ,
+  		equipment_record er 
 		<where>
 			d.id = er.d_id  And d.delete_tag = 0
 			<if test="h_id!=null and h_id!=''">

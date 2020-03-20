@@ -13,10 +13,12 @@ public class DepartmentDetail implements Serializable{
 
 	private Long meterId;//meter的id
 	
-	private Long hId;//所在医院的id
+	private Long h_id;//所在医院的id
 	
 	private Long d_id;//所在科室的id
 	
+	private Long e_did;//血糖仪所在科室的id
+
 	private String sn;//序列号
 	
 	private String status;//meter状态
@@ -33,12 +35,20 @@ public class DepartmentDetail implements Serializable{
 		this.d_id = d_id;
 	}
 
-	public Long gethId() {
-		return hId;
+	public Long getH_id() {
+		return h_id;
 	}
 
-	public void sethId(Long hId) {
-		this.hId = hId;
+	public void setH_id(Long h_id) {
+		this.h_id = h_id;
+	}
+
+	public Long getE_did() {
+		return e_did;
+	}
+
+	public void setE_did(Long e_did) {
+		this.e_did = e_did;
 	}
 
 	public Long getMeterId() {

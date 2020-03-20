@@ -80,10 +80,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 		}
 		int count = equipmentExtList.size();
 		String status = null;
+		long did = 0;
+		long e_did = 0;
 		if(list != null && list.size() != 0) {
 			for(int i=0;i<list.size();i++) {
 				status = list.get(i).getStatus();
-				if("20".equals(status)) {
+				did = list.get(i).getD_id();
+				e_did = list.get(i).getE_did();
+				if("20".equals(status)&&(did==e_did)) {
 					status = "是";
 				}else {
 					status = "否";
