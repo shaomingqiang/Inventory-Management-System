@@ -70,9 +70,9 @@ public class UserController {
 		SystemResult result = userService.login(user);
 		if (user != null) {
 			session.setAttribute("user", user);
+			session.setMaxInactiveInterval(-1);
 		}
 		logger.info(user.getUsername());
-		//logger.error("bbbbbbbbbbb");
 		return result;
 	}
 

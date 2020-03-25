@@ -30,28 +30,46 @@
 		</where>
 	</select>
 	
+	<select id="findEquiomentRecordByEid"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.EquipmentRecord">
+		select * from equipment_record where e_id=#{e_id}
+	</select>
+	
 	<!-- 查询机器的详细信息记录,并分页查询 -->
 	<select id="findEquiomentRecordByPage"
-		parameterType="hashMap" resultType="com.bionime.pojo.EquipmentRecordExt">
-		select
-		e.id e_id,e.sn,h.name hname,d.name dname,er.change_type,er.change_time,u.username oname,er.remarks 
-		from
-		equipment_record er,
-  		equipment e,
-  		department d,
-  		hospital h,
-  		user u
-		<where>
-			e.id = er.e_id and er.d_id = d.id and er.h_id = h.id and er.operator = u.id
-			<if test="e_id!=null and e_id!=''">
-					and e.id=#{e_id}
-				</if>
-		</where>
-		<if test="page != null and limit!= null">
-            <![CDATA[
-                LIMIT #{page},#{limit}
-            ]]>
-		</if>
-		 ORDER BY change_time DESC
+		 parameterType="hashMap" resultType="com.bionime.pojo.EquipmentRecordExt">
+		 select
+		 er.id e_id,er.sn,er.change_type,er.change_time,er.oname,er.remarks ,er.name hname,d.name dname
+		 from (select
+		 er.id ,er.sn,er.change_type,er.change_time,er.oname,er.remarks ,h.name name ,er.d_id
+		 from(select
+		 e.id id,e.sn sn,er.change_type,er.change_time,u.username oname,er.remarks ,er.h_id,er.d_id
+		 from
+		 equipment_record er,
+		   equipment e,
+		   user u
+		 <where>
+		  e.id = er.e_id and er.operator = u.id
+		  <if test="e_id!=null and e_id!=''">
+		    and e.id=#{e_id}
+		   </if>
+		   <if test="startTime!=null and startTime!=''">
+			   <![CDATA[
+			    and er.change_time >= #{startTime}
+			    ]]>
+		   </if>
+		   <if test="endTime!=null and endTime!=''">
+		    	<![CDATA[
+		    	and er.change_time <= #{endTime}
+		    	]]>
+		   </if>
+		 </where>
+		 <if test="page != null and limit!= null">
+	           <![CDATA[
+	               LIMIT #{page},#{limit}
+	           ]]>
+		 </if>
+		 ) er left join hospital h on er.h_id = h.id) er left join department d on er.d_id = d.id     
 	</select>
 </mapper>

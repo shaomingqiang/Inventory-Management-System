@@ -14,13 +14,13 @@ public class EquipmentRecordExt implements Serializable{
 	private Long e_id;//设备id，外键
 	private String sn;
 	private String change_type;
-	private Date change_time;
+	private String change_time;
 	private Long operator;
-	private Long oname;
+	private String oname;
 	private Long h_id;
 	private Long d_id;
-	private Long hname;
-	private Long dname;
+	private String hname;
+	private String dname;
 	private String remarks;
 	public Long getId() {
 		return id;
@@ -40,10 +40,10 @@ public class EquipmentRecordExt implements Serializable{
 	public void setChange_type(String change_type) {
 		this.change_type = change_type;
 	}
-	public Date getChange_time() {
+	public String getChange_time() {
 		return change_time;
 	}
-	public void setChange_time(Date change_time) {
+	public void setChange_time(String change_time) {
 		this.change_time = change_time;
 	}
 	public Long getOperator() {
@@ -53,16 +53,28 @@ public class EquipmentRecordExt implements Serializable{
 		this.operator = operator;
 	}
 	
-	public Long getHname() {
+	public String getSn() {
+		return sn;
+	}
+	public void setSn(String sn) {
+		this.sn = sn;
+	}
+	public String getOname() {
+		return oname;
+	}
+	public void setOname(String oname) {
+		this.oname = oname;
+	}
+	public String getHname() {
 		return hname;
 	}
-	public void setHname(Long hname) {
+	public void setHname(String hname) {
 		this.hname = hname;
 	}
-	public Long getDname() {
+	public String getDname() {
 		return dname;
 	}
-	public void setDname(Long dname) {
+	public void setDname(String dname) {
 		this.dname = dname;
 	}
 	public Long getH_id() {

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+<meta charset="UTF-8">
+<title>欢迎页面-X-admin2.2</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+<link rel="stylesheet" href="../css/font.css">
+<link rel="stylesheet" href="../css/xadmin.css">
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/xadmin.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" srec="../lib/layui/lay/modules/laydate.js"></script>
+<!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body ">
+						<form class="layui-form layui-col-space5">
+						<input type="text" id='e_id' style="display: none;">
+							<div class="layui-inline">
+						      <label class="layui-form-label">日期范围</label>
+						      <div class="layui-input-inline">
+						        <input type="text" class="layui-input" id="test6" placeholder=" - ">
+						      </div>
+						    </div>
+							<div class="layui-inline layui-show-xs-block">
+								<div class="layui-btn" data-type="reload" lay-submit=""
+									lay-filter="sreach">
+									<i class="layui-icon">&#xe615;</i>
+								</div>
+							</div>
+						</form>
+						<table class="layui-table" id="LAY_table_equipment"
+							lay-filter="test"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		 //日期范围
+		  laydate.render({
+		    elem: '#test6'
+		    ,range: true
+		  });
+	});
+</script>
+<script>
+function child(d) {
+	var obj = JSON.parse(d);
+	var id = obj.id;
+	$("#e_id").val(id);
+	var changeTime = $("#test6").val();
+	
+	layui.use(['form','table','jquery'], function() {
+		$ = layui.jquery;
+		var table = layui.table;
+		//方法级渲染
+	    table.render({
+	        elem: '#LAY_table_equipment'
+	        ,url: 'equipmentrecord/findEquiomentRecord'
+	        ,where: {e_id:id,change_time:changeTime}
+	        ,cellMinWidth: 100
+	        ,cols: [[
+	            {field:'sn', title: '序列号', width:120, align:'center'}
+	            ,{field:'change_type', title: '操作',templet : function (d) {
+                    if (d.change_type == "10") {
+                        return "<span title='新机入库' class='layui-btn  layui-btn-mini'>新机入库</span>"
+                    }
+                    if (d.change_type == "20") {
+                    	return "<span title='入院' class='layui-btn  layui-btn-mini'>入院</span>"
+                    }
+                    if (d.change_type == "30") {
+                    	return "<span title='出库' class='layui-btn  layui-btn-mini'>出库</span>"
+                    }
+                    if (d.change_type == "40") {
+                    	return "<span title='借用' class='layui-btn  layui-btn-mini'>借用</span>"
+                    }
+                    if (d.change_type == "50") {
+                    	return "<span title='返修机入库' class='layui-btn  layui-btn-mini'>返修机入库</span>"
+                    }
+                    if (d.change_type == "60") {
+                    	return "<span title='审核' class='layui-btn  layui-btn-mini'>审核</span>"
+                    }
+                    if (d.change_type == "70") {
+                    	return "<span title='故障' class='layui-btn  layui-btn-mini'>故障</span>"
+                    }
+                },
+				width : 120,
+				align : 'center'
+				}
+	            ,{field:'oname', title: '操作人员', width:100,align:'center'}
+	            ,{field:'change_time', title: '操作时间', sort: true, width:120,align:'center'}
+	            ,{field:'hname', title: '医院名称', width:130,align:'center'}
+	            ,{field:'dname', title: '科室名称', width:130,align:'center'}
+	        ]]
+	  		,page: true //是否显示分页
+	  		,limits:[5,10,15,20,50,100]
+	   		,limit: 10 //每页默认显示的数量
+	        ,id: 'testReload'
+	        ,response: {
+	        	statusCode: 200 //规定成功的状态码，默认：0
+	        }
+	        ,toolbar:true
+	        ,height: 467
+	    });
+	    active = {
+	     	    reload: function(){
+	     	      var changeTime = $('#test6');
+	     	      //执行重载
+	     	      table.reload('testReload', {
+	     	    	url: 'equipmentrecord/findEquiomentRecord'
+	     	        ,method:'get'
+	     	        ,page: {
+	     	          curr: 1 //重新从第 1 页开始
+	     	        }
+	     	        ,where: {
+	     	        	change_time: changeTime.val(),
+	     	          	e_id: id
+	     	        }
+	     	      });
+	     	    }
+	     	  };
+	     	 $('.layui-card-body .layui-btn').on('click', function(){
+	     	    var type = $(this).data('type');
+	     	    active[type] ? active[type].call(this) : '';
+	     	  });
+	});
+} 
+</script>
+</html>

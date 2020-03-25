@@ -85,7 +85,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 			for(int i=0;i<list.size();i++) {
 				status = list.get(i).getStatus();
 				did = list.get(i).getD_id();
-				if(list.get(i).getE_did()!=null&&(did==e_did)) {
+				if(list.get(i).getE_did()!=null) {
+					e_did = list.get(i).getE_did();
+				}
+				if(did==e_did) {
 					status = "是";
 				}else {
 					status = "否";

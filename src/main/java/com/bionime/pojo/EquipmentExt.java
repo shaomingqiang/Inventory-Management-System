@@ -3,7 +3,7 @@ package com.bionime.pojo;
 public class EquipmentExt{
 	private Long id;
 	private String sn;// 设备序列号
-	private String status;// 设备状态 1:在院，2:在库，3:出库，4:借用，5:返修，6:审核
+	private String status;// 设备状态 10:在院，20:在库，30:出库，40:借用，50:返修，60:审核，70:故障
 	private String in_time;// 入库时间
 	private Long h_id;
 	private Long d_id;

@@ -98,6 +98,7 @@
 	</script>
 <script type="text/html" id="barDemo">
 		<div class="layui-btn-container">
+		<a title="详情" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="details" onclick="" href="javascript:;">详情</a>
 		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
 		</div>	
 </script>
@@ -118,8 +119,8 @@ layui.use(['form','table','jquery'], function() {
             ,{field:'type', title: '设备型号', width:150, sort: true,align:'center'}
             ,{field:'in_time', title: '入库时间', sort: true, width:140,align:'center'}
             ,{field:'property_no', title: '财产编号', width:150,align:'center'}
-            ,{field:'status', width:80, title: '状态',align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:249,toolbar:'#barDemo'}
+            ,{field:'status', width:120, title: '状态',align:'center'}
+            ,{fixed: 'right', title: '操作',align:'center', width:200,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -246,6 +247,22 @@ layui.use(['form','table','jquery'], function() {
 		//监听工具条
 		  table.on('tool(test)', function(obj){
 		    var data = obj.data;
+		    if(obj.event === 'details'){
+		    	console.log(JSON.stringify(data));
+		    	layer.open({
+	                title: '详情',
+	                type: 2,
+	                area: [ '800px', '627px'], //宽高
+	                maxmin: true, //开启最大化最小化按钮
+	                content: "toPage?url=/static/equipment-detail",
+	                success: function (layero, index) {
+	                    // 获取子页面的iframe
+	                    var iframe = window['layui-layer-iframe' + index];
+	                    // 向子页面的全局函数child传参
+	                    iframe.child(JSON.stringify(data)); 
+	                }
+              })
+		    }
 		   if(obj.event === 'edit'){
 			   console.log(JSON.stringify(data));
 			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */

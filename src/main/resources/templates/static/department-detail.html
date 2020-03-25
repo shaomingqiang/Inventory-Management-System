@@ -116,7 +116,15 @@ function child(d) {
 	            ,{field:'dName', title: '科室',sort: true, width:200,align:'center'}
 	            ,{field:'sn', title: '序列号', width:160,align:'center'}
 	            ,{field:'inDepartmentTime', title: '入科时间',sort: true, width:160,align:'center'}
-	            ,{field:'status', title: '是否在用',sort: true, width:98,align:'center'}
+	            ,{field:'status', title: '是否在用',
+	            	templet : function (d) {
+                        if (d.status == "否") {
+                            return "<span title='否' class='layui-btn layui-btn-danger layui-btn-normal layui-btn-mini'>否</span>"
+                        }
+                        if (d.status == "是") {
+                        	return "<span title='是' class='layui-btn layui-btn-normal layui-btn-mini'>是</span>"
+                        }
+                    },sort: true, width:98,align:'center'}
 	        ]]
 	  		,page: true //是否显示分页
 	  		,limits:[5,10,15,20,50,100]

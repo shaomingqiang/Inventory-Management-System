@@ -3,7 +3,6 @@ package com.bionime.controller;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionime.pojo.EquipmentRecord;
-import com.bionime.pojo.User;
 import com.bionime.service.EquipmentRecordService;
-import com.bionime.service.UserService;
 import com.bionime.utils.SystemResult;
+
+
 
 /**
  * 
@@ -47,12 +46,23 @@ public class EquipmentRecordController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/findEquiomentRecord", method = RequestMethod.POST)
+	@RequestMapping(value = "/findEquiomentRecord", method = RequestMethod.GET)
 	public Object findEquiomentRecord(HttpServletRequest request) {
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		int page = Integer.parseInt(request.getParameter("page"));
 		int limit = Integer.parseInt(request.getParameter("limit"));
 		Long e_id = Long.parseLong(request.getParameter("e_id"));
+		String change_time = String.valueOf(request.getParameter("change_time"));
+		if(change_time.length()!=0&& change_time!=null) {
+			String startTime = change_time.substring(0, 10);
+			String endTime = change_time.substring(13,change_time.length());
+			if("".equals(endTime)&&endTime!=null&&"".equals(startTime)&&startTime!=null){
+	            startTime = startTime+" 00:00:00";
+				endTime = endTime+" 23:59:59";
+	        }
+			paramMap.put("startTime", startTime);
+			paramMap.put("endTime", endTime);
+		}
 		int temp = limit;
 		if (page != 1) {
 			page = (page - 1) * temp;
