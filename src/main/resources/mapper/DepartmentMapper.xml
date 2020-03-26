@@ -110,7 +110,7 @@
 		AND h.delete_tag = 0 ) h INNER JOIN equipment e on h.did=e.d_id
 		<where>
 			e.delete_tag=0
-			<if test="d_id!=null and d_id!=''">
+			<if test="h_id!=null and h_id!=''">
 				and h.id=#{h_id}
 			</if>
 		</where>

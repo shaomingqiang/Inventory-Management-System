@@ -106,7 +106,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public Map<String, Object> selectDepartmentByPage(HashMap<String, Object> paramMap,
 			DepartmentDetail departmentDetail) {
 		List<DepartmentDetail> list = departmentMapper.selectDepartmentByPage(paramMap);
-		int count = list.size();
+		Department department = new Department();
+		department.setH_id(departmentDetail.getH_id());
+		List<Department> findDept = departmentMapper.findDept(department);
+		int count = findDept.size();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("code", 200);
 		map.put("data",list);

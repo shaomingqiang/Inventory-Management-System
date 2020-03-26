@@ -17,18 +17,19 @@
 		select * from hospital where id=#{id}
 	</select>
 	<!-- 查询每个省份的医院数量 -->
-	<select id="getProvinceData" resultType="com.bionime.pojo.Province">
-        SELECT
-			province NAME,
-			count( * ) VALUE
+	<select id="getProvinceData"
+		resultType="com.bionime.pojo.Province">
+		SELECT
+		province NAME,
+		count( * ) VALUE
 		FROM
-			hospital 
+		hospital
 		GROUP BY
-			province 
-		ORDER BY	
-			value
+		province
+		ORDER BY
+		value
 		DESC
-    </select>
+	</select>
 	<!-- 根据省份查找医院 -->
 	<select id="selectHospitalExt"
 		parameterType="com.bionime.pojo.Hospital"
@@ -50,58 +51,91 @@
 		resultType="com.bionime.pojo.Department">
 		select * from department where h_id=#{id}
 	</select>
-	
+
 	<!-- 查询每家医院的科室数量 -->
 	<select id="selectHospitalExtDCount"
 		resultType="com.bionime.pojo.HospitalExt">
 		SELECT
-			count( * ) dname,
-			h.id,
-			h.NAME,
-			h.province 
+		count( * ) dname,
+		h.id,
+		h.NAME,
+		h.province
 		FROM
-			hospital h,
-			department d 
+		hospital h,
+		department d
 		WHERE
-			h.id = d.h_id 
-		AND h.delete_tag = 0 
-		AND d.delete_tag = 0 
+		h.id = d.h_id
+		AND h.delete_tag = 0
+		AND d.delete_tag = 0
 		GROUP BY id
 	</select>
 
 	<!-- 所有医院的信息，使用HospitalExt Pojo,并分页查询 -->
 	<select id="selectHospitalExtByPage" parameterType="hashMap"
 		resultType="com.bionime.pojo.HospitalExt">
-		select h.id,h.name,h.province,h.`level`,
-		COUNT( h.dname) dname,
-		COUNT(if(e.status='20',e.status,NULL)) Meter,
-		COUNT(e.delete_tag) MeterTotal
-		from (SELECT
-		h.id,
-		h.`name`,
-		d.NAME dname,
-		d.id did,
-		h.province,
-		h.`level`
+		SELECT
+		c.id,
+		c. NAME,
+		province,
+		LEVEL,
+		count(d.id) dname,
+		c.e_count Meter,
+		c.er_count MeterTotal
 		FROM
-		hospital h,
-		department d
-		WHERE
-		h.id = d.h_id
-		AND h.delete_tag = 0 ) h
-		left join (select h_id,delete_tag,id meterid,status,d_id from equipment
-		where et_id in (select id from equipment_type where `name`='700Pro')) e
-		on h.did =e.d_id
+		department d right join
+		(
+		SELECT
+		b.id,
+		b. NAME,
+		province,
+		LEVEL,
+		count(e.id) e_count,
+		er_count
+		FROM
+		equipment e right join
+		(
+		SELECT
+		id,
+		NAME,
+		province,
+		LEVEL,
+		count(a.e_id) er_count
+		FROM
+		(
+		SELECT
+		h.id,
+		h. NAME,
+		h.province,
+		h. LEVEL,
+		er.e_id
+		FROM
+		hospital h left join
+		equipment_record er
+		on h.id = er.h_id
 		<where>
-			1=1
 			<if test="province!=null and province!=''">
 				and h.province=#{province}
 			</if>
 			<if test="name!=null and name!=''">
 				and h.name=#{name}
 			</if>
-			GROUP BY h.name
 		</where>
+		GROUP BY
+		h.id,
+		er.e_id
+		) a
+		GROUP BY
+		id
+		) b
+		on
+		b.id = e.h_id
+		GROUP BY
+		b.id
+		) c
+		on
+		d.h_id = c.id
+		GROUP BY
+		c.id
 		<if test="page!= null and limit!= null">
             <![CDATA[
                 LIMIT #{page},#{limit}
@@ -109,7 +143,8 @@
 		</if>
 	</select>
 	<!-- 修改医院信息 -->
-	<update id="updateHospital" parameterType="com.bionime.pojo.Hospital">
+	<update id="updateHospital"
+		parameterType="com.bionime.pojo.Hospital">
 		update hospital set
 		province=#{province},name=#{name},level=#{level}
 		where id =#{id}
