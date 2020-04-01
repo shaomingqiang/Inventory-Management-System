@@ -10,4 +10,7 @@
 	<select id="login" resultType="com.bionime.pojo.User" parameterType="com.bionime.utils.SystemResult">
 		select * from user where username=#{username} and password=#{password}
 	</select>
+	<select id="findAllUsers"  resultType="com.bionime.pojo.User">
+    	select * from User
+	</select>
 </mapper>

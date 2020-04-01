@@ -22,4 +22,5 @@ public interface EquipmentMapper {
 	List<Equipment> selectEquipmentById(@Param("id")Long id);
 	Equipment selectEquipmentIdBySn(String sn);
 	List<Equipment> selectEquipmentIdByDid(Long d_id);
+	List<Equipment> selectById(List<String> ids);
 }

@@ -20,9 +20,7 @@
 
 <body>
 	<div class="x-nav">
-		<span class="layui-breadcrumb"> <a href="">首页</a> <a href="">演示</a>
-			<a> <cite>导航元素</cite></a>
-		</span> <a class="layui-btn layui-btn-small"
+		<a class="layui-btn layui-btn-small"
 			style="line-height: 1.6em; margin-top: 3px; float: right"
 			onclick="location.reload()" title="刷新"> <i
 			class="layui-icon layui-icon-refresh" style="line-height: 30px"></i>
@@ -311,7 +309,7 @@ layui.use(['form','table','jquery'], function() {
 					layer.open({
 		                title: '批量修改状态',
 		                type: 2,
-		                area: [ '500px', '400px'], //宽高
+		                area: [ '800px', '600px'], //宽高
 		                maxmin: true, //开启最大化最小化按钮
 		                content: "toPage?url=/static/update-status",
 		                success: function (layero, index) {

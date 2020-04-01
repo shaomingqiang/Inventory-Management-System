@@ -9,7 +9,8 @@
 <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
 <link rel="stylesheet" href="../css/font.css">
 <link rel="stylesheet" href="../css/xadmin.css">
-<script type="text/javascript" src="../lib/layui/layui.js"
+<link rel="stylesheet" href="../js/layui-v2.5.6/layui/css/layui.css">
+<script type="text/javascript" src="../js/layui-v2.5.6/layui/layui.js"
 	charset="utf-8"></script>
 <script type="text/javascript" src="../js/xadmin.js"></script>
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -154,18 +155,29 @@
 							autocomplete="off" class="layui-input">
 					</div>
 				</div>
-
+				
+				<div class="layui-form-item" id="formCheckbox" style="display: none;">
+				    <label class="layui-form-label">是否发单</label>
+				    <div class="layui-input-inline">
+				      <input id="switch" type="checkbox" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="是|否">
+				    </div>
+				 </div>
+			 	<div class="layui-form-item" id="emailTransfer" style="display: none;">
+				 	<label class="layui-form-label">邮件通知</label>
+					<div id="test1" class="demo-transfer"></div>
+				 </div>
 				<div class="layui-form-item">
 					<label for="L_repass" class="layui-form-label"></label>
-					<button class="layui-btn" lay-submit="" lay-filter="edit">修改</button>
+					<button class="layui-btn" lay-submit="" lay-filter="edit" style="margin-top: 20px;">修改</button>
 				</div>
 			</form>
 		</div>
 	</div>
 	<script>
-		layui.use([ 'form', 'layer', 'jquery' ], function() {
+		layui.use([ 'form', 'layer', 'jquery','transfer','util' ], function() {
 			$ = layui.jquery;
 			var form = layui.form, layer = layui.layer;
+			var transfer = layui.transfer,util = layui.util;
 			//自定义验证规则
 			form.verify({
 				select_base_type : function(value) {
@@ -281,6 +293,7 @@
 			form.on('select(Status_filter)', function(data) {
 				if (data.value == "20") {
 					$('#show_div').css('display', 'block');
+					$('#formCheckbox').css('display', 'block');
 					//自定义验证规则
 					form.verify({
 						select_province : function(value) {
@@ -294,24 +307,91 @@
 							}
 						}
 					});
-				} else {
+				} else if(data.value == "30"){//出库
+					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'block');
+				}else if(data.value == "40"){//借用
+					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'block');
+				}else if(data.value == "70"){//故障
+					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'block');
+				}else {
 					$("#select_province").attr("lay-verify","");
 					$("#select_hospital").attr("lay-verify","");
 					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'none');
 				}
 			});
+			$.ajax({
+				//请求方式
+				type : "post",
+				//url 
+				url : "user/findAllUsers",
+				//datarype 
+				dataType : "json",
+				//result 为请求的返回结果对象
+				success : function(res) {
+					if ("200" == res.status) {
+						console.log(res.data);
+						var userList =res.data;
+						 //基础效果
+						  transfer.render({
+						    elem: '#test1'
+						    ,title: ['可选人员', '已选人员']  //自定义标题
+						    ,data: userList
+						    ,parseData: function(userList){
+						      return {
+						        "value": userList.id //数据值
+						        ,"title": userList.username //数据标题
+						        ,"email": userList.email
+						      }
+						    }
+						    ,showSearch: true
+						    ,width:170
+						    ,height:260
+						    ,text: {
+						    	  none: '无人员' //没有数据时的文案
+						    	  ,searchNone: '没有该人员' //搜索无匹配数据时的文案
+						    }
+						    ,id:'demo1'
+						  });
+					} else {
+						console.log(res.data);
+					}
+				}
+			});
+		  //监听指定开关
+		  form.on('switch(switchTest)', function(data){
+		  	var tag = this.checked ? '0' : '1';
+			  if(tag==0){
+				  $('#emailTransfer').css('display', 'block');
+			  }else{
+				  $('#emailTransfer').css('display', 'none');
+			  }
+		    layer.tips('温馨提示：此功能表示是否留下设备变更单记录，以及是否发邮件', data.othis);
+		  });
 			//监听提交
 			form.on('submit(edit)', function(data) {
-				var data = JSON.stringify(data.field);
+				//批量办法定事件
+				  util.event('lay-demoTransferActive', {
+				    getData: function(othis){
+				      var getData = transfer.getData('demo1'); //获取右侧数据
+				    }
+				  });
+				 var getData = transfer.getData('demo1');
+				 var emailUsersData = JSON.stringify(getData);
+				 console.log(emailUsersData);
+				 var formTag =  data.field.open == "on" ? "open" : "close";//检测是否发单
 				$.ajax({
 					//请求方式
 					type : "post",
 					//url 
 					url : "/equipment/updateEquiment",
 					//把Js的对象或数组序列化一个Json字符串
-					data : data,
-					//contentType 
-					contentType : "application/json; charset=utf-8",
+					data : "id=" + data.field.id + "&status="
+					+ data.field.status+"&h_id="+data.field.h_id+"&d_id="+data.field.d_id+"&sn="+data.field.sn+"&emailUsersData="
+					+ emailUsersData+"&formTag="+formTag+"&name="+data.field.name+"&type="+data.field.type+"&property_no"+data.field.property_no,
 					//datarype 
 					dataType : "json",
 					//result 为请求的返回结果对象
@@ -345,7 +425,7 @@
 							});
 						}
 					}
-				});
+				}); 
 				return false; 
 			});
 
@@ -472,6 +552,10 @@
 	}
 		 function child(d) {
 			var obj = JSON.parse(d);
+			if(obj.status=="在院"){
+				$('#show_div').css('display', 'block');
+				$('#formCheckbox').css('display', 'block');
+			}
 			$("#name option").each(function() {
 				if ($(this).text() == obj.name) {
 					$(this).attr("selected", true);

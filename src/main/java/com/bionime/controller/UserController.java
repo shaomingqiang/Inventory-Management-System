@@ -68,11 +68,12 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public SystemResult login(@RequestBody User user, HttpSession session) {
 		SystemResult result = userService.login(user);
+		User selectUserByUserName = userService.selectUserByUserName(user);
 		if (user != null) {
-			session.setAttribute("user", user);
+			session.setAttribute("user", selectUserByUserName);
 			session.setMaxInactiveInterval(-1);
 		}
-		logger.info(user.getUsername());
+		logger.info(selectUserByUserName.getUsername());
 		return result;
 	}
 
@@ -85,5 +86,11 @@ public class UserController {
 		} else {
 			return null;
 		}
+	}
+	
+	@RequestMapping(value = "/findAllUsers", method = RequestMethod.POST)
+	public SystemResult findAllUsers(HttpSession session) {
+		SystemResult result = userService.findAllUsers();
+		return result;
 	}
 }

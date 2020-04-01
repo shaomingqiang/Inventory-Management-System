@@ -43,6 +43,16 @@
 			#{item}
 		</foreach>
 	</select>
+	
+	<!-- 根据设备id查找设备 -->
+	<select id="selectById" parameterType="java.lang.String"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 
 	<!-- 批量修改设备状态 -->
 	<update id="statusChange">

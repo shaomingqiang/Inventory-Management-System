@@ -22,4 +22,7 @@ public interface EquipmentService {
 	Map<String, Object> selectEquimentExtByPage(HashMap<String, Object> map,EquipmentExt equipmentExt);
 	Equipment selectEquipmentIdBySn(String sn);
 	List<Equipment> selectEquipmentIdByDid(Long d_id);
+	List<Equipment> selectBySn(List<String> Sns);
+	List<Equipment> selectById(List<String> ids);
+	public void sendSimpleMail(String to, String subject, String content);//发送简单邮件
 }

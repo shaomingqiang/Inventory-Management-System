@@ -7,16 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bionime.mapper.DepartmentMapper;
 import com.bionime.mapper.EquipmentMapper;
 import com.bionime.mapper.EquipmentRecordMapper;
 import com.bionime.mapper.EquipmentTypeMapper;
 import com.bionime.mapper.HospitalMapper;
-import com.bionime.pojo.Department;
 import com.bionime.pojo.Equipment;
 import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentRecord;
@@ -44,6 +47,8 @@ import com.bionime.utils.SystemResult;
 @Transactional
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private EquipmentMapper equipmentMapper;
@@ -58,7 +63,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private HospitalMapper hospitalMapper;
 	
 	@Autowired
-	private DepartmentMapper departmentMapper;
+    private JavaMailSender mailSender;
+	
+	@Value("${spring.mail.username}")
+	private String from;
 
 	@Override
 	public SystemResult insert(Equipment equipment,Long uid) {
@@ -114,7 +122,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}
 		return SystemResult.ok();
 	}
-
+	
 	@Override
 	public SystemResult selectByType(EquipmentType equipmentType) {
 		List<Equipment> equipmentList = equipmentMapper.selectByType(equipmentType);
@@ -427,5 +435,33 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public List<Equipment> selectEquipmentIdByDid(Long d_id) {
 		List<Equipment> selectEquipmentIdByDid = equipmentMapper.selectEquipmentIdByDid(d_id);
 		return selectEquipmentIdByDid;
+	}
+
+	@Override
+	public void sendSimpleMail(String to, String subject, String content) {
+		SimpleMailMessage message = new SimpleMailMessage();
+	    message.setFrom(from);//发件人Email地址
+	    message.setTo(to);//收件人Email地址
+	    message.setSubject(subject);//邮件主题
+	    message.setText(content);//邮件内容
+	    try {
+	        mailSender.send(message);
+	        logger.info("邮件已经发送。");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        logger.error("发送邮件时发生异常！", e);
+	    }
+	}
+
+	@Override
+	public List<Equipment> selectBySn(List<String> Sns) {
+		List<Equipment> selectBySn = equipmentMapper.selectBySn(Sns);
+		return selectBySn;
+	}
+
+	@Override
+	public List<Equipment> selectById(List<String> ids) {
+		List<Equipment> selectById = equipmentMapper.selectById(ids);
+		return selectById;
 	}
 }
