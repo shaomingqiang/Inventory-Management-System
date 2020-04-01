@@ -291,7 +291,7 @@
 				});
 			});
 			form.on('select(Status_filter)', function(data) {
-				if (data.value == "20") {
+				if (data.value == "20"||data.value == "40") {
 					$('#show_div').css('display', 'block');
 					$('#formCheckbox').css('display', 'block');
 					//自定义验证规则
@@ -308,9 +308,6 @@
 						}
 					});
 				} else if(data.value == "30"){//出库
-					$('#show_div').css('display', 'none');
-					$('#formCheckbox').css('display', 'block');
-				}else if(data.value == "40"){//借用
 					$('#show_div').css('display', 'none');
 					$('#formCheckbox').css('display', 'block');
 				}else if(data.value == "70"){//故障
@@ -552,7 +549,7 @@
 	}
 		 function child(d) {
 			var obj = JSON.parse(d);
-			if(obj.status=="在院"){
+			if(obj.status=="在院"||obj.status=="借用"){
 				$('#show_div').css('display', 'block');
 				$('#formCheckbox').css('display', 'block');
 			}

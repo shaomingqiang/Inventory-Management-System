@@ -161,3 +161,21 @@ CREATE TABLE `user`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for change_form
+-- ----------------------------
+DROP TABLE IF EXISTS `change_form`;
+CREATE TABLE `change_form`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `f_text` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表单内容',
+  `operator` int(11) NOT NULL COMMENT '申请人(操作人员ID)',
+  `f_date` datetime(0) NOT NULL COMMENT '表单日期',
+  `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '表单类型，20:在院，30:出库，40:借用，70:故障',
+  `delete_tag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0是在用，1是不用',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `操作者id`(`operator`) USING BTREE,
+  CONSTRAINT `操作者id` FOREIGN KEY (`operator`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;

@@ -173,7 +173,12 @@ public class EquipmentController {
 		String dateString = sdf.format(new Date());
 		ChangeForm changeForm = new ChangeForm();
 		if(status==20) {//在院
-			String f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，放到"+hName+"("+dName+")";
+			String f_text = null;
+			if(dName!=null) {
+				f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，放到"+hName+"("+dName+")";
+			}else {
+				f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，放到"+hName;
+			}
 			changeForm.setF_text(f_text);
 			changeForm.setF_date(new Date());
 			changeForm.setOperator(operator);
@@ -199,7 +204,12 @@ public class EquipmentController {
 				}
 			}
 		}else if(status==40) {//借用
-			String f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，借用出去";
+			String f_text = null;
+			if(dName!=null) {
+				f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，借用到"+hName+"("+dName+")";
+			}else {
+				f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，借用到"+hName;
+			}
 			changeForm.setF_text(f_text);
 			changeForm.setF_date(new Date());
 			changeForm.setOperator(operator);
