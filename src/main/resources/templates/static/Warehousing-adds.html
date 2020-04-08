@@ -92,12 +92,6 @@
 					</div>
 
 					<div class="layui-form-item">
-						<label for="desc" class="layui-form-label">描述</label>
-						<div class="layui-input-inline">
-							<textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
-						</div>
-					</div>
-					<div class="layui-form-item">
 						<label for="L_repass" class="layui-form-label"></label>
 						<button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
 					</div>
@@ -206,7 +200,6 @@
 								}, function() {
 									//关闭当前frame
 									xadmin.close();
-
 									// 可以对父窗口进行刷新 
 									xadmin.father_reload();
 								});

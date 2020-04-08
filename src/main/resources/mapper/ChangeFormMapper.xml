@@ -3,10 +3,78 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.ChangeFormMapper">
-	<!-- 科室新增 -->
+	<!-- 插入设备变更记录单 -->
 	<insert id="insert" parameterType="com.bionime.pojo.ChangeForm">
 		insert into change_form
 		(f_text,operator,f_date,type,delete_tag)
 		values(#{f_text},#{operator},#{f_date},#{type},'0')
 	</insert>
+	<select id="findAllChangeForm" parameterType="hashMap"
+		resultType="com.bionime.pojo.ChangeFormExt">
+		SELECT
+		cf.*,
+		u.username
+		FROM
+		change_form cf
+		LEFT JOIN user u ON cf.operator = u.id
+		<where>
+			<if test="status!=null and status!=''">
+				and cf.type=#{status}
+			</if>
+			<if test="u_id!=null and u_id!=''">
+				and u.id=#{u_id}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+			   <![CDATA[
+			    and cf.f_date >= #{startTime}
+			    ]]>
+		   </if>
+		   <if test="endTime!=null and endTime!=''">
+		    	<![CDATA[
+		    	and cf.f_date <= #{endTime}
+		    	]]>
+		   </if>
+		</where>
+	</select>
+	<select id="findAllChangeFormByPage" parameterType="hashMap"
+		resultType="com.bionime.pojo.ChangeFormExt">
+		SELECT
+		cf.*,
+		u.username
+		FROM
+		change_form cf
+		LEFT JOIN user u ON cf.operator = u.id
+		<where>
+			<if test="status!=null and status!=''">
+				and cf.type=#{status}
+			</if>
+			<if test="u_id!=null and u_id!=''">
+				and u.id=#{u_id}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+			   <![CDATA[
+			    and cf.f_date >= #{startTime}
+			    ]]>
+		   </if>
+		   <if test="endTime!=null and endTime!=''">
+		    	<![CDATA[
+		    	and cf.f_date <= #{endTime}
+		    	]]>
+		   </if>
+		</where>
+		<if test="page!= null and limit!= null">
+            <![CDATA[
+                LIMIT #{page},#{limit}
+            ]]>
+		</if>
+	</select>
+	<!-- 根据id修改设备变更单表的delete_tag -->
+	<update id="updateChangeFormById">
+		update change_form cf
+		<set>
+			cf.delete_tag=1
+		</set>
+		where
+		cf.id=#{id}
+	</update>
 </mapper>

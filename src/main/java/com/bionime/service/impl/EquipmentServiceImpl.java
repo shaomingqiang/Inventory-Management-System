@@ -158,7 +158,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		statusMap.put("60", "审核");
 		statusMap.put("70", "故障");
 		for (EquipmentExt equipmentExtItem : equipmentExtList) {
-			equipmentExtItem.setIn_time(equipmentExtItem.getIn_time().substring(0, 10));
+			equipmentExtItem.setIn_time(equipmentExtItem.getIn_time().substring(0, 16));
 			equipmentExtItem.setStatus(statusMap.get(equipmentExtItem.getStatus()));
 		}
 		return SystemResult.ok(equipmentExtList.size() + "", equipmentExtList);
@@ -176,7 +176,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		STATUS_CODES.put("60", "审核");
 		STATUS_CODES.put("70", "故障");
 		for (EquipmentExt ext : equimentExtListByPage) {
-			ext.setIn_time(ext.getIn_time().substring(0, 10));
+			ext.setIn_time(ext.getIn_time().substring(0, 16));
 			ext.setStatus(STATUS_CODES.get(ext.getStatus()));
 		}
 		List<EquipmentExt> equipmentExtList = equipmentMapper.selectEquipmentExt(equipmentExt);

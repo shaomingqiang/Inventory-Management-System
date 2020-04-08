@@ -12,10 +12,8 @@
 <link rel="stylesheet" href="../css/xadmin.css">
 <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../js/xadmin.js"></script>
-<!--[if lt IE 9]>
-          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" srec="../lib/layui/lay/modules/laydate.js"></script>
 </head>
 
 <body>
@@ -32,34 +30,23 @@
 				<div class="layui-card">
 					<div class="layui-card-body ">
 						<form class="layui-form layui-col-space5">
-							<div class="layui-inline layui-show-xs-block">
-								<input id="sn" type="text" name="sn" placeholder="序列号"
-									autocomplete="off" class="layui-input">
-							</div>
 							<div class="layui-input-inline">
-								<select name="name" id="name" lay-filter="Type_filter"
-									lay-search lay-verify="select_base_type" class="layui-input">
-									<option value="">设备类型</option>
-								</select>
-							</div>
+						        <input type="text" class="layui-input" id="test6" placeholder="日期范围">
+						    </div>
 							<div class="layui-input-inline">
-								<select name="type" id="type" lay-search
-									lay-filter="Model_filter" lay-verify="select_base_modle"
-									class="layui-input">
-									<option value="">设备型号</option>
+								<select name="user" id="user" lay-search
+									lay-filter="Person_filter" class="layui-input">
+									<option value="">操作人员</option>
 								</select>
 							</div>
 							<div class="layui-input-inline">
 								<select name="status" id="status" lay-search
 									lay-filter="Status_filter" lay-verify="select_base_status"
 									class="layui-input">
-									<option value="">状态</option>
-									<option value="10">在库新机</option>
-									<option value="20">在院</option>
+									<option value="">具体操作</option>
+									<option value="20">入院</option>
 									<option value="30">出库</option>
 									<option value="40">借用</option>
-									<option value="50">在库返修</option>
-									<option value="60">审核</option>
 									<option value="70">故障</option>
 								</select>
 							</div>
@@ -80,24 +67,20 @@
 		</div>
 	</div>
 </body>
-<script type="text/html" id="toolbarDemo">
-		<div class = "layui-btn-container" > 
-            <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 批量修改状态 </button>
-			<button class="layui-btn" onclick="xadmin.open('添加设备','toPage?url=/static/Warehousing-add',800,600)">
-							<i class="layui-icon"></i>添加设备
-						</button>
-			<button class="layui-btn" onclick="xadmin.open('批量添加设备','toPage?url=/static/Warehousing-adds',800,600)">
-							<i class="layui-icon"></i>批量添加设备
-						</button>
-			<button class="layui-btn" onclick="xadmin.open('添加设备类型和型号','toPage?url=/static/equipmentModel-add',800,600)">
-							<i class="layui-icon"></i>添加设备类型和型号
-						</button>
-		</div>
-	</script>
+<script>
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		 //日期范围
+		  laydate.render({
+		    elem: '#test6'
+		    ,range: true
+		  });
+	});
+</script>
 <script type="text/html" id="barDemo">
 		<div class="layui-btn-container">
 		<a title="详情" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="details" onclick="" href="javascript:;">详情</a>
-		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
+		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">停单</a>
 		</div>	
 </script>
 <script>
@@ -107,17 +90,22 @@ layui.use(['form','table','jquery'], function() {
 	//方法级渲染
     table.render({
         elem: '#LAY_table_equipment'
-        ,url: 'equipment/selectEquimentExtByPage'
+        ,url: 'changeForm/findChangeFormByPage'
         ,cellMinWidth: 100
         ,cols: [[
             {checkbox: true, fixed: true}
             ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
-            ,{field:'sn', title: '序列号', width:150, sort: true,align:'center'}
-            ,{field:'name', title: '设备类型', width:150, sort: true,align:'center'}
-            ,{field:'type', title: '设备型号', width:150, sort: true,align:'center'}
-            ,{field:'in_time', title: '入库时间', sort: true, width:140,align:'center'}
-            ,{field:'property_no', title: '财产编号', width:150,align:'center'}
-            ,{field:'status', width:120, title: '状态',align:'center'}
+            ,{field:'username', title: '操作人员', width:150, sort: true,align:'center'}
+            ,{field:'type', title: '具体操作', width:100, sort: true,align:'center'}
+            ,{field:'f_date', title: '操作时间', width:150, sort: true,align:'center'}
+            ,{field:'delete_tag', title: '是否停单', sort: true, width:140,align:'center',templet : function (d) {
+	                if (d.delete_tag === false) {
+	                    return "<span title='未停单' class='layui-btn layui-btn-normal  layui-btn-mini'>未停单</span>"
+	                }else {
+	                	return "<span title='已停单' class='layui-btn layui-btn-danger  layui-btn-mini'>已停单</span>"
+	                }
+                }
+            }
             ,{fixed: 'right', title: '操作',align:'center', width:200,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
@@ -127,27 +115,24 @@ layui.use(['form','table','jquery'], function() {
         ,response: {
         	statusCode: 200 //规定成功的状态码，默认：0
         }
-        ,toolbar:'#toolbarDemo'
         ,height: 516
     });
     active = {
  	    reload: function(){
- 	      var sn = $('#sn');
- 	      var name = $('#name');
- 	      var type = $('#type');
+ 	      var changeTime = $('#test6');
+ 	      var user = $('#user');
  	      var status = $('#status');
  	      //执行重载
  	      table.reload('testReload', {
- 	    	url: 'equipment/selectEquimentExtByPage'
+ 	    	url: 'changeForm/findChangeFormByPage'
  	        ,method:'get'
  	        ,page: {
  	          curr: 1 //重新从第 1 页开始
  	        }
  	        ,where: {
- 	        	 sn: sn.val(),
- 	          	 name: name.val(),
- 	          	 type: type.val(),
- 	          	 status: status.val()
+ 	        	 user: user.val(),
+ 	        	 status: status.val(),
+ 	        	 change_time: changeTime.val()
  	        }
  	      });
  	    }
@@ -159,14 +144,12 @@ layui.use(['form','table','jquery'], function() {
 	var form = layui.form;
 	$(document).ready(function() {　　
 		$.ajax({
-			contentType: "application/json;charset=utf-8",
-			type: "get",
-			url: "equipmentType/selectDistinctEquipmentType",
-			dataType: "json",
-			data:"",
+			type : "post",
+			url : "user/findAllUsers",
+			dataType : "json",
 			success: function(data) {
 				$.each(data.data, function(i, item) {
-					$('#name').append(new Option(item, item));
+					$('#user').append(new Option(item.username,item.id));
 				});
 				form.render("select");
 			},
@@ -175,42 +158,22 @@ layui.use(['form','table','jquery'], function() {
 			}
 		});
 	});
-	form.on('select(Type_filter)', function(data) {
-		var data1 = {"name":data.value};
-		 $.ajax({
-			contentType: "application/json;charset=utf-8",
-			type: "post",
-			url: "equipmentType/selectEquipmentTypeByName",
-			dataType: "json",
-			data: JSON.stringify(data1),
-			success: function(data2) {
-				var obj = data2.data;
-				$('#type').empty();
-				$('#type').append(new Option("设备型号",""));
-				$.each(obj, function(i) {
-					$('#type').append(new Option(i,i));
-				}); 
-				form.render("select");
-			},error:function(){
-				
-			}
-		});
-	});
+	
 });
-	layui.use('laydate', function() {
-		var laydate = layui.laydate;
+layui.use('laydate', function() {
+	var laydate = layui.laydate;
 
-		//执行一个laydate实例
-		laydate.render({
-			elem : '#start' //指定元素
-		});
-
-		//执行一个laydate实例
-		laydate.render({
-			elem : '#end' //指定元素
-		});
-
+	//执行一个laydate实例
+	laydate.render({
+		elem : '#start' //指定元素
 	});
+
+	//执行一个laydate实例
+	laydate.render({
+		elem : '#end' //指定元素
+	});
+
+});
 </script>
 <script>
 	/*用户-删除*/
@@ -248,11 +211,11 @@ layui.use(['form','table','jquery'], function() {
 		    if(obj.event === 'details'){
 		    	console.log(JSON.stringify(data));
 		    	layer.open({
-	                title: '设备详情',
+	                title: '表单详情',
 	                type: 2,
 	                area: [ '800px', '627px'], //宽高
 	                maxmin: true, //开启最大化最小化按钮
-	                content: "toPage?url=/static/equipment-detail",
+	                content: "toPage?url=/static/form-detail",
 	                success: function (layero, index) {
 	                    // 获取子页面的iframe
 	                    var iframe = window['layui-layer-iframe' + index];
@@ -262,26 +225,37 @@ layui.use(['form','table','jquery'], function() {
               })
 		    }
 		   if(obj.event === 'edit'){
-			   console.log(JSON.stringify(data));
-			  /*  xadmin.open('编辑','selectEquimentExtById?url=/static/Warehousing-edit&id='+data.id,700,500); */
-			  layer.open({
-	                title: '编辑',
-	                type: 2,
-	                area: [ '800px', '600px'], //宽高
-	                maxmin: true, //开启最大化最小化按钮
-	                content: "toPage?url=/static/Warehousing-edit",
-	                success: function (layero, index) {
-	                    // 获取子页面的iframe
-	                    var iframe = window['layui-layer-iframe' + index];
-	                    // 向子页面的全局函数child传参
-	                    iframe.child(JSON.stringify(data)); 
-	                }
-              })
+			   
+			   if(data.delete_tag === true){
+				   layer.msg('该表单无法停单!', {
+						icon : 2,
+						time : 2000
+					});
+			   }else{
+				   layer.confirm('真的要停止该表单吗?', function(index){
+					   $.ajax({
+							//请求方式
+							type : "get",
+							//url 
+							url : "changeForm/updateChangeFormById",
+							data: "id=" + data.id,
+							//datarype 
+							dataType : "json",
+							//result 为请求的返回结果对象
+							success : function(result) {
+								if ("200" == result.status) {
+									layer.msg('已停单!', {
+										icon : 1,
+										time : 2000
+									});
+									location.reload();
+								} 
+								 
+							}
+						}); 
+				   });
+			   } 
 		    }
-		   if(obj.event === 'del'){
-			   //alert(data.id)
-			   member_del(data,data.id);
-		   }
 		  });
 
 		//头工具栏事件

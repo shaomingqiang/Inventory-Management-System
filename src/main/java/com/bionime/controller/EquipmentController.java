@@ -191,7 +191,7 @@ public class EquipmentController {
 				}
 			}
 		}else if(status==30) {//出库
-			String f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，带出库";
+			String f_text = userName+"在"+dateString+"把以下机器："+meterSn+"，改为出库";
 			changeForm.setF_text(f_text);
 			changeForm.setF_date(new Date());
 			changeForm.setOperator(operator);
@@ -268,16 +268,26 @@ public class EquipmentController {
 		equipmentExt.setSn(sn);
 		equipmentExt.setStatus(status);
 		equipmentExt.setType(type);
-		equipmentExt.setH_id(Long.parseLong(h_id));
+		if(!"".equals(h_id)&&h_id!=null) {
+			equipmentExt.setH_id(Long.parseLong(h_id));
+		}
 		equipmentExt.setProperty_no(property_no);
 		equipmentExt.setName(name);
-		equipmentExt.setD_id(Long.parseLong(d_id));
+		if(!"".equals(d_id)&&d_id!=null) {
+			equipmentExt.setD_id(Long.parseLong(d_id));
+		}
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		user=userMapper.login(user);
 		Integer statusInteger = Integer.parseInt(status);
-		Long h_idLong = Long.parseLong(h_id);
-		Long d_idLong = Long.parseLong(d_id);
+		Long h_idLong = null;
+		if(!"".equals(h_id)&&h_id!=null) {
+			 h_idLong = Long.parseLong(h_id);
+		}
+		Long d_idLong = null;
+		if(!"".equals(d_id)&&d_id!=null) {
+			 d_idLong = Long.parseLong(d_id);
+		}
 		List<UserEmail> usersData = JSONObject.parseArray(emailUsersData,UserEmail.class);
 		SystemResult result = equipmentService.updateEquimentExt(equipmentExt,user.getId());
 		sendFormOrEmail(request,id, statusInteger,h_idLong,d_idLong,user.getId(),formTag,usersData);

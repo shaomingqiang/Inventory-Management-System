@@ -128,9 +128,9 @@ layui.use(['form','table','jquery'], function() {
             ,{field:'name', title: '医院', width:250,align:'center'}
             ,{field:'level', title: '级别', width:100,align:'center'}
             ,{field:'dname', title: '科室数量',sort: true, width:130,align:'center'}
-            ,{field:'meter', title: 'Meter在用数量',sort: true, width:130,align:'center'}
-            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:130,align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:180,toolbar:'#barDemo'}
+            ,{field:'meter', title: 'Meter在用数量',sort: true, width:135,align:'center'}
+            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:135,align:'center'}
+            ,{fixed: 'right', title: '操作',align:'center', width:160,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -256,7 +256,7 @@ layui.use(['form','table','jquery'], function() {
 		    if(obj.event === 'details'){
 		    	console.log(JSON.stringify(data));
 		    	layer.open({
-	                title: '详情',
+	                title: '医院详情',
 	                type: 2,
 	                area: [ '800px', '627px'], //宽高
 	                maxmin: true, //开启最大化最小化按钮

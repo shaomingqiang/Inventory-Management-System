@@ -45,7 +45,7 @@ public class EquipmentRecordServiceImpl implements EquipmentRecordService{
 	public Map<String, Object> findEquiomentRecordByPage(HashMap<String, Object> paramMap,EquipmentRecord equipmentRecord) {
 		List<EquipmentRecordExt> list =  equipmentRecordMapper.findEquiomentRecordByPage(paramMap);
 		for (EquipmentRecordExt equipmentRecord2 : list) {
-			equipmentRecord2.setChange_time(equipmentRecord2.getChange_time().substring(0, 10));
+			equipmentRecord2.setChange_time(equipmentRecord2.getChange_time().substring(0, 16));
 		}
 		//List<EquipmentRecord> equipmentRecordList =  equipmentRecordMapper.findEquiomentRecord(equipmentRecord);
 		List<EquipmentRecordExt> findEquiomentRecordByEid = equipmentRecordMapper.findEquiomentRecordByEid(equipmentRecord.getE_id());

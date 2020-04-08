@@ -45,9 +45,6 @@
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
-						<a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a>
-					</dd>
-					<dd>
 						<a href="toPage?url=login">退出</a>
 					</dd>
 				</dl>
@@ -85,13 +82,13 @@
 						<i class="iconfont">&#xe6a7;</i> <cite>医院管理</cite>
 				</a></li>
 				<li><a
-					onclick="xadmin.add_tab('审核管理','static/member-list.html',true)">
-						<i class="iconfont">&#xe6a7;</i> <cite>审核管理</cite>
+					onclick="xadmin.add_tab('表单管理','toPage?url=/static/form-list')">
+						<i class="iconfont">&#xe6a7;</i> <cite>表单管理</cite>
 				</a></li>
-				<li><a
+				<!-- <li><a
 					onclick="xadmin.add_tab('返修管理','static/member-list.html')"> <i
 						class="iconfont">&#xe6a7;</i> <cite>返修管理</cite></a></li>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</div>
