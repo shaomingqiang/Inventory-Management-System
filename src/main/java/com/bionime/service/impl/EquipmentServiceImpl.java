@@ -74,6 +74,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 		List<String> snList = Arrays.asList(equipment.getSn().split(","));
 		//状态
 		String status = equipment.getStatus();
+		//医院id
+		Long h_id = equipment.getH_id();
+		//科室id
+		Long d_id = equipment.getD_id();
+		//描述
+		String description = equipment.getDescription();
 		List<String> propertyNoList = null;
 		int snSize = snList.size();
 		boolean hasPropertyNo = false;
@@ -100,7 +106,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 			equipmentForInsert.setSn(snList.get(i));
 			equipmentForInsert.setIn_time(new Date());
 			equipmentForInsert.setStatus(status);
+			equipmentForInsert.setH_id(h_id);
+			equipmentForInsert.setD_id(d_id);
 			equipmentForInsert.setDescription(equipment.getDescription());
+			equipmentForInsert.setDescription(description);
 			equipmentForInsert.setEt_id(equipment.getEt_id());
 			if (hasPropertyNo) {
 				equipmentForInsert.setProperty_no(propertyNoList.get(i));
@@ -116,6 +125,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 			EquipmentRecord equipmentRecord = new EquipmentRecord();
 			equipmentRecord.setE_id(equipment1.getId());
 			equipmentRecord.setChange_type(equipmentTemp.getStatus());
+			equipmentRecord.setH_id(h_id);
+			equipmentRecord.setD_id(d_id);
 			equipmentRecord.setOperator(uid);
 			equipmentRecord.setChange_time(new Date());
 			equipmentRecordMapper.insert(equipmentRecord);		

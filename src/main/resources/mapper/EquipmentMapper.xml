@@ -20,10 +20,10 @@
 	<!-- 设备新增 -->
 	<insert id="insert" parameterType="java.util.List">
 		insert into equipment
-		(sn,status,in_time,description,et_id,property_no,delete_tag)
+		(sn,status,in_time,description,h_id,d_id,et_id,property_no,delete_tag)
 		values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.sn},#{item.status},#{item.in_time},#{item.description},#{item.et_id},#{item.property_no},'0')
+			(#{item.sn},#{item.status},#{item.in_time},#{item.description},#{item.h_id},#{item.d_id},#{item.et_id},#{item.property_no},'0')
 		</foreach>
 	</insert>
 
@@ -116,6 +116,7 @@
 		equipment_type.type,
 		equipment.in_time,
 		equipment.property_no,
+		equipment.description,
 		equipment.status
 		from equipment left join equipment_type
 		on
@@ -153,6 +154,7 @@
 		equipment_type.type,
 		equipment.in_time,
 		equipment.property_no,
+		equipment.description,
 		equipment.status
 		from equipment left join equipment_type
 		on

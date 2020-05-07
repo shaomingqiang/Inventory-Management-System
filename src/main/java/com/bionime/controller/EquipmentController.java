@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -68,6 +70,8 @@ public class EquipmentController {
 	
 	@Autowired
 	private ChangeFormMapper changeFormMapper;
+	
+	private final static Executor executor = Executors.newCachedThreadPool();//启用多线程
 	/**
 	 * 设备添加
 	 * <p>
@@ -120,7 +124,6 @@ public class EquipmentController {
 	 * @param status
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/statusChange", method = RequestMethod.POST)
 	public SystemResult equipmentStatusChange(HttpServletRequest request,String id, Integer status,Long h_id,Long d_id,
 			String emailUsersData,String formTag) {
@@ -186,8 +189,19 @@ public class EquipmentController {
 			changeFormMapper.insert(changeForm);
 			if(emailList!=null) {
 				for (int i = 0; i < emailList.size(); i++) {
-					//发送邮件
-					equipmentService.sendSimpleMail(emailList.get(i),"机器入院",f_text);
+					final int j=i; //关键是这一句代码，将 i 转化为  j，这样j 还是final类型的参与线程
+					final String fText = f_text;
+					executor.execute(new Runnable() {
+					                 @Override
+					                 public void run() {
+						                  try{
+						                	//发送邮件
+						  					equipmentService.sendSimpleMail(emailList.get(j),"机器入院",fText);
+						                  }catch(Exception e){
+						                 
+						                  }
+					                 }
+					});
 				}
 			}
 		}else if(status==30) {//出库
@@ -199,8 +213,19 @@ public class EquipmentController {
 			changeFormMapper.insert(changeForm);
 			if(emailList!=null) {
 				for (int i = 0; i < emailList.size(); i++) {
-					//发送邮件
-					equipmentService.sendSimpleMail(emailList.get(i),"机器出库",f_text);
+					final int j=i; //关键是这一句代码，将 i 转化为  j，这样j 还是final类型的参与线程
+					final String fText = f_text;
+					executor.execute(new Runnable() {
+					                 @Override
+					                 public void run() {
+						                  try{
+						                	//发送邮件
+						  					equipmentService.sendSimpleMail(emailList.get(j),"机器出库",fText);
+						                  }catch(Exception e){
+						                 
+						                  }
+					                 }
+					});
 				}
 			}
 		}else if(status==40) {//借用
@@ -217,8 +242,19 @@ public class EquipmentController {
 			changeFormMapper.insert(changeForm);
 			if(emailList!=null) {
 				for (int i = 0; i < emailList.size(); i++) {
-					//发送邮件
-					equipmentService.sendSimpleMail(emailList.get(i),"机器借用",f_text);
+					final int j=i; //关键是这一句代码，将 i 转化为  j，这样j 还是final类型的参与线程
+					final String fText = f_text;
+					executor.execute(new Runnable() {
+					                 @Override
+					                 public void run() {
+						                  try{
+						                	//发送邮件
+						  					equipmentService.sendSimpleMail(emailList.get(j),"机器借用",fText);
+						                  }catch(Exception e){
+						                 
+						                  }
+					                 }
+					});
 				}
 			}
 		}else if(status==70) {//故障
@@ -230,12 +266,21 @@ public class EquipmentController {
 			changeFormMapper.insert(changeForm);
 			if(emailList!=null) {
 				for (int i = 0; i < emailList.size(); i++) {
-					//发送邮件
-					equipmentService.sendSimpleMail(emailList.get(i),"机器故障",f_text);
+					final int j=i; //关键是这一句代码，将 i 转化为  j，这样j 还是final类型的参与线程
+					final String fText = f_text;
+					executor.execute(new Runnable() {
+					                 @Override
+					                 public void run() {
+						                  try{
+						                	//发送邮件
+						  					equipmentService.sendSimpleMail(emailList.get(j),"机器故障",fText);
+						                  }catch(Exception e){
+						                 
+						                  }
+					                 }
+					});
 				}
 			}
-		}else {
-			
 		}
 	}
 	

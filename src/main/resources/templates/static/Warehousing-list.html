@@ -111,14 +111,15 @@ layui.use(['form','table','jquery'], function() {
         ,cellMinWidth: 100
         ,cols: [[
             {checkbox: true, fixed: true}
-            ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
-            ,{field:'sn', title: '序列号', width:150, sort: true,align:'center'}
-            ,{field:'name', title: '设备类型', width:150, sort: true,align:'center'}
-            ,{field:'type', title: '设备型号', width:150, sort: true,align:'center'}
+            ,{field:'id', title: 'ID', width:60, sort: true,align:'center'}
+            ,{field:'sn', title: '序列号', width:120, sort: true,align:'center'}
+            ,{field:'name', title: '设备类型', width:100, sort: true,align:'center'}
+            ,{field:'type', title: '设备型号', width:100, sort: true,align:'center'}
             ,{field:'in_time', title: '入库时间', sort: true, width:140,align:'center'}
             ,{field:'property_no', title: '财产编号', width:150,align:'center'}
+            ,{field:'description', title: '描述信息', width:180,align:'center'}
             ,{field:'status', width:120, title: '状态',align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:200,toolbar:'#barDemo'}
+            ,{fixed: 'right', title: '操作',align:'center', width:150,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
