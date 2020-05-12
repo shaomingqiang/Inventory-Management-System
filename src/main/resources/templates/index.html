@@ -34,7 +34,7 @@
 	<!-- 顶部开始 -->
 	<div class="container">
 		<div class="logo">
-			<a href="toPage?url=static/welcome1">库存管理系统 v1.0</a>
+			<a href="javascript:void(0)">库存管理系统 v1.0</a>
 		</div>
 		<!--左侧菜单隐藏管理-->
 		<div class="left_open">
@@ -44,9 +44,6 @@
 			<li class="layui-nav-item"><a href="javascript:;"><p id="username"></p></a>
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
-					<dd>
-						<a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a>
-					</dd>
 					<dd>
 						<a href="toPage?url=login">退出</a>
 					</dd>
@@ -85,42 +82,13 @@
 						<i class="iconfont">&#xe6a7;</i> <cite>医院管理</cite>
 				</a></li>
 				<li><a
-					onclick="xadmin.add_tab('审核管理','static/member-list.html',true)">
-						<i class="iconfont">&#xe6a7;</i> <cite>审核管理</cite>
+					onclick="xadmin.add_tab('表单管理','toPage?url=/static/form-list')">
+						<i class="iconfont">&#xe6a7;</i> <cite>表单管理</cite>
 				</a></li>
-				<li><a
+				<!-- <li><a
 					onclick="xadmin.add_tab('返修管理','static/member-list.html')"> <i
 						class="iconfont">&#xe6a7;</i> <cite>返修管理</cite></a></li>
-				</li>
-				<li><a href="javascript:;"> <i class="iconfont left-nav-li"
-						lay-tips="系统统计">&#xe6ce;</i> <cite>系统统计</cite> <i
-						class="iconfont nav_right">&#xe697;</i></a>
-					<ul class="sub-menu">
-						<li><a onclick="xadmin.add_tab('拆线图','static/echarts1.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>拆线图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('拆线图','static/echarts2.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>拆线图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('地图','static/echarts3.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>地图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('饼图','static/echarts4.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>饼图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('雷达图','static/echarts5.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>雷达图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('k线图','static/echarts6.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>k线图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('热力图','static/echarts7.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>热力图</cite>
-						</a></li>
-						<li><a onclick="xadmin.add_tab('仪表图','static/echarts8.html')">
-								<i class="iconfont">&#xe6a7;</i> <cite>仪表图</cite>
-						</a></li>
-					</ul></li>
+				</li> -->
 			</ul>
 		</div>
 	</div>

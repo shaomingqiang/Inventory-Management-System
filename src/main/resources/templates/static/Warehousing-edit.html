@@ -9,7 +9,8 @@
 <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
 <link rel="stylesheet" href="../css/font.css">
 <link rel="stylesheet" href="../css/xadmin.css">
-<script type="text/javascript" src="../lib/layui/layui.js"
+<link rel="stylesheet" href="../js/layui-v2.5.6/layui/css/layui.css">
+<script type="text/javascript" src="../js/layui-v2.5.6/layui/layui.js"
 	charset="utf-8"></script>
 <script type="text/javascript" src="../js/xadmin.js"></script>
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -28,37 +29,35 @@
 	<div class="layui-fluid">
 		<div class="layui-row">
 			<form class="layui-form">
-					<input readonly="readonly" style="display: none;" type="text" id="id" name="id"
-							required="" lay-verify="id" autocomplete="off"
-							class="layui-input">
+				<input readonly="readonly" style="display: none;" type="text"
+					id="id" name="id" required="" lay-verify="id" autocomplete="off"
+					class="layui-input">
 				<div class="layui-form-item">
 					<label for="select_base_type" class="layui-form-label">设备类型
 					</label>
 					<div class="layui-input-inline">
-						<select name="name" id="name" lay-filter="Type_filter"
-									lay-search lay-verify="select_base_type" class="layui-input">
-									<option value="">设备类型</option>
-								</select>
+						<select name="name" id="name" lay-filter="Type_filter" lay-search
+							lay-verify="select_base_type" class="layui-input">
+							<option value="">设备类型</option>
+						</select>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<label for="type" class="layui-form-label"> 设备型号 </label>
 					<div class="layui-input-inline">
-						<select name="type" id="type" lay-search
-									lay-filter="Model_filter" lay-verify="select_base_modle"
-									class="layui-input">
-									<option value="">设备型号</option>
-								</select>
+						<select name="type" id="type" lay-search lay-filter="Model_filter"
+							lay-verify="select_base_modle" class="layui-input">
+							<option value="">设备型号</option>
+						</select>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<label for="sn" class="layui-form-label"> 序列号 </label>
 					<div class="layui-input-inline">
-						<input readonly="readonly" type="text" id="sn" name="sn"
-							required="" lay-verify="sn" autocomplete="off"
-							class="layui-input">
+						<input type="text" id="sn" name="sn" required="" lay-verify="sn"
+							autocomplete="off" class="layui-input">
 					</div>
 				</div>
 
@@ -67,13 +66,83 @@
 					<div class="layui-input-inline">
 						<select name="status" id="status" lay-filter="Status_filter"
 							class="layui-input">
-							<option value="10">在库</option>
+							<option value="10">在库新机</option>
 							<option value="20">在院</option>
 							<option value="30">出库</option>
 							<option value="40">借用</option>
-							<option value="50">返修</option>
+							<option value="50">在库返修</option>
 							<option value="60">审核</option>
+							<option value="70">故障</option>
 						</select>
+					</div>
+				</div>
+
+				<div id="show_div" style="display: none;">
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label"><span
+							class="x-red">*</span>省份</label>
+						<div class="layui-input-inline">
+							<select name="select_province" id="select_province"
+								lay-filter="province_filter" lay-search=""
+								lay-verify="select_province" class="layui-input">
+								<option value="">省份选择</option>
+								<option value="江苏省">江苏省</option>
+								<option value="北京市">北京市</option>
+								<option value="天津市">天津市</option>
+								<option value="上海市">上海市</option>
+								<option value="重庆市">重庆市</option>
+								<option value="河南省">河南省</option>
+								<option value="河北省">河北省</option>
+								<option value="黑龙江省">黑龙江省</option>
+								<option value="辽宁省">辽宁省</option>
+								<option value="吉林省">吉林省</option>
+								<option value="湖南省">湖南省</option>
+								<option value="湖北省">湖北省</option>
+								<option value="安徽省">安徽省</option>
+								<option value="山东省">山东省</option>
+								<option value="浙江省">浙江省</option>
+								<option value="江西省">江西省</option>
+								<option value="甘肃省">甘肃省</option>
+								<option value="云南省">云南省</option>
+								<option value="山西省">山西省</option>
+								<option value="陕西省">陕西省</option>
+								<option value="福建省">福建省</option>
+								<option value="贵州省">贵州省</option>
+								<option value="广东省">广东省</option>
+								<option value="青海省">青海省</option>
+								<option value="四川省">四川省</option>
+								<option value="海南省">海南省</option>
+								<option value="台湾省">台湾省</option>
+								<option value="广西壮族自治区">广西壮族自治区</option>
+								<option value="内蒙古自治区">内蒙古自治区</option>
+								<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+								<option value="西藏自治区">西藏自治区</option>
+								<option value="宁夏回族自治区">宁夏回族自治区</option>
+								<option value="宁夏回族自治区">香港特别行政区</option>
+								<option value="宁夏回族自治区">澳门特别行政区</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label"><span
+							class="x-red">*</span>医院</label>
+						<div class="layui-input-inline">
+							<select name="h_id" id="select_hospital"
+								lay-filter="hospital_filter" lay-search="" lay-verify="select_hospital"
+								class="layui-input">
+								<option value="">医院选择</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label">科室</label>
+						<div class="layui-input-inline">
+							<select name="d_id" id="select_department"
+								lay-filter="department_filter" lay-verify="select_department"
+								class="layui-input">
+								<option value="">科室选择</option>
+							</select>
+						</div>
 					</div>
 				</div>
 
@@ -86,19 +155,29 @@
 							autocomplete="off" class="layui-input">
 					</div>
 				</div>
-
+				
+				<div class="layui-form-item" id="formCheckbox" style="display: none;">
+				    <label class="layui-form-label">是否发单</label>
+				    <div class="layui-input-inline">
+				      <input id="switch" type="checkbox" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="是|否">
+				    </div>
+				 </div>
+			 	<div class="layui-form-item" id="emailTransfer" style="display: none;">
+				 	<label class="layui-form-label">邮件通知</label>
+					<div id="test1" class="demo-transfer"></div>
+				 </div>
 				<div class="layui-form-item">
 					<label for="L_repass" class="layui-form-label"></label>
-					<button class="layui-btn" lay-submit="" lay-filter="edit">修改</button>
+					<button class="layui-btn" lay-submit="" lay-filter="edit" style="margin-top: 20px;">修改</button>
 				</div>
 			</form>
 		</div>
 	</div>
 	<script>
-		layui.use([ 'form', 'layer', 'jquery' ], function() {
+		layui.use([ 'form', 'layer', 'jquery','transfer','util' ], function() {
 			$ = layui.jquery;
 			var form = layui.form, layer = layui.layer;
-
+			var transfer = layui.transfer,util = layui.util;
 			//自定义验证规则
 			form.verify({
 				select_base_type : function(value) {
@@ -159,18 +238,157 @@
 					}
 				});
 			});
+			
+			form.on('select(Status_filter)', function(data) {
+				var status = data.value;
+				if(status == "20"){
+					$('#show_div').css('display', 'block');
+				}
+			}); 
+			function setHospital(data1){
+				$.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "hospital/selectHospitalByProvince",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#select_hospital').empty();
+						$('#select_hospital').append(new Option("医院",""));
+						$.each(obj, function(i,item) {
+							$('#select_hospital').append(new Option(i,item));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			}
+			form.on('select(province_filter)', function(data) {
+				var data1 = {"province":data.value};
+				setHospital(data1);
+			});
+			form.on('select(hospital_filter)', function(data) {
+				var data1 = {"h_id":data.value};
+				 $.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "department/findDept",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#select_department').empty();
+						$('#select_department').append(new Option("科室",""));
+						$.each(obj, function(i,item) {
+							$('#select_department').append(new Option(i,item));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			});
+			form.on('select(Status_filter)', function(data) {
+				if (data.value == "20"||data.value == "40") {
+					$('#show_div').css('display', 'block');
+					$('#formCheckbox').css('display', 'block');
+					//自定义验证规则
+					form.verify({
+						select_province : function(value) {
+							if (value == "") {
+								return "所选省份不能为空";
+							}
+						},
+						select_hospital : function(value) {
+							if (value == "") {
+								return "所选医院不能为空";
+							}
+						}
+					});
+				} else if(data.value == "30"){//出库
+					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'block');
+				}else if(data.value == "70"){//故障
+					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'block');
+				}else {
+					$("#select_province").attr("lay-verify","");
+					$("#select_hospital").attr("lay-verify","");
+					$('#show_div').css('display', 'none');
+					$('#formCheckbox').css('display', 'none');
+				}
+			});
+			$.ajax({
+				//请求方式
+				type : "post",
+				//url 
+				url : "user/findAllUsers",
+				//datarype 
+				dataType : "json",
+				//result 为请求的返回结果对象
+				success : function(res) {
+					if ("200" == res.status) {
+						console.log(res.data);
+						var userList =res.data;
+						 //基础效果
+						  transfer.render({
+						    elem: '#test1'
+						    ,title: ['可选人员', '已选人员']  //自定义标题
+						    ,data: userList
+						    ,parseData: function(userList){
+						      return {
+						        "value": userList.id //数据值
+						        ,"title": userList.username //数据标题
+						        ,"email": userList.email
+						      }
+						    }
+						    ,showSearch: true
+						    ,width:170
+						    ,height:260
+						    ,text: {
+						    	  none: '无人员' //没有数据时的文案
+						    	  ,searchNone: '没有该人员' //搜索无匹配数据时的文案
+						    }
+						    ,id:'demo1'
+						  });
+					} else {
+						console.log(res.data);
+					}
+				}
+			});
+		  //监听指定开关
+		  form.on('switch(switchTest)', function(data){
+		  	var tag = this.checked ? '0' : '1';
+			  if(tag==0){
+				  $('#emailTransfer').css('display', 'block');
+			  }else{
+				  $('#emailTransfer').css('display', 'none');
+			  }
+		    layer.tips('温馨提示：此功能表示是否留下设备变更单记录，以及是否发邮件', data.othis);
+		  });
 			//监听提交
 			form.on('submit(edit)', function(data) {
-				var data = JSON.stringify(data.field);
+				//批量办法定事件
+				  util.event('lay-demoTransferActive', {
+				    getData: function(othis){
+				      var getData = transfer.getData('demo1'); //获取右侧数据
+				    }
+				  });
+				 var getData = transfer.getData('demo1');
+				 var emailUsersData = JSON.stringify(getData);
+				 console.log(emailUsersData);
+				 var formTag =  data.field.open == "on" ? "open" : "close";//检测是否发单
 				$.ajax({
 					//请求方式
 					type : "post",
 					//url 
 					url : "/equipment/updateEquiment",
-					//把Js的对象或数组序列化一个son字符串
-					data : data,
-					//contentType 
-					contentType : "application/json; charset=utf-8",
+					//把Js的对象或数组序列化一个Json字符串
+					data : "id=" + data.field.id + "&status="
+					+ data.field.status+"&h_id="+data.field.h_id+"&d_id="+data.field.d_id+"&sn="+data.field.sn+"&emailUsersData="
+					+ emailUsersData+"&formTag="+formTag+"&name="+data.field.name+"&type="+data.field.type+"&property_no"+data.field.property_no,
 					//datarype 
 					dataType : "json",
 					//result 为请求的返回结果对象
@@ -184,52 +402,165 @@
 								// 可以对父窗口进行刷新 
 								xadmin.father_reload();
 							});
-						} else {
+						} else if("500" == result.status){
+							layer.alert(result.msg, {
+								icon : 2
+							}, function() {
+								//关闭当前frame
+								xadmin.close();
+								// 可以对父窗口进行刷新 
+								xadmin.father_reload();
+							});
+						}else {
 							layer.alert("修改失败", {
 								icon : 2
 							}, function() {
 								//关闭当前frame
 								xadmin.close();
-
 								// 可以对父窗口进行刷新 
 								xadmin.father_reload();
 							});
 						}
 					}
-				});
+				}); 
 				return false; 
 			});
 
 		});
 	</script>
 	<script>
-		function child(d) {
+	function setHospital(data1,hName){
+		layui.use(['form', 'jquery' ], function() {
+			 $ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "hospital/selectHospitalByProvince",
+				dataType: "json",
+				data: JSON.stringify(data1),
+				success: function(data2) {
+					var obj = data2.data;
+					$('#select_hospital').empty();
+					$('#select_hospital').append(new Option("医院",""));
+					$.each(obj, function(i,item) {
+						$('#select_hospital').append(new Option(i,item));
+					}); 
+					$("#select_hospital option").each(function(){
+				        if($(this).val()==hName){
+				            $(this).attr("selected", true);
+				        }
+				    });
+					form.render("select");
+				 },error:function(){
+					
+				}
+			}); 
+		});
+	}
+	function setDepartment(data2,hName){
+		layui.use(['form', 'jquery' ], function() {
+			 $ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "hospital/selectDepartment",
+				dataType: "json",
+				data: JSON.stringify(data2),
+				success: function(data3) {
+					var obj = data3.data;
+					$('#select_department').empty();
+					$('#select_department').append(new Option("科室",""));
+					$.each(obj, function(i,item) {
+						$('#select_department').append(new Option(i,item));
+					}); 
+					$("#select_department option").each(function(){
+				        if($(this).val()==hName){
+				            $(this).attr("selected", true);
+				        }
+				    });
+					form.render("select");
+				 },error:function(){
+					
+				}
+			}); 
+		});
+	}
+	function getType(data1,data2){
+		var data3 = JSON.stringify({"name":data1});
+		layui.use(['form', 'jquery' ], function() {
+			$ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "equipmentType/selectEquipmentTypeByName",
+				dataType: "json",
+				data: data3,
+				success: function(data) {
+					var obj = data.data;
+					$.each(obj, function(i) {
+						//因为刚刚已经新增，所以给过滤掉，不再新增刚刚的那个Option
+						if(i!=data2){
+							$('#type').append(new Option(i,i));
+						}
+					}); 
+					form.render("select");
+				},
+				error:function(){
+					
+				}
+			});
+		});
+	}
+	function getHospital(id){
+		var data1 = JSON.stringify({"id":id});
+		layui.use(['form', 'jquery' ], function() {
+			$ = layui.jquery;
+			var form = layui.form;
+			$.ajax({
+				contentType: "application/json;charset=utf-8",
+				type: "post",
+				url: "equipment/selectHospitalDetail",
+				dataType: "json",
+				data: data1,
+				success: function(data) {
+					$("#select_province").val(data.province);
+					var data1 = {"province":data.province};
+					var data2 = {"id":data.hNo};
+					setHospital(data1,data.hNo);
+					setDepartment(data2,data.dNo);
+					$("#select_hospital").val();
+					$("#select_department").val(data.dName);
+					form.render("select");
+					var status = data.status;
+					//只有状态是20的时候，才是在院，show_div才会显示
+					if(status == "20"){
+						$('#show_div').css('display', 'block');
+					}
+					
+				},
+				error:function(){
+					
+				}
+			});
+		});
+	}
+		 function child(d) {
 			var obj = JSON.parse(d);
+			if(obj.status=="在院"||obj.status=="借用"){
+				$('#show_div').css('display', 'block');
+				$('#formCheckbox').css('display', 'block');
+			}
 			$("#name option").each(function() {
 				if ($(this).text() == obj.name) {
 					$(this).attr("selected", true);
 				}
 			});
-			/* function getType (){
-				$.ajax({
-					var data2 = {"name":obj.name};
-					alert(data2);
-					contentType: "application/json;charset=utf-8",
-					type: "post",
-					url: "equipmentType/selectEquipmentTypeByName",
-					dataType: "json",
-					data: JSON.stringify(data2),
-					success: function(data) {
-						$.each(data.data, function(i, item) {
-							$('#type').append(new Option(item, item));
-						});
-						form.render("select");
-					},
-					error:function(){
-						
-					}
-				});
-			} */
+			getType(obj.name,obj.type);
+			//先新增一个Option,并设置为选中
+			$('#type').append(new Option(obj.type,obj.type));
 			$("#type option").each(function() {
 				if ($(this).text() == obj.type) {
 					$(this).attr("selected", true);
@@ -239,6 +570,9 @@
 			$("#status option").each(function() {
 				if ($(this).text() == obj.status) {
 					$(this).attr("selected", true);
+				}
+				if($(this).text() == "在院"){
+					getHospital(obj.id);
 				}
 			});
 			$(".layui-form-select dl dd").each(function() {
@@ -252,7 +586,7 @@
 			});
 			$("#property_no").val(obj.property_no);
 			$("#id").val(obj.id);
-		}
+		} 
 	</script>
 	<script>
 		var _hmt = _hmt || [];

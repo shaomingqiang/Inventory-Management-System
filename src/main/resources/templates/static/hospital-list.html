@@ -20,9 +20,7 @@
 
 <body>
 	<div class="x-nav">
-		<span class="layui-breadcrumb"> <a href="">首页</a> <a href="">演示</a>
-			<a> <cite>导航元素</cite></a>
-		</span> <a class="layui-btn layui-btn-small"
+		 <a class="layui-btn layui-btn-small"
 			style="line-height: 1.6em; margin-top: 3px; float: right"
 			onclick="location.reload()" title="刷新"> <i
 			class="layui-icon layui-icon-refresh" style="line-height: 30px"></i>
@@ -35,7 +33,7 @@
 					<div class="layui-card-body ">
 						<form class="layui-form layui-col-space5">
 							<div class="layui-input-inline">
-								<select name="province" id="select_province" lay-filter="province_filter" lay-verify="select_province" class="layui-input">
+								<select name="province" id="province" lay-filter="province_filter" lay-search="" lay-verify="select_province" class="layui-input">
 								<option value="">省份选择</option>
 								<option value="江苏省">江苏省</option>
 								<option value="北京市">北京市</option>
@@ -75,7 +73,7 @@
 							</div>
 							<div class="layui-input-inline">
 								<select name="hospital" id="hospital"
-									lay-filter="hospital_filter" lay-verify="select_hospital"
+									lay-filter="hospital_filter" lay-search="" lay-verify="select_hospital"
 									class="layui-input">
 									<option value="">医院选择</option>
 								</select>
@@ -111,7 +109,7 @@
 		<div class="layui-btn-container">
 		<a title="详情" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="details" onclick="" href="javascript:;">详情</a>
 		<a title="编辑" class="layui-btn layui-btn-mini" lay-event="edit" onclick="" href="javascript:;">编辑</a>
-		<a title="删除" lay-event="del" href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+		<!-- <a title="删除" lay-event="del" href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini">删除</a> -->
 		</div>	
 </script>
 <script>
@@ -125,13 +123,14 @@ layui.use(['form','table','jquery'], function() {
         ,cellMinWidth: 100
         ,cols: [[
             {checkbox: true, fixed: true}
-            ,{field:'id', title: 'ID', width:80, sort: true,align:'center'}
+            ,{field:'id', title: 'ID', width:60, sort: true,align:'center'}
             ,{field:'province', title: '省份', width:150,align:'center'}
             ,{field:'name', title: '医院', width:250,align:'center'}
-            ,{field:'dname', title: '科室数量',sort: true, width:150,align:'center'}
-            ,{field:'meter', title: 'Meter在用数量',sort: true, width:150,align:'center'}
-            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:150,align:'center'}
-            ,{fixed: 'right', title: '操作',align:'center', width:282,toolbar:'#barDemo'}
+            ,{field:'level', title: '级别', width:100,align:'center'}
+            ,{field:'dname', title: '科室数量',sort: true, width:130,align:'center'}
+            ,{field:'meter', title: 'Meter在用数量',sort: true, width:135,align:'center'}
+            ,{field:'meterTotal', title: 'Meter全部数量',sort: true, width:135,align:'center'}
+            ,{fixed: 'right', title: '操作',align:'center', width:160,toolbar:'#barDemo'}
         ]]
   		,page: true //是否显示分页
   		,limits:[5,10,15,20,50,100]
@@ -145,7 +144,7 @@ layui.use(['form','table','jquery'], function() {
     });
     active = {
  	    reload: function(){
- 	 	  var name = $('#name');
+ 	 	  var hospital = $('#hospital');
  	      var province = $('#province');
  	      //执行重载
  	      table.reload('testReload', {
@@ -155,8 +154,8 @@ layui.use(['form','table','jquery'], function() {
  	          curr: 1 //重新从第 1 页开始
  	        }
  	        ,where: {
- 	          	 name: name.val(),
- 	             province: province.val(),
+ 	          	 name: hospital.val(),
+ 	             province: province.val()
  	        }
  	      });
  	    }
@@ -184,20 +183,20 @@ layui.use(['form','table','jquery'], function() {
 			}
 		});
 	}); */
-	form.on('select(Type_filter)', function(data) {
-		var data1 = {"name":data.value};
+	form.on('select(province_filter)', function(data) {
+		var data1 = {"province":data.value};
 		 $.ajax({
 			contentType: "application/json;charset=utf-8",
 			type: "post",
-			url: "equipmentType/selectEquipmentTypeByName",
+			url: "hospital/selectHospitalByProvince",
 			dataType: "json",
 			data: JSON.stringify(data1),
 			success: function(data2) {
 				var obj = data2.data;
-				$('#type').empty();
-				$('#type').append(new Option("设备型号",""));
+				$('#hospital').empty();
+				$('#hospital').append(new Option("医院选择",""));
 				$.each(obj, function(i) {
-					$('#type').append(new Option(i,i));
+					$('#hospital').append(new Option(i,i));
 				}); 
 				form.render("select");
 			},error:function(){
@@ -257,7 +256,7 @@ layui.use(['form','table','jquery'], function() {
 		    if(obj.event === 'details'){
 		    	console.log(JSON.stringify(data));
 		    	layer.open({
-	                title: '详情',
+	                title: '医院详情',
 	                type: 2,
 	                area: [ '800px', '627px'], //宽高
 	                maxmin: true, //开启最大化最小化按钮

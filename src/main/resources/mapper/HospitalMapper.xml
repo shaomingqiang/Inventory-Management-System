@@ -3,49 +3,150 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bionime.mapper.HospitalMapper">
-	
+
 	<!-- 医院新增 -->
-	<insert id="insert"  parameterType="com.bionime.pojo.Hospital">
-		insert into hospital (name,province,level,remarks,delete_tag)
-           values(#{name},#{province},#{level},#{remarks},'0')
+	<insert id="insert" parameterType="com.bionime.pojo.Hospital">
+		insert into hospital
+		(name,province,level,remarks,delete_tag)
+		values(#{name},#{province},#{level},#{remarks},'0')
 	</insert>
-	
-	<!-- 根据省份查找医院 -->
-	<select id="selectHospitalExt" parameterType="com.bionime.pojo.Hospital" resultType="com.bionime.pojo.Hospital">
-		select * from hospital 
-		<where>
-		1=1
-		   <if test="name!=null">
-          	 and name like #{name}
-		   </if>
-		   <if test="province!=null">
-          	 and province like #{province}
-		   </if>
-		</where>
+
+	<!-- 根据id查询 -->
+	<select id="selectHospitalById" parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Hospital">
+		select * from hospital where id=#{id}
 	</select>
-	
-	<!-- 所有医院的信息，使用HospitalExt Pojo,并分页查询 -->
-	<select id="selectHospitalExtByPage" parameterType="hashMap" resultType="com.bionime.pojo.HospitalExt">
-		select h.id,h.name,h.province,h.dname,
- 			COUNT(if(e.delete_tag=0,e.delete_tag,NULL)) Meter,
- 			COUNT(e.delete_tag) MeterTotal
- 		 from (select h.id,h.`name`,count(d.name) dname,d.id did,h.province from hospital h,department d where h.id=d.h_id and h.delete_tag=0 group by h.name) h 
- 		 left join (select h_id,delete_tag,id meterid,d_id from equipment where et_id in (select id from equipment_type where `name`='血糖仪')) e 
- 		 on h.did =e.d_id
+	<!-- 查询每个省份的医院数量 -->
+	<select id="getProvinceData"
+		resultType="com.bionime.pojo.Province">
+		SELECT
+		province NAME,
+		count( * ) VALUE
+		FROM
+		hospital
+		GROUP BY
+		province
+		ORDER BY
+		value
+		DESC
+	</select>
+	<!-- 根据省份查找医院 -->
+	<select id="selectHospitalExt"
+		parameterType="com.bionime.pojo.Hospital"
+		resultType="com.bionime.pojo.Hospital">
+		select * from hospital
 		<where>
 			1=1
+			<if test="name!=null">
+				and name like #{name}
+			</if>
+			<if test="province!=null">
+				and province like #{province}
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据医院查找科室 -->
+	<select id="selectDepartment" parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Department">
+		select * from department where h_id=#{id}
+	</select>
+
+	<!-- 查询每家医院的科室数量 -->
+	<select id="selectHospitalExtDCount"
+		resultType="com.bionime.pojo.HospitalExt">
+		SELECT
+		count( * ) dname,
+		h.id,
+		h.NAME,
+		h.province
+		FROM
+		hospital h,
+		department d
+		WHERE
+		h.id = d.h_id
+		AND h.delete_tag = 0
+		AND d.delete_tag = 0
+		GROUP BY id
+	</select>
+
+	<!-- 所有医院的信息，使用HospitalExt Pojo,并分页查询 -->
+	<select id="selectHospitalExtByPage" parameterType="hashMap"
+		resultType="com.bionime.pojo.HospitalExt">
+		SELECT
+		c.id,
+		c. NAME,
+		province,
+		LEVEL,
+		count(d.id) dname,
+		c.e_count Meter,
+		c.er_count MeterTotal
+		FROM
+		department d right join
+		(
+		SELECT
+		b.id,
+		b. NAME,
+		province,
+		LEVEL,
+		count(e.id) e_count,
+		er_count
+		FROM
+		equipment e right join
+		(
+		SELECT
+		id,
+		NAME,
+		province,
+		LEVEL,
+		count(a.e_id) er_count
+		FROM
+		(
+		SELECT
+		h.id,
+		h. NAME,
+		h.province,
+		h. LEVEL,
+		er.e_id
+		FROM
+		hospital h left join
+		equipment_record er
+		on h.id = er.h_id
+		<where>
 			<if test="province!=null and province!=''">
 				and h.province=#{province}
 			</if>
 			<if test="name!=null and name!=''">
 				and h.name=#{name}
 			</if>
-		GROUP BY h.name
 		</where>
+		GROUP BY
+		h.id,
+		er.e_id
+		) a
+		GROUP BY
+		id
+		) b
+		on
+		b.id = e.h_id
+		GROUP BY
+		b.id
+		) c
+		on
+		d.h_id = c.id
+		GROUP BY
+		c.id
 		<if test="page!= null and limit!= null">
             <![CDATA[
                 LIMIT #{page},#{limit}
             ]]>
 		</if>
 	</select>
+	<!-- 修改医院信息 -->
+	<update id="updateHospital"
+		parameterType="com.bionime.pojo.Hospital">
+		update hospital set
+		province=#{province},name=#{name},level=#{level}
+		where id =#{id}
+	</update>
 </mapper>

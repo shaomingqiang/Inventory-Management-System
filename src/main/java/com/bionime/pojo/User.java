@@ -16,6 +16,8 @@ public class User implements Serializable {
 	private String password;// 用户密码
 
 	private String dept;// 所在部门
+	
+	private String email;//邮箱
 
 	private Long role_id;// 角色id，外键
 
@@ -53,6 +55,14 @@ public class User implements Serializable {
 
 	public void setDept(String dept) {
 		this.dept = dept;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Long getRole_id() {

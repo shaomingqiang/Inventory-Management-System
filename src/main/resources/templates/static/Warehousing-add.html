@@ -64,6 +64,95 @@
 				</div>
 
 				<div class="layui-form-item">
+					<label for="select_base_status" class="layui-form-label"> <span
+						class="x-red">*</span>设备状态
+					</label>
+					<div class="layui-input-inline">
+						<select name="status" id="status" lay-search
+							lay-filter="Status_filter" lay-verify="select_base_status"
+							class="layui-input">
+							<option value="">状态</option>
+							<option value="10">在库新机</option>
+							<option value="20">在院</option>
+							<option value="30">出库</option>
+							<option value="40">借用</option>
+							<option value="50">在库返修</option>
+							<option value="60">审核</option>
+							<option value="70">故障</option>
+						</select>
+					</div>
+				</div>
+				
+				<div id="show_div" style="display: none;">
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label"><span
+							class="x-red">*</span>省份</label>
+						<div class="layui-input-inline">
+							<select name="select_province" id="select_province"
+								lay-filter="province_filter" lay-search=""
+								lay-verify="select_province" class="layui-input">
+								<option value="">省份选择</option>
+								<option value="江苏省">江苏省</option>
+								<option value="北京市">北京市</option>
+								<option value="天津市">天津市</option>
+								<option value="上海市">上海市</option>
+								<option value="重庆市">重庆市</option>
+								<option value="河南省">河南省</option>
+								<option value="河北省">河北省</option>
+								<option value="黑龙江省">黑龙江省</option>
+								<option value="辽宁省">辽宁省</option>
+								<option value="吉林省">吉林省</option>
+								<option value="湖南省">湖南省</option>
+								<option value="湖北省">湖北省</option>
+								<option value="安徽省">安徽省</option>
+								<option value="山东省">山东省</option>
+								<option value="浙江省">浙江省</option>
+								<option value="江西省">江西省</option>
+								<option value="甘肃省">甘肃省</option>
+								<option value="云南省">云南省</option>
+								<option value="山西省">山西省</option>
+								<option value="陕西省">陕西省</option>
+								<option value="福建省">福建省</option>
+								<option value="贵州省">贵州省</option>
+								<option value="广东省">广东省</option>
+								<option value="青海省">青海省</option>
+								<option value="四川省">四川省</option>
+								<option value="海南省">海南省</option>
+								<option value="台湾省">台湾省</option>
+								<option value="广西壮族自治区">广西壮族自治区</option>
+								<option value="内蒙古自治区">内蒙古自治区</option>
+								<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+								<option value="西藏自治区">西藏自治区</option>
+								<option value="宁夏回族自治区">宁夏回族自治区</option>
+								<option value="宁夏回族自治区">香港特别行政区</option>
+								<option value="宁夏回族自治区">澳门特别行政区</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label"><span
+							class="x-red">*</span>医院</label>
+						<div class="layui-input-inline">
+							<select name="h_id" id="select_hospital"
+								lay-filter="hospital_filter" lay-search="" lay-verify="select_hospital"
+								class="layui-input">
+								<option value="">医院选择</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label for="status" class="layui-form-label">科室</label>
+						<div class="layui-input-inline">
+							<select name="d_id" id="select_department"
+								lay-filter="department_filter" lay-verify="select_department"
+								class="layui-input">
+								<option value="">科室选择</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
 					<label for="property_no" class="layui-form-label"> <!--<span class="x-red">*</span>-->
 						财产编号
 					</label>
@@ -127,6 +216,11 @@
 						return "设备型号不能为空";
 					}
 				},
+				select_base_status : function(value) {
+					if (value == "") {
+						return "设备状态不能为空";
+					}
+				},
 				sn : function(value) {
 					if (value == "") {
 						return "序列号不能为空";
@@ -157,6 +251,80 @@
 					}
 				});
 			});
+			form.on('select(Status_filter)', function(data) {
+				var status = data.value;
+				if(status == "20"){
+					$('#show_div').css('display', 'block');
+				}
+			}); 
+			function setHospital(data1){
+				$.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "hospital/selectHospitalByProvince",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#select_hospital').empty();
+						$('#select_hospital').append(new Option("医院",""));
+						$.each(obj, function(i,item) {
+							$('#select_hospital').append(new Option(i,item));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			}
+			form.on('select(province_filter)', function(data) {
+				var data1 = {"province":data.value};
+				setHospital(data1);
+			});
+			form.on('select(hospital_filter)', function(data) {
+				var data1 = {"h_id":data.value};
+				 $.ajax({
+					contentType: "application/json;charset=utf-8",
+					type: "post",
+					url: "department/findDept",
+					dataType: "json",
+					data: JSON.stringify(data1),
+					success: function(data2) {
+						var obj = data2.data;
+						$('#select_department').empty();
+						$('#select_department').append(new Option("科室",""));
+						$.each(obj, function(i,item) {
+							$('#select_department').append(new Option(i,item));
+						}); 
+						form.render("select");
+					},error:function(){
+						
+					}
+				});
+			});
+			form.on('select(Status_filter)', function(data) {
+				if (data.value == "20") {
+					$('#show_div').css('display', 'block');
+					//自定义验证规则
+					form.verify({
+						select_province : function(value) {
+							if (value == "") {
+								return "所选省份不能为空";
+							}
+						},
+						select_hospital : function(value) {
+							if (value == "") {
+								return "所选医院不能为空";
+							}
+						}
+					});
+				} else {
+					$("#select_province").attr("lay-verify","");
+					$("#select_hospital").attr("lay-verify","");
+					$('#show_div').css('display', 'none');
+				}
+			});
+			
 			//监听提交
 			form.on('submit(add)', function(data) {
 				var data = JSON.stringify(data.field);

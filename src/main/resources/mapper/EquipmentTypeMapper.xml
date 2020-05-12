@@ -14,9 +14,16 @@
 	
 	<select id="selectEquipmentTypeByName" parameterType="com.bionime.pojo.EquipmentType" resultType="com.bionime.pojo.EquipmentType">
 		select * from  equipment_type where name=#{name}
+		<if test="type!=null and type!=''">
+			 and type=#{type}
+		</if>
 	</select>
 	
 	<update id="countIncrease">
 		update equipment_type set count=count+#{size} where id=#{id}
 	</update>
+	
+	<select id="selectEquipmentTypeById" parameterType="com.bionime.pojo.Equipment" resultType="com.bionime.pojo.EquipmentType">
+		select * from equipment_type where id=#{et_id}		
+	</select>
 </mapper>

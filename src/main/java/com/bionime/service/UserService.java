@@ -6,4 +6,6 @@ import com.bionime.utils.SystemResult;
 public interface UserService {
 	void insert(User user);
 	SystemResult login(User user);
+	SystemResult findAllUsers();
+	User selectUserByUserName(User user);
 }

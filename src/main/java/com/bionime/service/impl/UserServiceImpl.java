@@ -1,5 +1,7 @@
 package com.bionime.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +43,22 @@ public class UserServiceImpl implements UserService {
 		}		
 		return SystemResult.ok(userLogin);
 	}
+	
 
+	@Override
+	public SystemResult findAllUsers() {
+		List<User> findAllUsers = userMapper.findAllUsers();
+		String msg = null;
+		if(findAllUsers==null){
+			msg="未查询到用户";
+			return SystemResult.ok(msg);
+		}		
+		return SystemResult.ok(findAllUsers);
+	}
+
+	@Override
+	public User selectUserByUserName(User user) {
+		User userLogin = userMapper.login(user);
+		return userLogin;
+	}
 }

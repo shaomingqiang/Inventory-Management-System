@@ -7,6 +7,8 @@ package com.bionime.pojo;
  */
 public class HospitalExt extends Hospital{
 
+	private static final long serialVersionUID = 1L;
+
 	private String dname;// 科室名称
 
 	private String meter;// Meter使用数量

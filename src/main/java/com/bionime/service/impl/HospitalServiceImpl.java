@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bionime.mapper.HospitalMapper;
+import com.bionime.pojo.Department;
 import com.bionime.pojo.EquipmentExt;
 import com.bionime.pojo.EquipmentType;
 import com.bionime.pojo.Hospital;
+import com.bionime.pojo.HospitalExt;
+import com.bionime.pojo.Province;
 import com.bionime.service.HospitalService;
+import com.bionime.utils.JsonUtils;
 import com.bionime.utils.SystemResult;
 
 
@@ -58,19 +62,64 @@ public class HospitalServiceImpl implements HospitalService {
 		SystemResult result = SystemResult.ok(typeMap);
 		return result;
 	}
-
+	
+	
+	@Override
+	public SystemResult selectDepartmentByHospital(Long id) {
+		List<Department> hospitallist = hospitalMapper.selectDepartment(id);
+		Map<String,Long> typeMap = new HashMap<String,Long>();
+		for (Department hospital1 : hospitallist) {
+			typeMap.put(hospital1.getName(), hospital1.getId());
+		}
+		SystemResult result = SystemResult.ok(typeMap);
+		return result;
+	}
 	
 
 	@Override
 	public Map<String, Object> selectHospitalExtByPage(HashMap<String, Object> hospitalMap) {
-		System.out.println(hospitalMap);
-		List<Hospital> hospitalExtListByPage = hospitalMapper.selectHospitalExtByPage(hospitalMap);
-		//查询出医院的总行数
-		int count = hospitalExtListByPage.size();
+		List<HospitalExt> hospitalExtListByPage = hospitalMapper.selectHospitalExtByPage(hospitalMap);
+		//查询每个医院的科室数量
+		List<HospitalExt> hospitalExtDCount =  hospitalMapper.selectHospitalExtDCount();
+		//查询出医院的总数
+		Hospital hospital = new Hospital();
+		if(hospitalMap.get("province")!=null && !"".equals(hospitalMap.get("province"))) {
+			hospital.setProvince(String.valueOf(hospitalMap.get("province")));
+		}
+		if(hospitalMap.get("name")!=null && !"".equals(hospitalMap.get("name"))) {
+			hospital.setName(String.valueOf(hospitalMap.get("name")));
+		}
+		List<Hospital> hospitalAllList = hospitalMapper.selectHospitalExt(hospital);
+		int count = hospitalAllList.size();
+		for(int j=0; j < hospitalExtListByPage.size();j++) {
+			for(int i=0; i< hospitalExtDCount.size();i++) {
+				if(hospitalExtDCount.get(i).getId()==hospitalExtListByPage.get(j).getId()) {
+					hospitalExtListByPage.get(j).setDname(hospitalExtDCount.get(i).getDname());
+				}
+			}
+		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("code", 200);
 		map.put("data",hospitalExtListByPage);
 		map.put("count", count);
 		return map;
+	}
+
+	@Override
+	public SystemResult selectHospitalById(Long id) {
+		List<Hospital> result = hospitalMapper.selectHospitalById(id);
+		return SystemResult.ok(result);
+	}
+
+	@Override
+	public SystemResult updateHospital(Hospital hospital) {
+		int updateHospital = hospitalMapper.updateHospital(hospital);
+		return SystemResult.ok();
+	}
+
+	@Override
+	public SystemResult getProvinceData() {
+		List<Province> provinceData = hospitalMapper.getProvinceData();
+		return SystemResult.ok(provinceData);
 	}
 }

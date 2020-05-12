@@ -20,10 +20,10 @@
 	<!-- 设备新增 -->
 	<insert id="insert" parameterType="java.util.List">
 		insert into equipment
-		(sn,status,in_time,description,et_id,property_no,delete_tag)
+		(sn,status,in_time,description,h_id,d_id,et_id,property_no,delete_tag)
 		values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.sn},1,#{item.in_time},#{item.description},#{item.et_id},#{item.property_no},'0')
+			(#{item.sn},#{item.status},#{item.in_time},#{item.description},#{item.h_id},#{item.d_id},#{item.et_id},#{item.property_no},'0')
 		</foreach>
 	</insert>
 
@@ -43,18 +43,22 @@
 			#{item}
 		</foreach>
 	</select>
+	
+	<!-- 根据设备id查找设备 -->
+	<select id="selectById" parameterType="java.lang.String"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 
 	<!-- 批量修改设备状态 -->
 	<update id="statusChange">
 		update equipment
 		<set>
-			status=#{status}
-			<if test="h_id!=null and h_id!=''">
-				,h_id =#{h_id}
-			</if>
-			<if test="d_id!=null and d_id!=''">
-				,d_id=#{d_id}
-			</if>
+			status=#{status},h_id =#{h_id},d_id=#{d_id}
 		</set>
 		where id in
 		<foreach collection="ids" index="index" item="item" open="("
@@ -63,7 +67,7 @@
 		</foreach>
 	</update>
 	<!-- 根据id修改设备delete_tag,伪删除 -->
-	<update id="updateEquimentExtById">
+	<update id="updateEquipmentExtById">
 		update equipment e
 		<set>
 			e.delete_tag=1
@@ -72,20 +76,17 @@
 		e.id=#{id}
 	</update>
 	<!-- 修改设备信息 -->
-	<update id="updateEquimentExt">
-		update equipment set
-		sn=#{sn},status=#{status},description=#{description}
-		<if test="h_id!=null and h_id!=''">
-			,and h_id =#{h_id}
-		</if>
-		<if test="d_id!=null and d_id!=''">
-			,and d_id=#{d_id}
+	<update id="updateEquipmentExt">
+		update equipment set 
+		sn=#{sn},status=#{status},h_id =#{h_id},d_id=#{d_id}
+		<if test="description!=null and description!=''">
+			,description=#{description}
 		</if>
 		<if test="et_id!=null and et_id!=''">
-			,and et_id=#{et_id}
+			,et_id=#{et_id}
 		</if>
-		<if test="property_no!=null and property_no!=''">
-			,and property_no=#{property_no}
+		<if test="property_no!=null">
+			,property_no=#{property_no}
 		</if>
 		where id =#{id}
 	</update>
@@ -105,7 +106,7 @@
 	</select>
 	<!-- 所有设备的信息，外联EquipmentType -->
 	<!-- <select id="selectEquimentExt" resultMap="EquipmentAndTypeRsMap"> -->
-	<select id="selectEquimentExt"
+	<select id="selectEquipmentExt"
 		parameterType="com.bionime.pojo.EquipmentExt"
 		resultType="com.bionime.pojo.EquipmentExt">
 		select
@@ -115,6 +116,7 @@
 		equipment_type.type,
 		equipment.in_time,
 		equipment.property_no,
+		equipment.description,
 		equipment.status
 		from equipment left join equipment_type
 		on
@@ -135,8 +137,15 @@
 			</if>
 		</where>
 	</select>
+	<!-- 根据id查询 -->
+	<select id="selectEquipmentById"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where id=#{id}
+	</select>
+	
 	<!-- 所有设备的信息，外联EquipmentType,并分页查询 -->
-	<select id="selectEquimentExtByPage" parameterType="hashMap"
+	<select id="selectEquipmentExtByPage" parameterType="hashMap"
 		resultType="com.bionime.pojo.EquipmentExt">
 		select
 		equipment.id,
@@ -145,6 +154,7 @@
 		equipment_type.type,
 		equipment.in_time,
 		equipment.property_no,
+		equipment.description,
 		equipment.status
 		from equipment left join equipment_type
 		on
@@ -169,5 +179,19 @@
                 LIMIT #{page},#{limit}
             ]]>
 		</if>
+	</select>
+	
+	<!-- 根据序列号查询id -->
+	<select id="selectEquipmentIdBySn"
+		parameterType="java.lang.String"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where sn=#{sn}
+	</select>
+	
+	<!-- 根据科室id查询设备 -->
+	<select id="selectEquipmentIdByDid"
+		parameterType="java.lang.Long"
+		resultType="com.bionime.pojo.Equipment">
+		select * from equipment where d_id=#{d_id}
 	</select>
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.bionime.pojo.Equipment;
 import com.bionime.pojo.EquipmentType;
 
 public interface EquipmentTypeMapper {
@@ -11,4 +12,5 @@ public interface EquipmentTypeMapper {
 	List<String> selectDistinctEquipmentType();
 	List<EquipmentType> selectEquipmentTypeByName(EquipmentType equipmentType);
 	int countIncrease(@Param("id")Long id,@Param("size")int size);
+	List<EquipmentType> selectEquipmentTypeById(Equipment equipment);
 }

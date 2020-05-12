@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+<meta charset="UTF-8">
+<title>欢迎页面-X-admin2.2</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+<link rel="stylesheet" href="../css/font.css">
+<link rel="stylesheet" href="../css/xadmin.css">
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/xadmin.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<style type="text/css">
+	div{font-size:16px}
+</style>
+</head>
+
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header" id="title"></div>
+					<div class="layui-card-body" id="content" style="height: 480px"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+function child(d) {
+	var obj = JSON.parse(d);
+	var tag;
+	if(obj.delete_tag){
+		tag = "<span style='color:red'>已停单</span>";
+	}else{
+		tag = "<span style='color:green'>未停单</span>";
+	}
+	$("#title").html("<b>设备"+obj.type+"单</b>("+tag+")");
+	$("#content").html("<b>操作人员：</b>"+obj.username+"</br><b>操作时间：</b>"+obj.f_date+"</br><b>表单内容：</b>"+obj.f_text);
+} 
+</script>
+</html>

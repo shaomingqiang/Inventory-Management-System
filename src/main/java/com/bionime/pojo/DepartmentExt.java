@@ -1,6 +1,8 @@
 package com.bionime.pojo;
 
 public class DepartmentExt extends Department {
+	
+	private static final long serialVersionUID = -1418664779018295713L;
 	private String province;
 	private String level;
 	private Hospital hospital;
