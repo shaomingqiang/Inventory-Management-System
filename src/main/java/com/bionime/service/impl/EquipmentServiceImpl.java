@@ -141,9 +141,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public SystemResult statusChange(String id, int status, Long h_id, Long d_id,Long uid) {
+	public SystemResult statusChange(String id, int status, Long h_id, Long d_id,Long uid,String description) {
 		List<String> ids = Arrays.asList(id.split(","));
-		equipmentMapper.statusChange(ids, status, h_id, d_id);
+		equipmentMapper.statusChange(ids, status, h_id, d_id,description);
 		for (String idTemp : ids) {
 			EquipmentRecord equipmentRecord = new EquipmentRecord();
 			equipmentRecord.setE_id(Long.parseLong(idTemp));

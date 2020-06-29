@@ -13,7 +13,7 @@ public interface EquipmentMapper {
 	int insert(List<Equipment> equipmentList);
 	List<Equipment> selectByType(EquipmentType equipmentType);
 	List<Equipment> selectBySn(List<String> sns);
-	int statusChange(@Param("ids")List<String> ids,@Param("status")int status,@Param("h_id")Long h_id,@Param("d_id")Long d_id);
+	int statusChange(@Param("ids")List<String> ids,@Param("status")int status,@Param("h_id")Long h_id,@Param("d_id")Long d_id,@Param("description")String description);
 	int updateEquipmentExtById(@Param("id")int id);
 	int updateEquipmentExt(EquipmentExt equipmentExt);
 	int selectCountByStatus(@Param("type")String type,@Param("status")int status,@Param("name")String name);

@@ -126,13 +126,13 @@ public class EquipmentController {
 	 */
 	@RequestMapping(value = "/statusChange", method = RequestMethod.POST)
 	public SystemResult equipmentStatusChange(HttpServletRequest request,String id, Integer status,Long h_id,Long d_id,
-			String emailUsersData,String formTag) {
+			String emailUsersData,String formTag,String description) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		user=userMapper.login(user);
 		
 		List<UserEmail> usersData = JSONObject.parseArray(emailUsersData,UserEmail.class);
-		SystemResult result = equipmentService.statusChange(id, status,h_id,d_id,user.getId());
+		SystemResult result = equipmentService.statusChange(id, status,h_id,d_id,user.getId(),description);
 		sendFormOrEmail(request,id, status,h_id,d_id,user.getId(),formTag,usersData);
 		return result;
 	}
@@ -307,7 +307,7 @@ public class EquipmentController {
 	
 	@RequestMapping(value = "/updateEquiment", method = RequestMethod.POST)
 	public SystemResult updateEquiment(HttpServletRequest request,String id,String name,String type,
-			String sn,String status,String h_id,String d_id,String property_no,String emailUsersData,String formTag) {
+			String sn,String status,String h_id,String d_id,String property_no,String emailUsersData,String formTag,String description) {
 		EquipmentExt equipmentExt = new EquipmentExt();
 		equipmentExt.setId(Long.parseLong(id));
 		equipmentExt.setSn(sn);
@@ -317,6 +317,7 @@ public class EquipmentController {
 			equipmentExt.setH_id(Long.parseLong(h_id));
 		}
 		equipmentExt.setProperty_no(property_no);
+		equipmentExt.setDescription(description);
 		equipmentExt.setName(name);
 		if(!"".equals(d_id)&&d_id!=null) {
 			equipmentExt.setD_id(Long.parseLong(d_id));

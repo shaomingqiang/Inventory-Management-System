@@ -69,11 +69,13 @@ public class UserController {
 	public SystemResult login(@RequestBody User user, HttpSession session) {
 		SystemResult result = userService.login(user);
 		User selectUserByUserName = userService.selectUserByUserName(user);
-		if (user != null) {
+		if (selectUserByUserName != null) {
 			session.setAttribute("user", selectUserByUserName);
 			session.setMaxInactiveInterval(-1);
+			logger.info(user.getUsername());
+		}else {
+			logger.info(user.getUsername()+"-----用户名或密码错误！-----");
 		}
-		logger.info(selectUserByUserName.getUsername());
 		return result;
 	}
 

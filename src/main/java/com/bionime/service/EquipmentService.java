@@ -13,7 +13,7 @@ import com.bionime.utils.SystemResult;
 public interface EquipmentService {
 	SystemResult insert(Equipment equipment,Long uid);
 	SystemResult selectByType(EquipmentType equipmentType);
-	SystemResult statusChange(String ids,int status,Long h_id,Long d_id,Long uid);
+	SystemResult statusChange(String ids,int status,Long h_id,Long d_id,Long uid,String description);
 	SystemResult updateEquimentExtById(int id);
 	SystemResult updateEquimentExt(EquipmentExt equipmentExt,Long uid);
 	Map<String, Object> selectCountByStatus();

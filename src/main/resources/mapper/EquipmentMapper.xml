@@ -58,7 +58,7 @@
 	<update id="statusChange">
 		update equipment
 		<set>
-			status=#{status},h_id =#{h_id},d_id=#{d_id}
+			status=#{status},h_id =#{h_id},d_id=#{d_id},description=#{description}
 		</set>
 		where id in
 		<foreach collection="ids" index="index" item="item" open="("

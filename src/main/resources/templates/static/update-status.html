@@ -108,6 +108,13 @@
 						</div>
 					</div>
 				</div>
+				<div class="layui-form-item">
+					<label for="desc" class="layui-form-label">描述</label>
+					<div class="layui-input-inline">
+						<textarea placeholder="请输入内容" id="desc" name="description"
+							class="layui-textarea"></textarea>
+					</div>
+				</div>
 				<div class="layui-form-item" id="formCheckbox" style="display: none;">
 				    <label class="layui-form-label">是否发单</label>
 				    <div class="layui-input-inline">
@@ -124,10 +131,10 @@
 						<input name="ids" id="ids" ></input>
 					</div>
 				</div>
-
+				<br/>
 				<div class="layui-form-item">
 					<label for="L_repass" class="layui-form-label"></label>
-					<button type="button" class="layui-btn" lay-demotransferactive="getData" lay-submit="" lay-filter="edit">修改</button>
+					<button type="button" class="layui-btn layui-btn-lg" lay-demotransferactive="getData" lay-submit="" lay-filter="edit">修改</button>
 				</div>
 			</form>
 		</div>
@@ -204,7 +211,7 @@
 					url : "equipment/statusChange",
 					data : "id=" + data.field.ids + "&status="
 							+ data.field.status+"&h_id="+data.field.select_hospital+"&d_id="+data.field.select_department+"&emailUsersData="
-							+ emailUsersData+"&formTag="+formTag,
+							+ emailUsersData+"&formTag="+formTag+"&description="+data.field.description,
 					//datarype 
 					dataType : "json",
 					//result 为请求的返回结果对象

@@ -54,7 +54,7 @@
 				</div>
 
 				<div class="layui-form-item">
-					<label for="sn" class="layui-form-label"> 序列号 </label>
+					<label for="sn" class="layui-form-label">序列号/数量 </label>
 					<div class="layui-input-inline">
 						<input type="text" id="sn" name="sn" required="" lay-verify="sn"
 							autocomplete="off" class="layui-input">
@@ -153,6 +153,14 @@
 					<div class="layui-input-inline">
 						<input type="text" id="property_no" name="property_no"
 							autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label for="desc" class="layui-form-label">描述</label>
+					<div class="layui-input-inline">
+						<textarea placeholder="请输入内容" id="desc" name="description"
+							class="layui-textarea"></textarea>
 					</div>
 				</div>
 				
@@ -388,7 +396,8 @@
 					//把Js的对象或数组序列化一个Json字符串
 					data : "id=" + data.field.id + "&status="
 					+ data.field.status+"&h_id="+data.field.h_id+"&d_id="+data.field.d_id+"&sn="+data.field.sn+"&emailUsersData="
-					+ emailUsersData+"&formTag="+formTag+"&name="+data.field.name+"&type="+data.field.type+"&property_no"+data.field.property_no,
+					+ emailUsersData+"&formTag="+formTag+"&name="+data.field.name+"&type="+data.field.type+"&property_no"+
+					data.field.property_no+"&description="+data.field.description,
 					//datarype 
 					dataType : "json",
 					//result 为请求的返回结果对象
