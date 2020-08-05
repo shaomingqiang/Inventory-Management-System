@@ -342,7 +342,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// 查询在库760返修机
 		Integer fanxiu_760_50 = equipmentMapper.selectCountByStatus("760", 50, "700Pro");
 		// 查询在院760meter
-		Integer meter_760_20 = equipmentMapper.selectCountByStatus("761", 20, "700Pro");
+		Integer meter_760_20 = equipmentMapper.selectCountByStatus("760", 20, "700Pro");
 		
 		// 查询在库旧761
 		Integer old_total_761_10 = equipmentMapper.selectCountByStatus("旧761", 10, "700Pro")

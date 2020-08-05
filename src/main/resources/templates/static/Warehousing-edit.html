@@ -576,6 +576,7 @@
 				}
 			});
 			$("#sn").val(obj.sn);
+			$("#desc").val(obj.description);
 			$("#status option").each(function() {
 				if ($(this).text() == obj.status) {
 					$(this).attr("selected", true);
@@ -601,7 +602,7 @@
 		var _hmt = _hmt || [];
 		(function() {
 			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+			hm.src = "https://www.baidu.com";
 			var s = document.getElementsByTagName("script")[0];
 			s.parentNode.insertBefore(hm, s);
 		})();
