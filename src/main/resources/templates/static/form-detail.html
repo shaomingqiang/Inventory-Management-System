@@ -41,7 +41,8 @@ function child(d) {
 		tag = "<span style='color:green'>未停单</span>";
 	}
 	$("#title").html("<b>设备"+obj.type+"单</b>("+tag+")");
-	$("#content").html("<b>操作人员：</b>"+obj.username+"</br><b>操作时间：</b>"+obj.f_date+"</br><b>表单内容：</b>"+obj.f_text);
+	$("#content").html("<b>操作人员：</b>"+obj.username+"</br><b>操作时间：</b>"+obj.f_date+"</br><b>表单内容：</b>"
+			+obj.f_text.substring(0,126)+"</br>"+obj.f_text.substring(126,obj.f_text.length));
 } 
 </script>
 </html>

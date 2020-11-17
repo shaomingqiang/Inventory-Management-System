@@ -112,6 +112,8 @@
 		hospital h left join
 		equipment_record er
 		on h.id = er.h_id
+		left join equipment e on er.e_id = e.id
+		left JOIN equipment_type et on et.id = e.et_id
 		<where>
 			<if test="province!=null and province!=''">
 				and h.province=#{province}
@@ -119,6 +121,7 @@
 			<if test="name!=null and name!=''">
 				and h.name=#{name}
 			</if>
+			and et.name="700Pro"
 		</where>
 		GROUP BY
 		h.id,
